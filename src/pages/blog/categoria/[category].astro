@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { getBlogPosts, getCategories } from '../../../lib/blog';
+
+export async function getStaticPaths() {
+	const posts = await getBlogPosts();
+	const categories = getCategories(posts);
+
+	return categories.map((category) => ({
+		params: { category: category.slug },
+		props: {
+			category,
+			posts: posts.filter((post) => post.data.category === category.name),
+		},
+	}));
+}
+
+const { category, posts } = Astro.props;
+---
+
+<BaseLayout
+	title={`Categoria: ${category.name}`}
+	description={`Articulos publicados en la categoria ${category.name}.`}
+>
+	<section class="page-shell">
+		<p class="eyebrow">Categoria</p>
+		<h1 class="section-title">{category.name}</h1>
+		<p class="lead">
+			{category.count} {category.count === 1 ? 'articulo' : 'articulos'} en esta categoria.
+		</p>
+
+		<div class="post-grid">
+			{posts.map((post) => <PostCard post={post} />)}
+		</div>
+	</section>
+</BaseLayout>

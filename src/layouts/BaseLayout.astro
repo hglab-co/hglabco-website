@@ -1,0 +1,293 @@
+---
+import SEO from '../components/SEO.astro';
+import { siteConfig } from '../config/site';
+
+type Props = {
+	title?: string;
+	description?: string;
+	image?: string;
+	type?: 'website' | 'article';
+	canonical?: string;
+	noindex?: boolean;
+};
+
+const { title, description, image, type, canonical, noindex } = Astro.props;
+const sameAs = Object.values(siteConfig.social).filter(Boolean);
+const siteJsonLd = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: siteConfig.name,
+		url: siteConfig.url,
+		description: siteConfig.description,
+		inLanguage: siteConfig.language,
+		publisher: {
+			'@type': 'Person',
+			name: siteConfig.author,
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'Person',
+		name: siteConfig.author,
+		jobTitle: siteConfig.jobTitle,
+		url: siteConfig.url,
+		sameAs,
+	},
+];
+const navItems = [
+	{ href: '/', label: 'Home' },
+	{ href: '/blog', label: 'Blog' },
+];
+---
+
+<!doctype html>
+<html lang={siteConfig.locale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<SEO
+			title={title}
+			description={description}
+			image={image}
+			type={type}
+			canonical={canonical}
+			noindex={noindex}
+		/>
+		<script type="application/ld+json" set:html={JSON.stringify(siteJsonLd)} />
+	</head>
+	<body>
+		<header class="site-header">
+			<a class="brand" href="/">{siteConfig.name}</a>
+			<nav aria-label="Navegacion principal">
+				{navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer class="site-footer">
+			<p>&copy; {new Date().getFullYear()} {siteConfig.name}</p>
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		color-scheme: light;
+		--color-bg: #fafafa;
+		--color-surface: #ffffff;
+		--color-text: #18181b;
+		--color-muted: #52525b;
+		--color-border: #e4e4e7;
+		--color-accent: #0f766e;
+		--font-body:
+			Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+			sans-serif;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		background: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-body);
+		line-height: 1.6;
+	}
+
+	a {
+		color: inherit;
+	}
+
+	main {
+		min-height: calc(100vh - 152px);
+	}
+
+	.site-header,
+	.site-footer {
+		margin: 0 auto;
+		max-width: 1040px;
+		padding: 24px;
+	}
+
+	.site-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+	}
+
+	.brand {
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	nav {
+		display: flex;
+		gap: 16px;
+		color: var(--color-muted);
+		font-size: 0.95rem;
+	}
+
+	nav a {
+		text-decoration: none;
+	}
+
+	nav a:hover {
+		color: var(--color-accent);
+	}
+
+	.site-footer {
+		color: var(--color-muted);
+		font-size: 0.9rem;
+	}
+
+	.page-shell {
+		margin: 0 auto;
+		max-width: 1040px;
+		padding: 56px 24px 80px;
+	}
+
+	.eyebrow {
+		color: var(--color-accent);
+		font-size: 0.85rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	h1,
+	h2,
+	h3,
+	p {
+		margin-top: 0;
+	}
+
+	h1 {
+		max-width: 760px;
+		font-size: clamp(2.4rem, 6vw, 5.2rem);
+		line-height: 1;
+	}
+
+	.lead {
+		max-width: 680px;
+		color: var(--color-muted);
+		font-size: 1.15rem;
+	}
+
+	.section-header {
+		align-items: end;
+		display: flex;
+		gap: 24px;
+		justify-content: space-between;
+		margin-bottom: 28px;
+	}
+
+	.section-title {
+		font-size: clamp(1.8rem, 4vw, 3rem);
+		line-height: 1.1;
+		margin-bottom: 8px;
+	}
+
+	.post-grid {
+		display: grid;
+		gap: 16px;
+		grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	}
+
+	.post-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 8px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 22px;
+		text-decoration: none;
+	}
+
+	.post-card:hover {
+		border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+	}
+
+	.post-meta {
+		color: var(--color-muted);
+		display: flex;
+		flex-wrap: wrap;
+		font-size: 0.9rem;
+		gap: 8px;
+	}
+
+	.post-card h2,
+	.post-card h3 {
+		font-size: 1.25rem;
+		line-height: 1.25;
+		margin-bottom: 0;
+	}
+
+	.post-card p {
+		color: var(--color-muted);
+		margin-bottom: 0;
+	}
+
+	.category-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+		list-style: none;
+		margin: 0 0 32px;
+		padding: 0;
+	}
+
+	.category-list a,
+	.text-link {
+		color: var(--color-accent);
+		font-weight: 700;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 4px;
+	}
+
+	.article-shell {
+		margin: 0 auto;
+		max-width: 760px;
+		padding: 56px 24px 88px;
+	}
+
+	.article-shell h1 {
+		font-size: clamp(2.2rem, 5vw, 4.4rem);
+		margin-bottom: 18px;
+	}
+
+	.article-content {
+		border-top: 1px solid var(--color-border);
+		margin-top: 32px;
+		padding-top: 32px;
+	}
+
+	.article-content :is(h2, h3) {
+		line-height: 1.2;
+		margin-top: 36px;
+	}
+
+	.article-content a {
+		color: var(--color-accent);
+	}
+
+	@media (max-width: 640px) {
+		.site-header {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+
+		.section-header {
+			align-items: start;
+			flex-direction: column;
+		}
+	}
+</style>

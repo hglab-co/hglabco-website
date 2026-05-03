@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+	<title id="title">Tu Nombre | Web personal</title>
+	<desc id="desc">Imagen social por defecto para la pagina personal.</desc>
+	<rect width="1200" height="630" fill="#fafafa"/>
+	<rect x="64" y="64" width="1072" height="502" rx="8" fill="#ffffff" stroke="#e4e4e7" stroke-width="2"/>
+	<circle cx="108" cy="108" r="14" fill="#0f766e"/>
+	<text x="96" y="244" fill="#18181b" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="700">Tu Nombre</text>
+	<text x="96" y="326" fill="#52525b" font-family="Inter, Arial, sans-serif" font-size="34">Web personal, blog e ideas.</text>
+	<text x="96" y="472" fill="#0f766e" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">example.com</text>
+</svg>

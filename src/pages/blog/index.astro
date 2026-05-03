@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getBlogPosts, getCategories, getCategoryUrl } from '../../lib/blog';
+
+const posts = await getBlogPosts();
+const categories = getCategories(posts);
+---
+
+<BaseLayout
+	title="Blog"
+	description="Articulos, notas y aprendizajes organizados por categoria."
+>
+	<section class="page-shell">
+		<div class="section-header">
+			<div>
+				<p class="eyebrow">Blog</p>
+				<h1 class="section-title">Ideas, notas y aprendizajes.</h1>
+				<p class="lead">Un archivo vivo para publicar articulos por tema.</p>
+			</div>
+		</div>
+
+		{
+			categories.length > 0 && (
+				<ul class="category-list" aria-label="Categorias">
+					{categories.map((category) => (
+						<li>
+							<a href={getCategoryUrl(category.name)}>
+								{category.name} ({category.count})
+							</a>
+						</li>
+					))}
+				</ul>
+			)
+		}
+
+		{
+			posts.length > 0 ? (
+				<div class="post-grid">
+					{posts.map((post) => <PostCard post={post} />)}
+				</div>
+			) : (
+				<p class="lead">Todavia no hay articulos publicados.</p>
+			)
+		}
+	</section>
+</BaseLayout>

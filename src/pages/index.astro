@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { siteConfig } from '../config/site';
+import { getBlogPosts } from '../lib/blog';
+
+const posts = (await getBlogPosts()).slice(0, 3);
+---
+
+<BaseLayout title="Home" description={siteConfig.description}>
+	<section class="page-shell">
+		<p class="eyebrow">Web personal</p>
+		<h1>Una casa digital para tu trabajo, ideas y aprendizajes.</h1>
+		<p class="lead">{siteConfig.tagline}</p>
+	</section>
+
+	<section class="page-shell">
+		<div class="section-header">
+			<div>
+				<p class="eyebrow">Ultimos articulos</p>
+				<h2 class="section-title">Del blog</h2>
+			</div>
+			<a class="text-link" href="/blog">Ver todos</a>
+		</div>
+		{
+			posts.length > 0 ? (
+				<div class="post-grid">
+					{posts.map((post) => <PostCard post={post} headingLevel="h3" />)}
+				</div>
+			) : (
+				<p class="lead">Todavia no hay articulos publicados.</p>
+			)
+		}
+	</section>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import type { BlogPost } from '../lib/blog';
+import { formatDate, getCategoryUrl, getPostUrl } from '../lib/blog';
+
+type Props = {
+	post: BlogPost;
+	headingLevel?: 'h2' | 'h3';
+};
+
+const { post, headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+
+<article>
+	<a class="post-card" href={getPostUrl(post)}>
+		<div class="post-meta">
+			<span>{formatDate(post.data.pubDate)}</span>
+			<span aria-hidden="true">/</span>
+			<span>{post.data.category}</span>
+		</div>
+		<Heading>{post.data.title}</Heading>
+		<p>{post.data.description}</p>
+	</a>
+	<a class="sr-only" href={getCategoryUrl(post.data.category)}>
+		Ver categoria {post.data.category}
+	</a>
+</article>
+
+<style>
+	.sr-only {
+		height: 1px;
+		overflow: hidden;
+		position: absolute;
+		width: 1px;
+		clip: rect(1px, 1px, 1px, 1px);
+	}
+</style>
