@@ -8,54 +8,93 @@ import SignatureBlock from '../components/SignatureBlock.astro';
 	title="Sobre mi"
 	description="La historia de Hugo Garcia, fundador de QPayPro y constructor de negocios en LATAM."
 >
-	<section class="page-section internal-hero about-hero">
-		<div class="section-inner internal-hero__grid">
-			<div>
-				<h1 class="title-hero">
-					Hola<span class="dot-yellow">.</span><br />Soy Hugo<span class="dot-yellow">.</span>
-				</h1>
-				<p class="internal-lead">
-					Fundador de QPayPro, esposo y socio de Mariana, papa de un nino que ya
-					quiere vender en su colegio, y constructor de negocios con cicatrices.
-				</p>
+	<section class="reeni-page-hero">
+		<div class="reeni-shell">
+			<span class="section-kicker">Home / Sobre mi</span>
+			<h1>About me<span class="dot-yellow">.</span></h1>
+		</div>
+	</section>
+
+	<section class="reeni-section about-profile">
+		<div class="reeni-shell about-profile__grid">
+			<div class="about-profile__image">
+				<img src="/img/hugo-garcia.jpeg" alt="Hugo Garcia" width="900" height="1200" />
 			</div>
-			<img
-				class="about-hero__photo"
-				src="/img/hugo-garcia.jpeg"
-				alt="Hugo Garcia"
-				width="900"
-				height="1200"
-			/>
+			<div class="about-profile__content">
+				<span class="section-kicker">Hugo Garcia</span>
+				<h2>Construyo negocios. Algunos pegan, otros no<span class="dot-yellow">.</span></h2>
+				<p>
+					Tengo 42 anos y llevo 9 anos construyendo QPayPro, una pasarela de pagos
+					fintech para LATAM. Pero mi historia no empezo ahi.
+				</p>
+				<p>
+					Antes de que algo pegara, tambien cerre cosas. Guafres, software con
+					socio, Plackit, sublimacion, juguetes y asesorias. Cada negocio dejo algo:
+					clientes, deudas, aprendizajes y criterio.
+				</p>
+				<p>
+					<Highlight>No vendo la version romantica de emprender.</Highlight> Me interesa
+					contar lo que pasa cuando hay que operar, pagar planilla, discutir con socios
+					y decidir si una idea vive o se cierra.
+				</p>
+				<SignatureBlock class="about-profile__signature" />
+			</div>
 		</div>
 	</section>
 
-	<section class="page-section story-section">
-		<div class="prose-large">
-			<p>
-				Tengo 42 anos y llevo 9 anos construyendo QPayPro, una pasarela de pagos
-				fintech para LATAM. Pero mi historia no empezo ahi.
-			</p>
-			<p>
-				Antes de que algo pegara, tambien cerre cosas. Una cafeteria llamada
-				Guafres, software con socio, Plackit, sublimacion, juguetes y asesorias.
-				Cada negocio dejo algo: clientes, deudas, aprendizajes, criterio.
-			</p>
-			<p>
-				No vendo la version romantica de emprender. Me interesa contar lo que
-				pasa cuando hay que operar, pagar planilla, discutir con socios, mirar los
-				datos y decidir si una idea vive o se cierra.
-			</p>
-			<p>
-				<Highlight>Construyo negocios.</Highlight> Algunos pegan, otros no. Te cuento
-				todo.
-			</p>
+	<section class="reeni-section about-stats-section">
+		<div class="reeni-shell">
+			<div class="about-stats-grid">
+				<article><strong>9+</strong><span>anos con QPayPro</span></article>
+				<article><strong>6</strong><span>negocios construidos y cerrados</span></article>
+				<article><strong>LATAM</strong><span>mercado, pagos y operaciones</span></article>
+				<article><strong>2</strong><span>socios en casa: Mariana y yo</span></article>
+			</div>
 		</div>
 	</section>
 
-	<section class="page-section timeline-section">
-		<div class="section-inner">
-			<h2 class="title-section">6 negocios<span class="dot-yellow">.</span></h2>
-			<div class="timeline">
+	<section class="reeni-section skills-section">
+		<div class="reeni-shell skills-grid">
+			<div>
+				<span class="section-kicker">Design skill</span>
+				<h2>Como pienso<span class="dot-yellow">.</span></h2>
+				{[
+					['Validacion de negocio', '95%'],
+					['Ventas tempranas', '90%'],
+					['Narrativa de producto', '88%'],
+					['Cerrar ciclos', '82%'],
+				].map(([label, value]) => (
+					<div class="skill-line">
+						<div><span>{label}</span><strong>{value}</strong></div>
+						<i style={`--value: ${value}`}></i>
+					</div>
+				))}
+			</div>
+			<div>
+				<span class="section-kicker">Development skill</span>
+				<h2>Como opero<span class="dot-yellow">.</span></h2>
+				{[
+					['Datos y tableros', '92%'],
+					['Fintech / pagos', '90%'],
+					['IA aplicada', '80%'],
+					['Equipo y liderazgo', '86%'],
+				].map(([label, value]) => (
+					<div class="skill-line">
+						<div><span>{label}</span><strong>{value}</strong></div>
+						<i style={`--value: ${value}`}></i>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="reeni-section experience-section">
+		<div class="reeni-shell">
+			<div class="section-head">
+				<span class="section-kicker">Experiences</span>
+				<h2>Negocios recorridos<span class="dot-yellow">.</span></h2>
+			</div>
+			<div class="experience-list">
 				{[
 					['01', 'Guafres', 'Cafeteria', 'Cerrado'],
 					['02', 'Software con socio', 'Producto digital', 'Cerrado'],
@@ -64,10 +103,12 @@ import SignatureBlock from '../components/SignatureBlock.astro';
 					['05', 'Juguetes', 'Comercio', 'Cerrado'],
 					['06', 'QPayPro', 'Fintech LATAM', 'Operando'],
 				].map(([number, name, description, status]) => (
-					<article class="timeline-item">
+					<article class="experience-card">
 						<span>{number}</span>
-						<h3>{name}</h3>
-						<p>{description}</p>
+						<div>
+							<h3>{name}</h3>
+							<p>{description}</p>
+						</div>
 						<strong>{status}</strong>
 					</article>
 				))}
@@ -75,13 +116,15 @@ import SignatureBlock from '../components/SignatureBlock.astro';
 		</div>
 	</section>
 
-	<section class="page-section closing-letter">
-		<div class="prose-large">
-			<blockquote>
-				Me encargo de solucionar problemas y me encanta emprender. Esas son las
-				causas de mi insomnio.
-			</blockquote>
-			<SignatureBlock class="closing-letter__signature" />
+	<section class="reeni-section closing-letter">
+		<div class="reeni-shell">
+			<div class="quote-card">
+				<blockquote>
+					Me encargo de solucionar problemas y me encanta emprender. Esas son las
+					causas de mi insomnio.
+				</blockquote>
+				<SignatureBlock class="closing-letter__signature" />
+			</div>
 		</div>
 	</section>
 </BaseLayout>

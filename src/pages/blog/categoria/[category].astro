@@ -23,17 +23,22 @@ const { category, posts } = Astro.props;
 	title={`Pilar: ${category.name}`}
 	description={`Historias de Hugo Garcia sobre ${category.name}.`}
 >
-	<section class="page-section listing-page">
-		<div class="section-inner">
-			<header class="listing-header">
-				<a class="filter-chip" href="/blog">Todos los articulos</a>
-				<h1 class="title-hero">{category.name}<span class="dot-yellow">.</span></h1>
-				<p class="internal-lead">
-					{category.count} {category.count === 1 ? 'historia publicada' : 'historias publicadas'} en este pilar.
-				</p>
-			</header>
+	<section class="reeni-page-hero">
+		<div class="reeni-shell">
+			<span class="section-kicker">Blog / Pilar</span>
+			<h1>{category.name}<span class="dot-yellow">.</span></h1>
+			<p>
+				{category.count} {category.count === 1 ? 'historia publicada' : 'historias publicadas'} en este pilar.
+			</p>
+		</div>
+	</section>
 
-			<div class="article-grid">
+	<section class="reeni-section listing-page">
+		<div class="reeni-shell">
+			<nav class="filter-chips" aria-label="Volver al blog">
+				<a class="filter-chip" href="/blog">Todos los articulos</a>
+			</nav>
+			<div class="article-grid article-grid--blog">
 				{posts.map((post) => <ArticleCard post={post} />)}
 			</div>
 		</div>

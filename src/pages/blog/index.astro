@@ -11,17 +11,16 @@ const categories = getCategories(posts);
 	title="Blog"
 	description="Historias y aprendizajes de Hugo Garcia sobre construir negocios en LATAM."
 >
-	<section class="page-section listing-page">
-		<div class="section-inner">
-			<header class="listing-header">
-				<h1 class="title-hero">
-					Historias y aprendizajes<span class="dot-yellow">.</span>
-				</h1>
-				<p class="internal-lead">
-					Lo que aprendi construyendo, operando, cerrando y volviendo a empezar.
-				</p>
-			</header>
+	<section class="reeni-page-hero">
+		<div class="reeni-shell">
+			<span class="section-kicker">Home / Blog</span>
+			<h1>Blog<span class="dot-yellow">.</span></h1>
+			<p>Historias y aprendizajes de negocios, datos, socios, tecnologia y reinvencion.</p>
+		</div>
+	</section>
 
+	<section class="reeni-section listing-page">
+		<div class="reeni-shell">
 			{
 				categories.length > 0 && (
 					<nav class="filter-chips" aria-label="Filtrar por pilar">
@@ -35,14 +34,9 @@ const categories = getCategories(posts);
 				)
 			}
 
-			<div class="article-grid">
+			<div class="article-grid article-grid--blog">
 				{posts.map((post) => <ArticleCard post={post} />)}
 			</div>
-
-			<nav class="pagination-simple" aria-label="Paginacion">
-				<span>Pagina 1</span>
-				<a href="/blog">Siguiente -></a>
-			</nav>
 		</div>
 	</section>
 </BaseLayout>

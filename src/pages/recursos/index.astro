@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getBlogPosts } from '../../lib/blog';
-import ArticleCard from '../../components/ArticleCard.astro';
 
 const posts = await getBlogPosts();
 const resources = posts.filter((post) => post.data.pdf || ['el-com-primero'].includes(post.id));
@@ -11,17 +10,27 @@ const resources = posts.filter((post) => post.data.pdf || ['el-com-primero'].inc
 	title="Recursos"
 	description="Guias y recursos descargables de Hugo Garcia para construir negocios."
 >
-	<section class="page-section listing-page">
-		<div class="section-inner">
-			<header class="listing-header">
-				<h1 class="title-hero">Recursos<span class="dot-yellow">.</span></h1>
-				<p class="internal-lead">
-					Plantillas, guias y marcos de trabajo. Por ahora viven conectados a los
-					articulos donde se explican.
-				</p>
-			</header>
-			<div class="article-grid">
-				{resources.map((post) => <ArticleCard post={post} />)}
+	<section class="reeni-page-hero">
+		<div class="reeni-shell">
+			<span class="section-kicker">Home / Recursos</span>
+			<h1>Recursos<span class="dot-yellow">.</span></h1>
+			<p>Guias, frameworks y herramientas conectadas a historias reales.</p>
+		</div>
+	</section>
+
+	<section class="reeni-section resources-page">
+		<div class="reeni-shell">
+			<div class="project-grid">
+				{resources.map((post) => (
+					<a class="project-card" href={`/blog/${post.id}/`}>
+						<img src={post.data.image} alt="" width="1200" height="675" loading="lazy" />
+						<div>
+							<span>{post.data.pillar}</span>
+							<h2>{post.data.title}</h2>
+							<p>{post.data.excerpt}</p>
+						</div>
+					</a>
+				))}
 			</div>
 		</div>
 	</section>

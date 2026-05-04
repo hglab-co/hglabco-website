@@ -7,13 +7,22 @@ import { siteConfig } from '../config/site';
 	title="Contacto"
 	description="Contacta a Hugo Garcia para conversaciones, colaboraciones o mensajes directos."
 >
-	<section class="page-section contact-page">
-		<div class="section-inner contact-grid">
-			<div>
-				<h1 class="title-hero">Contacto<span class="dot-yellow">.</span></h1>
-				<p class="internal-lead">
-					Si quieres conversar sobre negocios, fintech, operaciones o una idea que
-					no te deja dormir, escribeme.
+	<section class="reeni-page-hero">
+		<div class="reeni-shell">
+			<span class="section-kicker">Home / Contacto</span>
+			<h1>Contacto<span class="dot-yellow">.</span></h1>
+			<p>Si tienes una idea, una pregunta o una conversacion pendiente, escribeme.</p>
+		</div>
+	</section>
+
+	<section class="reeni-section contact-page">
+		<div class="reeni-shell contact-grid">
+			<div class="contact-info-card">
+				<span class="section-kicker">Get in touch</span>
+				<h2>Hablemos de negocios reales<span class="dot-yellow">.</span></h2>
+				<p>
+					Fintech, pagos, operaciones, IA aplicada, sociedades, ventas tempranas o
+					decisiones dificiles. Esa es mi cancha.
 				</p>
 				<div class="contact-links">
 					<a href={siteConfig.social.instagram}>Instagram DM</a>
@@ -30,7 +39,7 @@ import { siteConfig } from '../config/site';
 					<span>Mensaje</span>
 					<textarea name="mensaje" rows="7" required></textarea>
 				</label>
-				<button class="btn-primary" type="submit">Enviar mensaje -></button>
+				<button class="btn-primary btn-pill" type="submit">Enviar mensaje -></button>
 			</form>
 		</div>
 	</section>
