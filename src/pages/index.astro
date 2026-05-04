@@ -10,105 +10,71 @@ const posts = (await getBlogPosts()).slice(0, 6);
 ---
 
 <BaseLayout title="Home" description={siteConfig.description}>
-	<section class="page-section hero hero-concept" aria-labelledby="hero-title">
-		<div class="section-inner hero-concept__inner">
-			<div class="hero-concept__meta" aria-hidden="true">
-				<span>2026</span>
-				<span>hglab.co</span>
-			</div>
-			<div class="hero-concept__brand">
-				<img
-					src="/img/logocombined@2x.png"
-					alt="Hugo Garcia, emprendedor, creador, estratega"
-					width="1080"
-					height="300"
-				/>
-			</div>
-			<img
-				class="hero-concept__photo"
-				src="/img/hugo-garcia.jpeg"
-				alt="Hugo Garcia"
-				width="900"
-				height="1200"
-			/>
-			<div class="hero-card">
-				<div>
-					<img
-						class="hero-card__mark"
-						src="/img/hgsignatureblack.png"
-						alt=""
-						width="220"
-						height="112"
-					/>
+	<section class="reeni-hero" aria-labelledby="hero-title">
+		<div class="reeni-shell">
+			<div class="hero-layout">
+				<div class="hero-copy">
+					<span class="section-kicker">Hugo Garcia / hglab.co</span>
 					<h1 id="hero-title">
-						Construyo negocios. Algunos pegan. Otros no<span class="dot-yellow">.</span>
+						Construyo negocios que generan criterio<span class="dot-yellow">.</span>
 					</h1>
 					<p>
-						Te cuento lo que aprendi construyendo (y cerrando) 6 negocios en LATAM.
+						Algunos pegan. Otros no. Te cuento lo que aprendi construyendo y
+						cerrando negocios en LATAM, sin pose de coach y sin promesas faciles.
 					</p>
-					<div class="hero__actions" aria-label="Acciones principales">
-						<a class="btn-primary" href="/blog">Leer mis historias -></a>
-						<a class="btn-secondary" href="/sobre-mi">Conoce mas sobre mi</a>
+					<div class="hero-buttons">
+						<a class="btn-primary btn-pill" href="/blog">Leer historias</a>
+						<a class="btn-soft" href="/sobre-mi">Sobre mi</a>
 					</div>
 				</div>
-				<div class="hero-card__portrait-wrap">
-					<img
-						class="hero-card__portrait"
-						src="/img/hugo-garcia.jpeg"
-						alt=""
-						width="900"
-						height="1200"
-					/>
+				<div class="hero-visual">
+					<div class="hero-photo-card">
+						<img src="/img/hugo-garcia.jpeg" alt="Hugo Garcia" width="900" height="1200" />
+						<img
+							class="hero-monogram"
+							src="/img/logo-monogram@2x.png"
+							alt=""
+							width="1024"
+							height="1024"
+						/>
+					</div>
+					<div class="hero-stat-card">
+						<strong>9+</strong>
+						<span>anos construyendo QPayPro</span>
+					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="page-section about-preview" aria-labelledby="about-title">
-		<div class="section-inner">
-			<h2 class="title-section" id="about-title">Hola<span class="dot-yellow">.</span></h2>
-			<p class="about-preview__text">
-				Soy Hugo Garcia, fundador de <Highlight>QPayPro</Highlight> y constructor
-				en serie de negocios en LATAM. Me encargo de solucionar problemas y me
-				encanta emprender. Esas son las causas de mi insomnio.
-			</p>
-			<div class="signature-row">
-				<img
-					class="signature-row__avatar"
-					src="/img/hugo-garcia.jpeg"
-					alt="Hugo Garcia"
-					width="128"
-					height="128"
-					loading="lazy"
-				/>
-				<SignatureBlock class="signature-row__mark" />
+	<section class="reeni-section intro-card-section" aria-labelledby="intro-title">
+		<div class="reeni-shell">
+			<div class="intro-card">
+				<div>
+					<span class="section-kicker">Personal brand concept</span>
+					<h2 id="intro-title">Hola, soy Hugo<span class="dot-yellow">.</span></h2>
+				</div>
+				<p>
+					Soy fundador de <Highlight>QPayPro</Highlight>, constructor en serie de negocios
+					y alguien que aprende haciendo. Me interesa hablar de ventas, socios,
+					operacion, datos, tecnologia y de lo que pasa cuando una idea no camina.
+				</p>
+				<SignatureBlock class="intro-card__signature" />
 			</div>
 		</div>
 	</section>
 
-	<section class="page-section latest" aria-labelledby="latest-title">
-		<div class="section-inner">
-			<div class="section-heading">
-				<h2 class="title-section" id="latest-title">Lo ultimo<span class="dot-yellow">.</span></h2>
+	<section class="reeni-section" aria-labelledby="pillars-title">
+		<div class="reeni-shell">
+			<div class="section-head">
+				<span class="section-kicker">Servicios editoriales</span>
+				<h2 id="pillars-title">6 pilares de contenido<span class="dot-yellow">.</span></h2>
 			</div>
-			<div class="article-grid">
-				{
-					posts.map((post) => <ArticleCard post={post} />)
-				}
-			</div>
-		</div>
-	</section>
-
-	<section class="page-section pillars" aria-labelledby="pillars-title">
-		<div class="section-inner">
-			<h2 class="title-section" id="pillars-title">
-				6 pilares<span class="dot-yellow">.</span>
-			</h2>
-			<div class="pillars-grid">
+			<div class="service-grid">
 				{
 					contentPillars.map((pillar) => (
-						<article class="pillar-card">
-							<span class="pillar-card__number">{pillar.number}</span>
+						<article class="service-card">
+							<span>{pillar.number}</span>
 							<h3>{pillar.title}</h3>
 							<p>{pillar.description}</p>
 						</article>
@@ -118,23 +84,32 @@ const posts = (await getBlogPosts()).slice(0, 6);
 		</div>
 	</section>
 
-	<section class="page-section manifesto-band" aria-labelledby="manifesto-title">
-		<div class="section-inner">
-			<h2 class="manifesto-band__quote" id="manifesto-title">
-				Me encargo de solucionar problemas. Esa es la causa de mi insomnio.
-			</h2>
-			<SignatureBlock class="manifesto-band__signature" />
-			<a class="btn-secondary" href="/manifiesto">Leer manifiesto completo -></a>
+	<section class="reeni-section latest-work" aria-labelledby="latest-title">
+		<div class="reeni-shell">
+			<div class="section-head section-head--split">
+				<div>
+					<span class="section-kicker">Blog</span>
+					<h2 id="latest-title">Historias recientes<span class="dot-yellow">.</span></h2>
+				</div>
+				<a class="btn-soft" href="/blog">Ver blog</a>
+			</div>
+			<div class="article-grid article-grid--reeni">
+				{posts.map((post) => <ArticleCard post={post} />)}
+			</div>
 		</div>
 	</section>
 
-	<section class="page-section follow" aria-labelledby="follow-title">
-		<div class="section-inner">
-			<h2 class="title-section" id="follow-title">Sigueme<span class="dot-yellow">.</span></h2>
-			<div class="social-links" aria-label="Redes sociales">
-				<a class="social-link" href={siteConfig.social.instagram}>IG</a>
-				<a class="social-link" href={siteConfig.social.tiktok}>TikTok</a>
-				<a class="social-link" href={siteConfig.social.linkedin}>LinkedIn</a>
+	<section class="reeni-section manifesto-preview" aria-labelledby="manifesto-title">
+		<div class="reeni-shell">
+			<div class="manifesto-card">
+				<img src="/img/logo-monogram@2x.png" alt="" width="1024" height="1024" />
+				<div>
+					<span class="section-kicker">Manifiesto</span>
+					<h2 id="manifesto-title">
+						Me encargo de solucionar problemas. Esa es la causa de mi insomnio.
+					</h2>
+					<a class="btn-primary btn-pill" href="/manifiesto">Leer manifiesto</a>
+				</div>
 			</div>
 		</div>
 	</section>

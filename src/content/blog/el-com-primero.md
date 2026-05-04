@@ -6,6 +6,7 @@ pubDate: 2026-05-03
 category: Construyendo el negocio
 pillar: Construyendo el negocio
 readingTime: "4 min"
+image: /img/blog/el-com-primero.png
 tags:
   - negocios
   - validacion

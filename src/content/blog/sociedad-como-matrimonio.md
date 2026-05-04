@@ -6,6 +6,7 @@ pubDate: 2026-05-02
 category: Liderazgo y equipo
 pillar: Liderazgo y equipo
 readingTime: "5 min"
+image: /img/blog/sociedad-como-matrimonio.png
 tags:
   - liderazgo
   - socios

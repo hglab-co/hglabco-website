@@ -11,7 +11,20 @@ const { post } = Astro.props;
 ---
 
 <a class="article-card" href={getPostUrl(post)}>
+	{
+		post.data.image && (
+			<img
+				class="article-card__image"
+				src={post.data.image}
+				alt=""
+				width="1200"
+				height="675"
+				loading="lazy"
+			/>
+		)
+	}
 	<PillarBadge label={post.data.pillar} />
 	<h3 class="title-card">{post.data.title}</h3>
+	<p>{post.data.excerpt}</p>
 	<span class="article-card__date">{formatDate(post.data.pubDate)}</span>
 </a>

@@ -35,6 +35,17 @@ const canonicalUrl = new URL(canonical, siteConfig.url).toString();
 				<span aria-hidden="true">/</span>
 				<span>{siteConfig.author}</span>
 			</div>
+			{
+				post.data.image && (
+					<img
+						class="article-feature-image"
+						src={post.data.image}
+						alt=""
+						width="1200"
+						height="675"
+					/>
+				)
+			}
 		</header>
 
 		<div class="article-body">

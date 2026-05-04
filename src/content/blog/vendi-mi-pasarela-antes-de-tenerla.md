@@ -6,6 +6,7 @@ pubDate: 2026-05-01
 category: Reinventandose
 pillar: Reinventandose
 readingTime: "4 min"
+image: /img/blog/vendi-mi-pasarela-antes-de-tenerla.png
 tags:
   - qpaypro
   - ventas
