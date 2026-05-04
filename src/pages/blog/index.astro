@@ -1,6 +1,6 @@
 ---
+import ArticleCard from '../../components/ArticleCard.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
 import { getBlogPosts, getCategories, getCategoryUrl } from '../../lib/blog';
 
 const posts = await getBlogPosts();
@@ -9,39 +9,40 @@ const categories = getCategories(posts);
 
 <BaseLayout
 	title="Blog"
-	description="Articulos, notas y aprendizajes organizados por categoria."
+	description="Historias y aprendizajes de Hugo Garcia sobre construir negocios en LATAM."
 >
-	<section class="page-shell">
-		<div class="section-header">
-			<div>
-				<p class="eyebrow">Blog</p>
-				<h1 class="section-title">Ideas, notas y aprendizajes.</h1>
-				<p class="lead">Un archivo vivo para publicar articulos por tema.</p>
-			</div>
-		</div>
+	<section class="page-section listing-page">
+		<div class="section-inner">
+			<header class="listing-header">
+				<h1 class="title-hero">
+					Historias y aprendizajes<span class="dot-yellow">.</span>
+				</h1>
+				<p class="internal-lead">
+					Lo que aprendi construyendo, operando, cerrando y volviendo a empezar.
+				</p>
+			</header>
 
-		{
-			categories.length > 0 && (
-				<ul class="category-list" aria-label="Categorias">
-					{categories.map((category) => (
-						<li>
-							<a href={getCategoryUrl(category.name)}>
-								{category.name} ({category.count})
+			{
+				categories.length > 0 && (
+					<nav class="filter-chips" aria-label="Filtrar por pilar">
+						<a class="filter-chip filter-chip--active" href="/blog">Todos</a>
+						{categories.map((category) => (
+							<a class="filter-chip" href={getCategoryUrl(category.name)}>
+								{category.name}
 							</a>
-						</li>
-					))}
-				</ul>
-			)
-		}
+						))}
+					</nav>
+				)
+			}
 
-		{
-			posts.length > 0 ? (
-				<div class="post-grid">
-					{posts.map((post) => <PostCard post={post} />)}
-				</div>
-			) : (
-				<p class="lead">Todavia no hay articulos publicados.</p>
-			)
-		}
+			<div class="article-grid">
+				{posts.map((post) => <ArticleCard post={post} />)}
+			</div>
+
+			<nav class="pagination-simple" aria-label="Paginacion">
+				<span>Pagina 1</span>
+				<a href="/blog">Siguiente -></a>
+			</nav>
+		</div>
 	</section>
 </BaseLayout>

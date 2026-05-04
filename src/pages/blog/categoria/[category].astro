@@ -1,6 +1,6 @@
 ---
+import ArticleCard from '../../../components/ArticleCard.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import PostCard from '../../../components/PostCard.astro';
 import { getBlogPosts, getCategories } from '../../../lib/blog';
 
 export async function getStaticPaths() {
@@ -20,18 +20,22 @@ const { category, posts } = Astro.props;
 ---
 
 <BaseLayout
-	title={`Categoria: ${category.name}`}
-	description={`Articulos publicados en la categoria ${category.name}.`}
+	title={`Pilar: ${category.name}`}
+	description={`Historias de Hugo Garcia sobre ${category.name}.`}
 >
-	<section class="page-shell">
-		<p class="eyebrow">Categoria</p>
-		<h1 class="section-title">{category.name}</h1>
-		<p class="lead">
-			{category.count} {category.count === 1 ? 'articulo' : 'articulos'} en esta categoria.
-		</p>
+	<section class="page-section listing-page">
+		<div class="section-inner">
+			<header class="listing-header">
+				<a class="filter-chip" href="/blog">Todos los articulos</a>
+				<h1 class="title-hero">{category.name}<span class="dot-yellow">.</span></h1>
+				<p class="internal-lead">
+					{category.count} {category.count === 1 ? 'historia publicada' : 'historias publicadas'} en este pilar.
+				</p>
+			</header>
 
-		<div class="post-grid">
-			{posts.map((post) => <PostCard post={post} />)}
+			<div class="article-grid">
+				{posts.map((post) => <ArticleCard post={post} />)}
+			</div>
 		</div>
 	</section>
 </BaseLayout>

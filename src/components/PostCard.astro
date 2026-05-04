@@ -16,10 +16,10 @@ const Heading = headingLevel;
 		<div class="post-meta">
 			<span>{formatDate(post.data.pubDate)}</span>
 			<span aria-hidden="true">/</span>
-			<span>{post.data.category}</span>
+			<span>{post.data.pillar}</span>
 		</div>
 		<Heading>{post.data.title}</Heading>
-		<p>{post.data.description}</p>
+		<p>{post.data.excerpt}</p>
 	</a>
 	<a class="sr-only" href={getCategoryUrl(post.data.category)}>
 		Ver categoria {post.data.category}

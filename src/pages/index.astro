@@ -1,35 +1,107 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import { siteConfig } from '../config/site';
+import ArticleCard from '../components/ArticleCard.astro';
+import Highlight from '../components/Highlight.astro';
+import SignatureBlock from '../components/SignatureBlock.astro';
+import YellowDot from '../components/YellowDot.astro';
+import { contentPillars, siteConfig } from '../config/site';
 import { getBlogPosts } from '../lib/blog';
 
-const posts = (await getBlogPosts()).slice(0, 3);
+const posts = (await getBlogPosts()).slice(0, 6);
 ---
 
 <BaseLayout title="Home" description={siteConfig.description}>
-	<section class="page-shell">
-		<p class="eyebrow">Web personal</p>
-		<h1>Una casa digital para tu trabajo, ideas y aprendizajes.</h1>
-		<p class="lead">{siteConfig.tagline}</p>
+	<section class="page-section hero" aria-labelledby="hero-title">
+		<div class="section-inner">
+			<YellowDot class="hero__dot" />
+			<h1 class="title-hero" id="hero-title">
+				Creo<br />
+				negocios.<br />
+				Algunos pegan.<br />
+				Otros no<span class="dot-yellow">.</span>
+			</h1>
+			<p class="hero__subtitle">
+				Te cuento lo que aprendi construyendo (y cerrando) 6 negocios en LATAM.
+			</p>
+			<div class="hero__actions" aria-label="Acciones principales">
+				<a class="btn-primary" href="/blog">Leer mis historias -></a>
+				<a class="btn-secondary" href="/sobre-mi">Conoce mas sobre mi</a>
+			</div>
+		</div>
 	</section>
 
-	<section class="page-shell">
-		<div class="section-header">
-			<div>
-				<p class="eyebrow">Ultimos articulos</p>
-				<h2 class="section-title">Del blog</h2>
+	<section class="page-section about-preview" aria-labelledby="about-title">
+		<div class="section-inner">
+			<h2 class="title-section" id="about-title">Hola<span class="dot-yellow">.</span></h2>
+			<p class="about-preview__text">
+				Soy Hugo Garcia, fundador de <Highlight>QPayPro</Highlight> y constructor
+				en serie de negocios en LATAM. Me encargo de solucionar problemas y me
+				encanta emprender. Esas son las causas de mi insomnio.
+			</p>
+			<div class="signature-row">
+				<img
+					class="signature-row__avatar"
+					src="/img/hugo-garcia.jpeg"
+					alt="Hugo Garcia"
+					width="128"
+					height="128"
+					loading="lazy"
+				/>
+				<SignatureBlock class="signature-row__mark" />
 			</div>
-			<a class="text-link" href="/blog">Ver todos</a>
 		</div>
-		{
-			posts.length > 0 ? (
-				<div class="post-grid">
-					{posts.map((post) => <PostCard post={post} headingLevel="h3" />)}
-				</div>
-			) : (
-				<p class="lead">Todavia no hay articulos publicados.</p>
-			)
-		}
+	</section>
+
+	<section class="page-section latest" aria-labelledby="latest-title">
+		<div class="section-inner">
+			<div class="section-heading">
+				<h2 class="title-section" id="latest-title">Lo ultimo<span class="dot-yellow">.</span></h2>
+			</div>
+			<div class="article-grid">
+				{
+					posts.map((post) => <ArticleCard post={post} />)
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="page-section pillars" aria-labelledby="pillars-title">
+		<div class="section-inner">
+			<h2 class="title-section" id="pillars-title">
+				6 pilares<span class="dot-yellow">.</span>
+			</h2>
+			<div class="pillars-grid">
+				{
+					contentPillars.map((pillar) => (
+						<article class="pillar-card">
+							<span class="pillar-card__number">{pillar.number}</span>
+							<h3>{pillar.title}</h3>
+							<p>{pillar.description}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<section class="page-section manifesto-band" aria-labelledby="manifesto-title">
+		<div class="section-inner">
+			<h2 class="manifesto-band__quote" id="manifesto-title">
+				Me encargo de solucionar problemas. Esa es la causa de mi insomnio.
+			</h2>
+			<SignatureBlock class="manifesto-band__signature" />
+			<a class="btn-secondary" href="/manifiesto">Leer manifiesto completo -></a>
+		</div>
+	</section>
+
+	<section class="page-section follow" aria-labelledby="follow-title">
+		<div class="section-inner">
+			<h2 class="title-section" id="follow-title">Sigueme<span class="dot-yellow">.</span></h2>
+			<div class="social-links" aria-label="Redes sociales">
+				<a class="social-link" href={siteConfig.social.instagram}>IG</a>
+				<a class="social-link" href={siteConfig.social.tiktok}>TikTok</a>
+				<a class="social-link" href={siteConfig.social.linkedin}>LinkedIn</a>
+			</div>
+		</div>
 	</section>
 </BaseLayout>

@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Highlight from '../components/Highlight.astro';
+import SignatureBlock from '../components/SignatureBlock.astro';
+---
+
+<BaseLayout
+	title="Sobre mi"
+	description="La historia de Hugo Garcia, fundador de QPayPro y constructor de negocios en LATAM."
+>
+	<section class="page-section internal-hero about-hero">
+		<div class="section-inner internal-hero__grid">
+			<div>
+				<h1 class="title-hero">
+					Hola<span class="dot-yellow">.</span><br />Soy Hugo<span class="dot-yellow">.</span>
+				</h1>
+				<p class="internal-lead">
+					Fundador de QPayPro, esposo y socio de Mariana, papa de un nino que ya
+					quiere vender en su colegio, y constructor de negocios con cicatrices.
+				</p>
+			</div>
+			<img
+				class="about-hero__photo"
+				src="/img/hugo-garcia.jpeg"
+				alt="Hugo Garcia"
+				width="900"
+				height="1200"
+			/>
+		</div>
+	</section>
+
+	<section class="page-section story-section">
+		<div class="prose-large">
+			<p>
+				Tengo 42 anos y llevo 9 anos construyendo QPayPro, una pasarela de pagos
+				fintech para LATAM. Pero mi historia no empezo ahi.
+			</p>
+			<p>
+				Antes de que algo pegara, tambien cerre cosas. Una cafeteria llamada
+				Guafres, software con socio, Plackit, sublimacion, juguetes y asesorias.
+				Cada negocio dejo algo: clientes, deudas, aprendizajes, criterio.
+			</p>
+			<p>
+				No vendo la version romantica de emprender. Me interesa contar lo que
+				pasa cuando hay que operar, pagar planilla, discutir con socios, mirar los
+				datos y decidir si una idea vive o se cierra.
+			</p>
+			<p>
+				<Highlight>Construyo negocios.</Highlight> Algunos pegan, otros no. Te cuento
+				todo.
+			</p>
+		</div>
+	</section>
+
+	<section class="page-section timeline-section">
+		<div class="section-inner">
+			<h2 class="title-section">6 negocios<span class="dot-yellow">.</span></h2>
+			<div class="timeline">
+				{[
+					['01', 'Guafres', 'Cafeteria', 'Cerrado'],
+					['02', 'Software con socio', 'Producto digital', 'Cerrado'],
+					['03', 'Plackit', 'Pizarrones magneticos', 'Cerrado'],
+					['04', 'Sublimacion', 'Producto fisico', 'Cerrado'],
+					['05', 'Juguetes', 'Comercio', 'Cerrado'],
+					['06', 'QPayPro', 'Fintech LATAM', 'Operando'],
+				].map(([number, name, description, status]) => (
+					<article class="timeline-item">
+						<span>{number}</span>
+						<h3>{name}</h3>
+						<p>{description}</p>
+						<strong>{status}</strong>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="page-section closing-letter">
+		<div class="prose-large">
+			<blockquote>
+				Me encargo de solucionar problemas y me encanta emprender. Esas son las
+				causas de mi insomnio.
+			</blockquote>
+			<SignatureBlock class="closing-letter__signature" />
+		</div>
+	</section>
+</BaseLayout>

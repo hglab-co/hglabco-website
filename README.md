@@ -34,7 +34,7 @@ Edita `src/config/site.ts` para cambiar:
 - LinkedIn
 - Palabras clave
 
-Mientras no tengas dominio final, puedes dejar `https://example.com`. Cuando tengas dominio, usa la variable `SITE_URL` en Cloudflare Pages.
+Usa la variable `SITE_URL` en Cloudflare Pages para fijar el dominio canonico.
 
 ## Cloudflare Pages
 
@@ -58,7 +58,7 @@ Si el repo remoto aun no existe:
 ```sh
 git add .
 git commit -m "Initial Astro personal site"
-git remote add origin https://github.com/tu-usuario/tu-repo.git
+git remote add origin https://github.com/hglab-co/hglabco-website.git
 git push -u origin main
 ```
 

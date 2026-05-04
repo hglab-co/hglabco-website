@@ -1,0 +1,43 @@
+---
+const navItems = [
+	{ href: '/', label: 'Home' },
+	{ href: '/sobre-mi', label: 'Sobre mi' },
+	{ href: '/blog', label: 'Blog' },
+	{ href: '/recursos', label: 'Recursos' },
+	{ href: '/contacto', label: 'Contacto' },
+];
+---
+
+<header class="site-header">
+	<div class="navbar">
+		<a class="navbar__logo" href="/" aria-label="Hugo Garcia">
+			<img src="/img/hgsignatureblack.png" alt="Hugo Garcia" width="160" height="72" />
+		</a>
+		<button
+			class="navbar__toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="mobile-menu"
+			data-menu-toggle
+		>
+			Menu
+		</button>
+	</div>
+	<nav class="navbar__panel" id="mobile-menu" aria-label="Navegacion principal" data-menu>
+		<div class="navbar__links">
+			{navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+		</div>
+	</nav>
+</header>
+
+<script>
+	const toggle = document.querySelector('[data-menu-toggle]');
+	const menu = document.querySelector('[data-menu]');
+
+	toggle?.addEventListener('click', () => {
+		const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+		toggle.setAttribute('aria-expanded', String(!isOpen));
+		menu?.classList.toggle('is-open', !isOpen);
+		document.body.classList.toggle('menu-open', !isOpen);
+	});
+</script>

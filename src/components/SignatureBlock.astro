@@ -1,0 +1,18 @@
+---
+type Props = {
+	variant?: 'black' | 'white';
+	class?: string;
+};
+
+const { variant = 'black', class: className } = Astro.props;
+const src = variant === 'white' ? '/img/hgsignaturewhite.png' : '/img/hgsignatureblack.png';
+---
+
+<img
+	class={className}
+	src={src}
+	alt="Firma de Hugo Garcia"
+	width="220"
+	height="112"
+	loading="lazy"
+/>

@@ -1,0 +1,75 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import SignatureBlock from '../components/SignatureBlock.astro';
+import { siteConfig } from '../config/site';
+import { formatDate, type BlogPost } from '../lib/blog';
+
+type Props = {
+	post: BlogPost;
+	title: string;
+	description: string;
+	canonical: string;
+};
+
+const { post, title, description, canonical } = Astro.props;
+const canonicalUrl = new URL(canonical, siteConfig.url).toString();
+---
+
+<BaseLayout
+	title={title}
+	description={description}
+	image={post.data.image}
+	type="article"
+	canonical={canonical}
+>
+	<article class="article-page">
+		<header class="article-header">
+			<span class="article-badge">{post.data.pillar}</span>
+			<h1 class="article-title">
+				{post.data.title}<span class="dot-yellow">.</span>
+			</h1>
+			<div class="article-meta">
+				<time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+				<span aria-hidden="true">/</span>
+				<span>{post.data.readingTime}</span>
+				<span aria-hidden="true">/</span>
+				<span>{siteConfig.author}</span>
+			</div>
+		</header>
+
+		<div class="article-body">
+			<slot />
+		</div>
+
+		{
+			post.data.pdf && (
+				<aside class="pdf-callout">
+					<h2>Guia descargable<span class="dot-yellow">.</span></h2>
+					<p>Una version accionable para usarla cuando estes construyendo.</p>
+					<a class="btn-primary" href={post.data.pdf}>Descargar guia PDF</a>
+				</aside>
+			)
+		}
+
+		<section class="article-follow" aria-labelledby="article-follow-title">
+			<h2 id="article-follow-title">Sigueme para mas<span class="dot-yellow">.</span></h2>
+			<div class="social-links">
+				<a class="social-link" href={siteConfig.social.instagram}>IG</a>
+				<a class="social-link" href={siteConfig.social.tiktok}>TikTok</a>
+				<a class="social-link" href={siteConfig.social.linkedin}>LinkedIn</a>
+			</div>
+			<SignatureBlock class="article-follow__signature" />
+		</section>
+	</article>
+
+	<div class="mobile-sticky-bar">
+		<a href={`https://www.linkedin.com/sharing/share-offsite/?url=${canonicalUrl}`}>Compartir</a>
+		{
+			post.data.pdf ? (
+				<a href={post.data.pdf}>Descargar</a>
+			) : (
+				<a href="/blog">Mas historias</a>
+			)
+		}
+	</div>
+</BaseLayout>

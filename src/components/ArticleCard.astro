@@ -1,0 +1,17 @@
+---
+import type { BlogPost } from '../lib/blog';
+import { formatDate, getPostUrl } from '../lib/blog';
+import PillarBadge from './PillarBadge.astro';
+
+type Props = {
+	post: BlogPost;
+};
+
+const { post } = Astro.props;
+---
+
+<a class="article-card" href={getPostUrl(post)}>
+	<PillarBadge label={post.data.pillar} />
+	<h3 class="title-card">{post.data.title}</h3>
+	<span class="article-card__date">{formatDate(post.data.pubDate)}</span>
+</a>

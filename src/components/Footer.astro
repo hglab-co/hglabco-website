@@ -1,0 +1,30 @@
+---
+import { siteConfig } from '../config/site';
+
+const footerLinks = [
+	{ href: '/', label: 'Home' },
+	{ href: '/sobre-mi', label: 'Sobre mi' },
+	{ href: '/manifiesto', label: 'Manifiesto' },
+	{ href: '/blog', label: 'Blog' },
+	{ href: '/contacto', label: 'Contacto' },
+];
+---
+
+<footer class="site-footer">
+	<div class="site-footer__inner">
+		<img
+			class="site-footer__logo"
+			src="/img/hgsignaturewhite.png"
+			alt="Hugo Garcia"
+			width="180"
+			height="92"
+			loading="lazy"
+		/>
+		<nav class="site-footer__links" aria-label="Navegacion de pie de pagina">
+			{footerLinks.map((link) => <a href={link.href}>{link.label}</a>)}
+		</nav>
+		<p class="site-footer__copy">
+			&copy; {new Date().getFullYear()} {siteConfig.name}. Construido desde LATAM.
+		</p>
+	</div>
+</footer>

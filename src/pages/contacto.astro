@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<BaseLayout
+	title="Contacto"
+	description="Contacta a Hugo Garcia para conversaciones, colaboraciones o mensajes directos."
+>
+	<section class="page-section contact-page">
+		<div class="section-inner contact-grid">
+			<div>
+				<h1 class="title-hero">Contacto<span class="dot-yellow">.</span></h1>
+				<p class="internal-lead">
+					Si quieres conversar sobre negocios, fintech, operaciones o una idea que
+					no te deja dormir, escribeme.
+				</p>
+				<div class="contact-links">
+					<a href={siteConfig.social.instagram}>Instagram DM</a>
+					<a href="mailto:hola@hglab.co">hola@hglab.co</a>
+					<a href={siteConfig.social.linkedin}>LinkedIn</a>
+				</div>
+			</div>
+			<form class="contact-form" action="mailto:hola@hglab.co" method="post" enctype="text/plain">
+				<label>
+					<span>Nombre</span>
+					<input name="nombre" autocomplete="name" required />
+				</label>
+				<label>
+					<span>Mensaje</span>
+					<textarea name="mensaje" rows="7" required></textarea>
+				</label>
+				<button class="btn-primary" type="submit">Enviar mensaje -></button>
+			</form>
+		</div>
+	</section>
+</BaseLayout>
