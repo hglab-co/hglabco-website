@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import Highlight from '../components/Highlight.astro';
 import SignatureBlock from '../components/SignatureBlock.astro';
-import YellowDot from '../components/YellowDot.astro';
 import { contentPillars, siteConfig } from '../config/site';
 import { getBlogPosts } from '../lib/blog';
 
@@ -11,21 +10,56 @@ const posts = (await getBlogPosts()).slice(0, 6);
 ---
 
 <BaseLayout title="Home" description={siteConfig.description}>
-	<section class="page-section hero" aria-labelledby="hero-title">
-		<div class="section-inner">
-			<YellowDot class="hero__dot" />
-			<h1 class="title-hero" id="hero-title">
-				Creo<br />
-				negocios.<br />
-				Algunos pegan.<br />
-				Otros no<span class="dot-yellow">.</span>
-			</h1>
-			<p class="hero__subtitle">
-				Te cuento lo que aprendi construyendo (y cerrando) 6 negocios en LATAM.
-			</p>
-			<div class="hero__actions" aria-label="Acciones principales">
-				<a class="btn-primary" href="/blog">Leer mis historias -></a>
-				<a class="btn-secondary" href="/sobre-mi">Conoce mas sobre mi</a>
+	<section class="page-section hero hero-concept" aria-labelledby="hero-title">
+		<div class="section-inner hero-concept__inner">
+			<div class="hero-concept__meta" aria-hidden="true">
+				<span>2026</span>
+				<span>hglab.co</span>
+			</div>
+			<div class="hero-concept__brand">
+				<img
+					src="/img/logocombined@2x.png"
+					alt="Hugo Garcia, emprendedor, creador, estratega"
+					width="1080"
+					height="300"
+				/>
+			</div>
+			<img
+				class="hero-concept__photo"
+				src="/img/hugo-garcia.jpeg"
+				alt="Hugo Garcia"
+				width="900"
+				height="1200"
+			/>
+			<div class="hero-card">
+				<div>
+					<img
+						class="hero-card__mark"
+						src="/img/hgsignatureblack.png"
+						alt=""
+						width="220"
+						height="112"
+					/>
+					<h1 id="hero-title">
+						Construyo negocios. Algunos pegan. Otros no<span class="dot-yellow">.</span>
+					</h1>
+					<p>
+						Te cuento lo que aprendi construyendo (y cerrando) 6 negocios en LATAM.
+					</p>
+					<div class="hero__actions" aria-label="Acciones principales">
+						<a class="btn-primary" href="/blog">Leer mis historias -></a>
+						<a class="btn-secondary" href="/sobre-mi">Conoce mas sobre mi</a>
+					</div>
+				</div>
+				<div class="hero-card__portrait-wrap">
+					<img
+						class="hero-card__portrait"
+						src="/img/hugo-garcia.jpeg"
+						alt=""
+						width="900"
+						height="1200"
+					/>
+				</div>
 			</div>
 		</div>
 	</section>
