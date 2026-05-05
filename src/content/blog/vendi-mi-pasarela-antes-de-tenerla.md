@@ -17,6 +17,6 @@ Cuando arranque QPayPro no tenia producto. Tenia un Figma, una historia clara y 
 
 No lo cuento como formula magica. Lo cuento porque muchas veces esperamos tener todo listo antes de escuchar al mercado.
 
-La venta temprana no se trata de enganar. Se trata de descubrir si el problema duele lo suficiente como para que alguien quiera resolverlo contigo.
+La venta temprana no se trata de enganar. Se trata de descubrir si el problema duele lo suficiente como para que alguien quiera resolverlo con vos.
 
-Despues vino lo dificil: construir, operar, responder, fallar y volver a ajustar. Pero ese primer si cambio la conversacion.
+Despues vino la parte real: construir, operar, responder, ajustar y mejorar. Pero ese primer si cambio la conversacion.

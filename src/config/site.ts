@@ -1,11 +1,11 @@
 export const siteConfig = {
 	name: 'Hugo Garcia',
 	author: 'Hugo Garcia',
-	jobTitle: 'Fundador de QPayPro y constructor de negocios',
-	title: 'Hugo Garcia | Construyo negocios en LATAM',
-	tagline: 'Construyo negocios. Algunos pegan, otros no. Te cuento todo.',
+	jobTitle: 'CEO de QPayPro, consultor de negocios y estratega',
+	title: 'Hugo Garcia | Estrategia y experiencia real para negocios',
+	tagline: 'Estrategia, tecnologia y experiencia real para negocios que quieren crecer.',
 	description:
-		'Historias, aprendizajes y recursos de Hugo Garcia sobre construir, operar y reinventar negocios en LATAM.',
+		'Aprendizajes, herramientas y estrategias de Hugo Garcia sobre ventas, operacion, tecnologia, IA y crecimiento de negocios en LATAM.',
 	url: (import.meta.env.SITE_URL ?? 'https://hglab.co').replace(/\/$/, ''),
 	locale: 'es',
 	language: 'es-GT',
@@ -22,31 +22,31 @@ export const contentPillars = [
 	{
 		number: '01',
 		title: 'Construyendo el negocio',
-		description: 'Ideas, validacion y primeras ventas.',
+		description: 'Ideas, validacion, ventas y modelo de negocio.',
 	},
 	{
 		number: '02',
 		title: 'Operando con datos',
-		description: 'Metricas, tablero y decisiones frias.',
+		description: 'Metricas, tableros y decisiones con informacion.',
 	},
 	{
 		number: '03',
 		title: 'Liderazgo y equipo',
-		description: 'Socios, cultura y conversaciones dificiles.',
+		description: 'Socios, cultura, equipo y conversaciones importantes.',
 	},
 	{
 		number: '04',
 		title: 'Tecnologia e IA aplicada',
-		description: 'Herramientas reales para operar mejor.',
+		description: 'Herramientas reales para vender y operar mejor.',
 	},
 	{
 		number: '05',
-		title: 'Cuando las cosas no van',
-		description: 'Errores, crisis y costos de aprender.',
+		title: 'Decisiones dificiles',
+		description: 'Caja, crisis, cambios de rumbo y aprendizajes.',
 	},
 	{
 		number: '06',
 		title: 'Reinventandose',
-		description: 'Cerrar ciclos y volver a construir.',
+		description: 'Evolucion, nuevos modelos y volver a construir mejor.',
 	},
 ];

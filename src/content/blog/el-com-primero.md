@@ -1,7 +1,7 @@
 ---
 title: El .com primero
 description: La primera cosa que compro al pensar un negocio es el dominio .com.
-excerpt: "La primera cosa que compro al pensar un negocio es el dominio .com. Si no esta disponible, capaz tu idea no es tan original."
+excerpt: "La primera cosa que compro al pensar un negocio es el dominio .com. Si no esta disponible, capaz la idea necesita mas claridad."
 pubDate: 2026-05-03
 category: Construyendo el negocio
 pillar: Construyendo el negocio

@@ -13,10 +13,10 @@ tags:
 draft: false
 ---
 
-He estado en varias sociedades. Algunas funcionaron, otras no. La regla que aprendi es simple: una sociedad es como casarse, hay que complementarse.
+He estado en varias sociedades y cada una me dejo una regla simple: una sociedad es como casarse, hay que complementarse.
 
 Si los dos socios quieren hacer exactamente lo mismo, alguien termina sobrando. Si ninguno quiere hacer lo dificil, el negocio empieza a acumular conversaciones pendientes.
 
-Una buena sociedad no se mide cuando todo va bien. Se mide cuando hay poco dinero, poco sueño y decisiones que nadie quiere tomar.
+Una buena sociedad no se mide solo cuando todo va bien. Se mide cuando hay presion de caja, cansancio y decisiones importantes sobre la mesa.
 
-Por eso hoy miro menos el entusiasmo inicial y mas la forma en que una persona discute, decide y responde cuando algo sale mal.
+Por eso hoy miro menos el entusiasmo inicial y mas la forma en que una persona discute, decide y responde cuando el negocio exige criterio.
