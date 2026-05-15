@@ -1,0 +1,505 @@
+/* ============================================================
+   HG BRAND — PDF STYLESHEET
+   Para PDFs generados desde HTML via PDFShift.
+   
+   USO:
+   - Vive en el repo en /public/recursos/brand.css
+   - Se sirve via Cloudflare Pages en https://hglab.co/recursos/brand.css
+   - El agente Generador de PDFs incluye en cada HTML que crea:
+     <link rel="stylesheet" href="https://hglab.co/recursos/brand.css">
+   - PDFShift renderiza el HTML+CSS y devuelve el PDF final.
+   
+   CONVENCIONES DE MARKUP (lo que el agente debe generar):
+   - <div class="cover"> para la portada
+   - <span class="dot">.</span> al final de h1/h2 para el punto amarillo
+   - <div class="eyebrow"> para labels chicos en mayúsculas
+   - <span class="pill"> para badges amarillos
+   - <blockquote class="pull-quote"> para citas con borde amarillo
+   - <div class="card"> para callouts grises
+   - <div class="dark-section"> para bloques negros
+   - <ul class="checklist"> para listas con checkboxes
+   - <div class="worksheet-field"> para campos con línea para llenar
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap');
+
+
+/* ------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------ */
+:root {
+  /* Colors */
+  --ink: #0A0A0A;
+  --ink-soft: #1A1A1A;
+  --paper: #FFFFFF;
+  --accent: #FFE500;
+  --muted: #6B6B6B;
+  --muted-light: #A0A0A0;
+  --surface: #F5F5F5;
+  --border: #E5E5E5;
+
+  /* Typography */
+  --font-display: 'Manrope', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-script: 'Caveat', cursive;
+
+  /* Shape */
+  --radius-card: 14pt;
+  --radius-pill: 999px;
+}
+
+
+/* ------------------------------------------------------------
+   Page rules (PDF-specific)
+   ------------------------------------------------------------ */
+@page {
+  size: A4;
+  margin: 22mm 18mm;
+}
+
+@page :first {
+  margin: 0;
+}
+
+@page :not(:first) {
+  @bottom-left {
+    content: "Hugo García — hglab.co";
+    font-family: var(--font-body);
+    font-size: 8pt;
+    color: var(--muted-light);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: var(--font-body);
+    font-size: 8pt;
+    color: var(--muted-light);
+  }
+}
+
+
+/* ------------------------------------------------------------
+   Reset & base
+   ------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 11pt;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* ------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------ */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  page-break-after: avoid;
+}
+
+h1 {
+  font-size: 42pt;
+  margin-bottom: 18pt;
+}
+
+h2 {
+  font-size: 22pt;
+  letter-spacing: -0.02em;
+  margin-top: 30pt;
+  margin-bottom: 14pt;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 20pt;
+  margin-bottom: 8pt;
+}
+
+h4 {
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-top: 14pt;
+  margin-bottom: 6pt;
+}
+
+p {
+  margin-bottom: 11pt;
+  orphans: 3;
+  widows: 3;
+}
+
+strong, b {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+em, i {
+  font-style: italic;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 2pt;
+  text-underline-offset: 2pt;
+}
+
+
+/* ------------------------------------------------------------
+   The yellow dot — brand signature element
+   ------------------------------------------------------------ */
+.dot {
+  color: var(--accent);
+}
+
+
+/* ------------------------------------------------------------
+   Eyebrow label
+   ------------------------------------------------------------ */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14pt;
+  display: block;
+}
+
+
+/* ------------------------------------------------------------
+   Pills / badges
+   ------------------------------------------------------------ */
+.pill {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 8.5pt;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5pt 12pt;
+  border-radius: var(--radius-pill);
+}
+
+.pill-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.pill-outline {
+  background: transparent;
+  color: var(--ink);
+  border: 1pt solid var(--ink);
+}
+
+
+/* ------------------------------------------------------------
+   Cover page
+   ------------------------------------------------------------ */
+.cover {
+  page-break-after: always;
+  height: 297mm;
+  padding: 24mm 22mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cover-pill {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--ink);
+  font-size: 8.5pt;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 6pt 13pt;
+  border-radius: var(--radius-pill);
+  margin-bottom: 28pt;
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-size: 56pt;
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+
+.cover-subtitle {
+  font-size: 14pt;
+  line-height: 1.4;
+  color: var(--muted);
+  margin-top: 16pt;
+  max-width: 88%;
+}
+
+.cover-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.cover-author-label {
+  font-size: 8pt;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.cover-author-name {
+  font-size: 13pt;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 4pt;
+}
+
+.cover-author-url {
+  font-size: 9pt;
+  color: var(--muted);
+  margin-top: 2pt;
+}
+
+.signature {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: 38pt;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.signature-img {
+  height: 38pt;
+  width: auto;
+}
+
+
+/* ------------------------------------------------------------
+   Pull quote (yellow left border)
+   ------------------------------------------------------------ */
+.pull-quote, blockquote {
+  border-left: 4pt solid var(--accent);
+  padding: 12pt 0 12pt 16pt;
+  margin: 18pt 0;
+  font-size: 13pt;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  page-break-inside: avoid;
+}
+
+
+/* ------------------------------------------------------------
+   Cards (gray surface)
+   ------------------------------------------------------------ */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-card);
+  padding: 18pt 20pt;
+  margin: 18pt 0;
+  page-break-inside: avoid;
+}
+
+.card .eyebrow {
+  margin-bottom: 10pt;
+}
+
+.card-accent {
+  background: var(--paper);
+  border: 1.5pt solid var(--accent);
+}
+
+
+/* ------------------------------------------------------------
+   Dark section (black bg, white text)
+   ------------------------------------------------------------ */
+.dark-section {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 24pt;
+  border-radius: var(--radius-card);
+  margin: 24pt 0;
+  page-break-inside: avoid;
+}
+
+.dark-section h2,
+.dark-section h3,
+.dark-section h4,
+.dark-section p,
+.dark-section strong {
+  color: var(--paper);
+}
+
+.dark-section .eyebrow {
+  color: var(--muted-light);
+}
+
+
+/* ------------------------------------------------------------
+   Checklist with custom checkboxes
+   ------------------------------------------------------------ */
+.checklist {
+  list-style: none;
+  margin: 10pt 0;
+  padding: 0;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 26pt;
+  margin-bottom: 9pt;
+  line-height: 1.45;
+  page-break-inside: avoid;
+}
+
+.checklist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 2pt;
+  width: 13pt;
+  height: 13pt;
+  border: 1.5pt solid var(--ink);
+  border-radius: 3pt;
+  background: var(--paper);
+}
+
+
+/* ------------------------------------------------------------
+   Worksheet field (with blank line to fill in)
+   ------------------------------------------------------------ */
+.worksheet-field {
+  margin: 6pt 0 14pt;
+  page-break-inside: avoid;
+}
+
+.worksheet-field-label {
+  display: block;
+  font-size: 8.5pt;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6pt;
+}
+
+.worksheet-field-line {
+  border-bottom: 1pt solid var(--ink);
+  height: 26pt;
+}
+
+
+/* ------------------------------------------------------------
+   CTA button (visual representation in PDF)
+   ------------------------------------------------------------ */
+.cta-button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11pt;
+  padding: 10pt 22pt;
+  border-radius: var(--radius-pill);
+  margin-top: 12pt;
+  text-decoration: none;
+}
+
+.cta-button-dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+
+/* ------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------ */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18pt 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+}
+
+th, td {
+  padding: 9pt 11pt;
+  text-align: left;
+  border-bottom: 1pt solid var(--border);
+}
+
+th {
+  font-weight: 800;
+  background: var(--surface);
+  font-size: 8.5pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+
+/* ------------------------------------------------------------
+   Lists (default ul/ol)
+   ------------------------------------------------------------ */
+ul:not(.checklist),
+ol {
+  margin: 8pt 0 14pt 20pt;
+}
+
+ul:not(.checklist) li,
+ol li {
+  margin-bottom: 5pt;
+  line-height: 1.5;
+}
+
+
+/* ------------------------------------------------------------
+   Section divider
+   ------------------------------------------------------------ */
+hr {
+  border: none;
+  border-top: 1pt solid var(--border);
+  margin: 24pt 0;
+}
+
+hr.accent {
+  border-top: 2pt solid var(--accent);
+}
+
+
+/* ------------------------------------------------------------
+   Utility classes
+   ------------------------------------------------------------ */
+.page-break { page-break-before: always; }
+.no-break { page-break-inside: avoid; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-muted { color: var(--muted); }
+.text-accent { color: var(--accent); }
+.mt-0 { margin-top: 0; }
+.mt-2 { margin-top: 12pt; }
+.mt-4 { margin-top: 24pt; }
+.mb-0 { margin-bottom: 0; }
+.mb-2 { margin-bottom: 12pt; }
+.mb-4 { margin-bottom: 24pt; }
