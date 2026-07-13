@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Project Rebuild</title>
+<style>
+  :root{
+    --bg: #12151A;
+    --card: #1B1F26;
+    --card-border: #262B34;
+    --teal: #4FD1C5;
+    --teal-dim: rgba(79,209,197,0.15);
+    --amber: #F5A65B;
+    --amber-dim: rgba(245,166,91,0.15);
+    --violet: #A78BFA;
+    --violet-dim: rgba(167,139,250,0.12);
+    --text: #EDEFF2;
+    --text-mute: #8B93A1;
+    --text-faint: #565D6B;
+    --danger: #E5707A;
+    --radius: 16px;
+  }
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html,body{
+    margin:0; padding:0; background:var(--bg); color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  #app{ max-width: 480px; margin: 0 auto; padding: 20px 16px 48px; min-height: 100dvh; }
+
+  .app-title{ text-align:center; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; font-weight:700; }
+
+  .header{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px; }
+  .nav-btn{
+    width:38px; height:38px; border-radius:50%; border:1px solid var(--card-border);
+    background: var(--card); color: var(--text-mute); font-size:18px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .nav-btn:active{ background: var(--card-border); }
+  .date-block{ text-align:center; }
+  .date-day{ font-size: 20px; font-weight: 700; letter-spacing: -0.01em; }
+  .date-sub{ font-size: 12px; color: var(--text-mute); margin-top:2px; }
+  .date-sub.today-flag{ color: var(--teal); font-weight:600; }
+
+  .ring-card{
+    background: var(--card); border:1px solid var(--card-border); border-radius: var(--radius);
+    padding: 20px; display:flex; align-items:center; gap:18px; margin-bottom:18px;
+  }
+  .ring-wrap{ position:relative; width:76px; height:76px; flex-shrink:0; }
+  .ring-wrap svg{ transform: rotate(-90deg); width:76px; height:76px; }
+  .ring-bg{ fill:none; stroke: var(--card-border); stroke-width:8; }
+  .ring-fg{ fill:none; stroke: var(--teal); stroke-width:8; stroke-linecap:round; transition: stroke-dashoffset 0.5s ease; }
+  .ring-pct{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:700;
+  }
+  .ring-info .ring-title{ font-size:14px; font-weight:600; margin-bottom:4px; }
+  .ring-info .ring-detail{ font-size:12px; color: var(--text-mute); line-height:1.5; }
+  .ring-info .kcal{ color: var(--amber); font-weight:600; }
+
+  .save-state{ font-size:11px; margin-top:6px; }
+  .save-ok{ color: var(--teal); }
+  .save-err{ color: var(--danger); }
+
+  .section{
+    background: var(--card); border:1px solid var(--card-border); border-radius: var(--radius);
+    padding: 16px; margin-bottom: 14px;
+  }
+  .section-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; gap:8px; }
+  .section-title{ font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; color: var(--text-mute); flex:1; }
+  .section-check{
+    width:22px; height:22px; border-radius:50%; border:2px solid var(--card-border);
+    display:flex; align-items:center; justify-content:center; font-size:12px; color:transparent; flex-shrink:0;
+  }
+  .section-check.done{ background: var(--teal); border-color: var(--teal); color:#0A0C0F; }
+  .clear-btn{
+    font-size:11px; color: var(--text-faint); border:1px solid var(--card-border);
+    border-radius: 999px; padding: 3px 10px; cursor:pointer; background:transparent;
+  }
+  .clear-btn:active{ color: var(--danger); border-color: var(--danger); }
+
+  .plan-hint{ font-size:12px; color: var(--text-mute); line-height:1.5; margin-bottom:10px; }
+  .plan-hint b{ color: var(--teal); font-weight:600; }
+  .plan-label{ font-size:11px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:5px; }
+  .plan-text{ font-size:14px; line-height:1.5; margin-bottom:12px; }
+
+  select, textarea{
+    width:100%; background: #10131A; border:1px solid var(--card-border); color: var(--text);
+    border-radius:10px; padding:11px 12px; font-size:14px; font-family:inherit; outline:none;
+  }
+  select:focus, textarea:focus{ border-color: var(--teal); }
+  textarea{ resize:vertical; min-height:56px; margin-top:8px; }
+  select{ appearance:none; -webkit-appearance:none; padding-right:34px; background-image:
+    linear-gradient(45deg, transparent 50%, var(--text-mute) 50%), linear-gradient(135deg, var(--text-mute) 50%, transparent 50%);
+    background-position: calc(100% - 18px) center, calc(100% - 13px) center; background-size:5px 5px, 5px 5px; background-repeat:no-repeat;
+  }
+  select.picked-plan{ border-color: var(--teal); }
+  select.picked-other{ border-color: var(--amber); }
+
+  .choice-row{ display:flex; gap:8px; }
+  .chip{
+    flex:1; text-align:center; padding:10px 6px; border-radius:10px; font-size:12.5px; font-weight:600;
+    border:1px solid var(--card-border); color: var(--text-mute); cursor:pointer; background:transparent;
+  }
+  .chip.active-plan{ background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
+  .chip.active-other{ background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+
+  .wk-group{ font-size:12px; color: var(--amber); font-weight:600; margin-bottom:10px; }
+  .ex-row{ display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--card-border); }
+  .ex-row:first-of-type{ border-top:none; padding-top:0; }
+  .ex-checkbox{
+    width:26px; height:26px; border-radius:7px; border:2px solid var(--card-border); flex-shrink:0;
+    display:flex; align-items:center; justify-content:center; color:transparent; font-size:14px; cursor:pointer;
+  }
+  .ex-checkbox.done{ background: var(--teal); border-color: var(--teal); color:#0A0C0F; }
+  .ex-main{ flex:1; min-width:0; }
+  .ex-name{ font-size:13.5px; font-weight:600; }
+  .ex-name.done-text{ color: var(--text-mute); text-decoration: line-through; text-decoration-color: var(--text-faint); }
+  .ex-meta{ font-size:11.5px; color: var(--text-faint); margin-top:1px; }
+  .ex-weight{
+    width:58px; text-align:center; padding:7px 4px; font-size:13px; flex-shrink:0;
+    background:#10131A; border:1px solid var(--card-border); color:var(--text); border-radius:8px; outline:none;
+  }
+  .ex-weight:focus{ border-color: var(--teal); }
+  .ex-weight-label{ font-size:10px; color:var(--text-faint); text-align:center; margin-top:2px; }
+
+  .rest-day{ text-align:center; padding:14px 0; color: var(--text-mute); font-size:13.5px; }
+  .rest-day .big{ font-size:26px; margin-bottom:6px; }
+
+  .coach-section{ border-color: rgba(167,139,250,0.35); }
+  .coach-btn{
+    width:100%; margin-top:12px; padding:13px; border-radius:12px; border:none; cursor:pointer;
+    background: var(--violet); color:#14101F; font-size:14px; font-weight:700; font-family:inherit;
+  }
+  .coach-out{
+    margin-top:12px; background: var(--violet-dim); border:1px solid rgba(167,139,250,0.3);
+    border-radius:12px; padding:14px; font-size:13.5px; line-height:1.65;
+  }
+  .copied-flag{ color: var(--teal); font-size:12px; margin-top:8px; text-align:center; }
+
+  .strip{ display:flex; gap:6px; margin-top:22px; }
+  .strip-day{ flex:1; text-align:center; cursor:pointer; }
+  .strip-bar-bg{ height:44px; border-radius:8px; background: var(--card); border:1px solid var(--card-border); position:relative; overflow:hidden; }
+  .strip-bar-fill{ position:absolute; bottom:0; left:0; right:0; background: var(--teal); opacity:0.85; transition: height 0.4s ease; }
+  .strip-label{ font-size:10px; color: var(--text-faint); margin-top:5px; }
+  .strip-label.is-today{ color: var(--teal); font-weight:700; }
+
+  .backup{ margin-top:20px; }
+  .backup summary{ font-size:12px; color: var(--text-faint); cursor:pointer; text-align:center; list-style:none; }
+  .backup summary::-webkit-details-marker{ display:none; }
+  .backup-body{ margin-top:12px; }
+  .backup-row{ display:flex; gap:8px; margin-bottom:10px; }
+  .backup-btn{
+    flex:1; padding:10px; border-radius:10px; font-size:12.5px; font-weight:600; cursor:pointer;
+    background: var(--card); border:1px solid var(--card-border); color: var(--text-mute); font-family:inherit;
+  }
+  .backup-btn:active{ border-color: var(--teal); color: var(--teal); }
+  .backup textarea{ font-size:11px; min-height:70px; }
+  .backup-note{ font-size:11px; color:var(--text-faint); line-height:1.5; margin-top:8px; }
+
+  .footnote{ text-align:center; font-size:11px; color: var(--text-faint); margin-top:20px; line-height:1.6; }
+
+  /* Top action buttons */
+  .top-actions{ display:flex; gap:8px; margin-bottom:18px; }
+  .top-action-btn{
+    flex:1; text-align:center; padding:11px 6px; border-radius:12px; font-size:12.5px; font-weight:700;
+    border:1px solid var(--card-border); background: var(--card); color: var(--text-mute); cursor:pointer;
+  }
+  .top-action-btn:active{ border-color: var(--teal); color: var(--teal); }
+
+  /* Dashboard / Measurements views */
+  .view-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .view-title{ font-size:19px; font-weight:700; }
+  .close-btn{
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--card-border);
+    background: var(--card); color: var(--text-mute); font-size:16px;
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .stat-row{ display:flex; justify-content:space-between; align-items:baseline; padding:9px 0; border-top:1px solid var(--card-border); }
+  .stat-row:first-child{ border-top:none; padding-top:0; }
+  .stat-label{ font-size:13px; color: var(--text-mute); }
+  .stat-value{ font-size:16px; font-weight:700; }
+  .stat-value.teal{ color: var(--teal); }
+  .stat-value.amber{ color: var(--amber); }
+
+  .bar-compare{ display:flex; height:10px; border-radius:6px; overflow:hidden; margin:10px 0 6px; background:#10131A; }
+  .bar-seg-plan{ background: var(--teal); }
+  .bar-seg-other{ background: var(--amber); }
+  .bar-seg-empty{ background: var(--card-border); }
+  .bar-legend{ display:flex; gap:14px; font-size:11px; color: var(--text-faint); flex-wrap:wrap; }
+  .bar-legend span{ display:inline-flex; align-items:center; gap:5px; }
+  .dot{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .dot.teal{ background: var(--teal); }
+  .dot.amber{ background: var(--amber); }
+  .dot.empty{ background: var(--card-border); }
+
+  .empty-hint{ text-align:center; color: var(--text-faint); font-size:13px; padding:20px 0; line-height:1.6; }
+
+  /* Measurements */
+  .measure-form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .measure-field{ margin-bottom:0; }
+  .measure-field label{ font-size:11px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px; }
+  .measure-field input{
+    width:100%; background:#10131A; border:1px solid var(--card-border); color:var(--text);
+    border-radius:10px; padding:10px 12px; font-size:14px; font-family:inherit; outline:none;
+  }
+  .measure-field input:focus{ border-color: var(--teal); }
+  .measure-save-btn{
+    width:100%; margin-top:14px; padding:13px; border-radius:12px; border:none; cursor:pointer;
+    background: var(--teal); color:#0A0C0F; font-size:14px; font-weight:700; font-family:inherit;
+  }
+  .measure-entry{ padding:12px 0; border-top:1px solid var(--card-border); }
+  .measure-entry:first-child{ border-top:none; padding-top:0; }
+  .measure-entry-date{ font-size:12.5px; font-weight:700; color: var(--text); margin-bottom:6px; }
+  .measure-entry-date.is-latest{ color: var(--teal); }
+  .measure-grid-vals{ display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; }
+  .measure-val{ text-align:center; background:#10131A; border-radius:8px; padding:8px 4px; }
+  .measure-val .n{ font-size:14px; font-weight:700; }
+  .measure-val .l{ font-size:9.5px; color: var(--text-faint); text-transform:uppercase; margin-top:2px; }
+  .measure-delta{ font-size:10px; margin-top:2px; }
+  .measure-delta.up{ color: var(--teal); }
+  .measure-delta.down{ color: var(--amber); }
+  .measure-del-btn{
+    font-size:10.5px; color: var(--text-faint); border:1px solid var(--card-border);
+    border-radius:999px; padding:3px 9px; cursor:pointer; background:transparent; margin-top:8px; display:inline-block;
+  }
+  .measure-del-btn:active{ color: var(--danger); border-color: var(--danger); }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ---------- MENU DATA ----------
+const SHAKE_PM = 'Leche de almendra + colágeno + peanut powder';
+const MENU = {
+  1: { name:'Lunes', kcal:2200,
+    desayuno:'3 huevos + 2 claras + 1 rebanada pan masa madre + vegetales',
+    almuerzo:'200 g pollo + 300 g vegetales + 2 tortillas + sopa de zanahoria',
+    refaccion:'200 g yogurt griego + fresas',
+    cena:'200 g pollo + 300 g vegetales' },
+  2: { name:'Martes', kcal:2200,
+    desayuno:'2 huevos + 3 claras + 100 g panela + 1 rebanada pan masa madre + 1/4 aguacate',
+    almuerzo:'200 g fajitas de pollo + 300 g vegetales + 2 tortillas + sopa de zanahoria',
+    refaccion:'200 g yogurt griego + arándanos',
+    cena:'200 g fajitas de pollo + 300 g vegetales' },
+  3: { name:'Miércoles', kcal:2250,
+    desayuno:'2 huevos + 2 claras + 1/2 taza frijoles + 2 tortillas + pico de gallo',
+    almuerzo:'200 g fajitas de res + 300 g vegetales + 2 tortillas + sopa de zanahoria',
+    refaccion:'200 g yogurt griego + canela',
+    cena:'200 g carne de res + 300 g vegetales' },
+  4: { name:'Jueves', kcal:2200,
+    desayuno:'100 g panela + 2 rebanadas pan masa madre + 1/4 aguacate + tomate',
+    almuerzo:'200 g hamburguesa de pollo + pan masa madre + vegetales + sopa',
+    refaccion:'200 g yogurt griego + fresas',
+    cena:'200 g hamburguesa de pollo + 300 g vegetales' },
+  5: { name:'Viernes', kcal:2200,
+    desayuno:'2 huevos + 3 claras + 100 g panela + 2 tortillas',
+    almuerzo:'200 g hamburguesa de pavo + pan masa madre + vegetales + sopa',
+    refaccion:'200 g yogurt griego + arándanos',
+    cena:'200 g hamburguesa de pavo + 300 g vegetales' },
+  6: { name:'Sábado', kcal:2150,
+    desayuno:'3 huevos + 100 g panela + 2 rebanadas pan masa madre + 1/4 aguacate',
+    almuerzo:'200 g pollo + 300 g vegetales + sin carbohidratos + sopa',
+    refaccion:'200 g yogurt griego + fresas',
+    cena:'300 g yogurt griego + frutos rojos' },
+};
+
+function optionsFor(mealKey){
+  const seen = new Set(); const out = [];
+  [1,2,3,4,5,6].forEach(d=>{
+    const v = MENU[d][mealKey];
+    if(!seen.has(v)){ seen.add(v); out.push({ text:v, day: MENU[d].name }); }
+  });
+  return out;
+}
+const MEAL_OPTIONS = {
+  desayuno: optionsFor('desayuno'),
+  almuerzo: optionsFor('almuerzo'),
+  refaccion: optionsFor('refaccion'),
+  cena: optionsFor('cena'),
+};
+
+const MEAL_KEYS = ['desayuno','almuerzo','shakepm','refaccion','cena'];
+const MEAL_LABELS = { desayuno:'Desayuno', almuerzo:'Almuerzo', shakepm:'Shake PM', refaccion:'Refacción', cena:'Cena' };
+
+const WORKOUT = {
+  1: { grupo:'Pecho + Tríceps', ex:[
+      {n:'Press banca sentado/acostado', s:'4', r:'8-10'},
+      {n:'Press inclinado con mancuernas', s:'3', r:'10-12'},
+      {n:'Aperturas en máquina o banco', s:'3', r:'12-15'},
+      {n:'Jalón de tríceps en polea', s:'3', r:'10-12'},
+      {n:'Extensión de tríceps sobre cabeza', s:'3', r:'12-15'},
+      {n:'Pallof Press (core)', s:'3', r:'12/lado'} ]},
+  2: { grupo:'Espalda + Bíceps', ex:[
+      {n:'Jalón al pecho', s:'4', r:'8-10'},
+      {n:'Remo sentado', s:'4', r:'10-12'},
+      {n:'Remo pecho apoyado', s:'3', r:'10-12'},
+      {n:'Face Pull', s:'3', r:'15'},
+      {n:'Curl con barra', s:'3', r:'10-12'},
+      {n:'Curl martillo', s:'3', r:'12'} ]},
+  3: { grupo:'Hombros', ex:[
+      {n:'Press militar sentado', s:'4', r:'8-10'},
+      {n:'Elevaciones laterales', s:'4', r:'12-15'},
+      {n:'Elevaciones frontales', s:'3', r:'12'},
+      {n:'Pájaros', s:'3', r:'15'},
+      {n:'Encogimientos de trapecio', s:'4', r:'12'},
+      {n:'Dead Bug (core)', s:'3', r:'12/lado'} ]},
+  4: { grupo:'Pecho + Espalda', ex:[
+      {n:'Press banca', s:'3', r:'10'},
+      {n:'Jalón al pecho', s:'3', r:'10'},
+      {n:'Press inclinado', s:'3', r:'12'},
+      {n:'Remo sentado', s:'3', r:'12'},
+      {n:'Aperturas', s:'3', r:'15'},
+      {n:'Face Pull', s:'3', r:'15'} ]},
+  5: { grupo:'Brazos', ex:[
+      {n:'Curl con barra', s:'4', r:'10'},
+      {n:'Curl inclinado', s:'3', r:'12'},
+      {n:'Jalón de tríceps', s:'4', r:'10'},
+      {n:'Extensión de tríceps con cuerda', s:'3', r:'12'},
+      {n:'Elevaciones laterales', s:'3', r:'15'},
+      {n:'Bird Dog (core)', s:'3', r:'12/lado'} ]},
+  6: null,
+  0: null,
+};
+
+// ---------- STORAGE (100% local, sin llamadas a servidores) ----------
+const STORE_KEY = 'rebuild_logs';
+const MEASURE_KEY = 'rebuild_measurements';
+let allLogs = {};
+let allMeasurements = {}; // { 'YYYY-MM-DD': {peso, grasa, musculo, agua, notas} }
+let current = new Date();
+let saveTimer = null;
+let saveStatus = '';
+let copiedFlag = '';
+let view = 'day'; // 'day' | 'dashboard' | 'measurements'
+let measureFormDate = isoOf(new Date());
+
+function localGet(){
+  try{
+    const v = localStorage.getItem(STORE_KEY);
+    if(v) return JSON.parse(v);
+  }catch(e){}
+  return null;
+}
+function localSet(data){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(data)); return true; }
+  catch(e){ return false; }
+}
+function localGetMeasure(){
+  try{
+    const v = localStorage.getItem(MEASURE_KEY);
+    if(v) return JSON.parse(v);
+  }catch(e){}
+  return null;
+}
+function localSetMeasure(data){
+  try{ localStorage.setItem(MEASURE_KEY, JSON.stringify(data)); return true; }
+  catch(e){ return false; }
+}
+function mergeMeasurements(a, b){
+  return {...(a||{}), ...(b||{})}; // b (importado) gana si hay choque de fecha
+}
+function mergeLogs(a, b){
+  const out = {...(a||{})};
+  Object.keys(b||{}).forEach(k=>{
+    if(!out[k]){ out[k] = b[k]; return; }
+    const score = l => {
+      let s = 0;
+      MEAL_KEYS.forEach(m=>{ if(l.meals && l.meals[m] && l.meals[m].state) s++; });
+      s += (l.workout && l.workout.exercises ? l.workout.exercises.filter(e=>e&&e.done).length : 0);
+      if(l.notes) s++;
+      if(l.coach) s++;
+      return s;
+    };
+    if(score(b[k]) > score(out[k])) out[k] = b[k];
+  });
+  return out;
+}
+
+function loadAll(){
+  allLogs = localGet() || {};
+  allMeasurements = localGetMeasure() || {};
+}
+function scheduleSave(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(doSave, 400);
+}
+function doSave(){
+  saveTimer = null;
+  const okLogs = localSet(allLogs);
+  const okMeasure = localSetMeasure(allMeasurements);
+  saveStatus = (okLogs && okMeasure) ? 'ok' : 'err';
+  updateSaveIndicator();
+}
+function updateSaveIndicator(){
+  const el = document.getElementById('saveState');
+  if(!el) return;
+  if(saveStatus==='ok'){ el.className='save-state save-ok'; el.textContent='✓ Guardado'; }
+  else if(saveStatus==='err'){ el.className='save-state save-err'; el.textContent='⚠ No se pudo guardar en este navegador'; }
+  else { el.className='save-state'; el.textContent=''; }
+}
+
+// ---------- HELPERS ----------
+function isoOf(d){
+  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function isToday(d){ return isoOf(d) === isoOf(new Date()); }
+function dowLabel(d){ return ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()]; }
+function dateLong(d){ return d.toLocaleDateString('es-GT',{ day:'numeric', month:'long' }); }
+
+function emptyLog(){
+  const meals = {};
+  MEAL_KEYS.forEach(k=> meals[k] = {state:null, detail:''});
+  return { meals, workout:{ exercises: [] }, notes:'', coach:'' };
+}
+function getLog(d){
+  const k = isoOf(d);
+  if(!allLogs[k]) allLogs[k] = emptyLog();
+  const l = allLogs[k];
+  MEAL_KEYS.forEach(mk=>{ if(!l.meals[mk]) l.meals[mk] = {state:null, detail:''}; });
+  if(l.notes === undefined) l.notes = '';
+  if(l.coach === undefined) l.coach = '';
+  return l;
+}
+
+function progressOf(log, dow){
+  const wk = WORKOUT[dow];
+  let total = MEAL_KEYS.length, done = 0;
+  MEAL_KEYS.forEach(k=>{ if(log.meals && log.meals[k] && log.meals[k].state) done++; });
+  if(wk){
+    total += wk.ex.length;
+    done += (log.workout && log.workout.exercises ? log.workout.exercises.filter(e=>e&&e.done).length : 0);
+  }
+  return { pct: total? Math.round((done/total)*100):0, done, total };
+}
+
+function computeDashboardStats(){
+  const dates = Object.keys(allLogs).sort();
+  let mealsPlan=0, mealsOther=0, mealsEmpty=0;
+  let exDone=0, exTotal=0;
+  let pctSum=0, daysCounted=0;
+
+  dates.forEach(dateStr=>{
+    const [y,m,d] = dateStr.split('-').map(Number);
+    const dt = new Date(y, m-1, d);
+    const dow = dt.getDay();
+    const log = allLogs[dateStr];
+    if(!log) return;
+    MEAL_KEYS.forEach(k=>{
+      const st = log.meals && log.meals[k] ? log.meals[k].state : null;
+      if(st==='plan') mealsPlan++;
+      else if(st==='other') mealsOther++;
+      else mealsEmpty++;
+    });
+    const wk = WORKOUT[dow];
+    if(wk){
+      exTotal += wk.ex.length;
+      exDone += (log.workout && log.workout.exercises ? log.workout.exercises.filter(e=>e&&e.done).length : 0);
+    }
+    pctSum += progressOf(log, dow).pct;
+    daysCounted++;
+  });
+
+  let streak = 0;
+  let cursor = new Date();
+  while(true){
+    const key = isoOf(cursor);
+    const l = allLogs[key];
+    const hasSomething = l && (
+      MEAL_KEYS.some(k=> l.meals && l.meals[k] && l.meals[k].state) ||
+      (l.workout && l.workout.exercises && l.workout.exercises.some(e=>e&&e.done))
+    );
+    if(hasSomething){ streak++; cursor.setDate(cursor.getDate()-1); }
+    else break;
+  }
+
+  const avgPct = daysCounted? Math.round(pctSum/daysCounted) : 0;
+  const totalMealSlots = mealsPlan+mealsOther+mealsEmpty;
+  return { daysCounted, streak, avgPct, mealsPlan, mealsOther, mealsEmpty, totalMealSlots, exDone, exTotal };
+}
+
+function measurementDates(){
+  return Object.keys(allMeasurements).sort();
+}
+function fmtDelta(curr, prev, suffix){
+  if(prev===undefined || prev===null || prev==='' || curr===undefined || curr===null || curr==='') return '';
+  const c = parseFloat(curr), p = parseFloat(prev);
+  if(isNaN(c) || isNaN(p)) return '';
+  const diff = c - p;
+  if(Math.abs(diff) < 0.001) return `<span class="measure-delta">sin cambio</span>`;
+  const cls = diff>0 ? 'up':'down';
+  const sign = diff>0 ? '+':'';
+  return `<span class="measure-delta ${cls}">${sign}${diff.toFixed(1)}${suffix}</span>`;
+}
+
+
+function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function buildDaySummary(log, d){
+  const dow = d.getDay();
+  let lines = [`Día: ${dowLabel(d)} ${dateLong(d)}`];
+  MEAL_KEYS.forEach(k=>{
+    const m = log.meals[k];
+    let plan = null;
+    if(k==='shakepm') plan = SHAKE_PM;
+    else if(dow>=1 && dow<=6) plan = MENU[dow][k];
+    if(!m.state){ lines.push(`${MEAL_LABELS[k]}: sin registrar`); }
+    else if(m.state==='plan'){
+      const seguido = plan && (m.detail===plan || k==='shakepm');
+      lines.push(`${MEAL_LABELS[k]}: ${m.detail || plan}${seguido? ' (según plan)':' (opción del menú semanal)'}`);
+    } else {
+      lines.push(`${MEAL_LABELS[k]}: FUERA DE PLAN — ${m.detail || 'sin descripción'}`);
+    }
+  });
+  const wk = WORKOUT[dow];
+  if(!wk){ lines.push('Entrenamiento: día de descanso programado'); }
+  else{
+    const done = log.workout.exercises.filter(e=>e&&e.done).length;
+    lines.push(`Entrenamiento (${wk.grupo}): ${done} de ${wk.ex.length} ejercicios completados`);
+    wk.ex.forEach((ex,i)=>{
+      const rec = log.workout.exercises[i];
+      if(rec && rec.done) lines.push(`  ✓ ${ex.n}${rec.peso? ' — '+rec.peso+' lb':''}`);
+    });
+  }
+  if(log.notes && log.notes.trim()) lines.push(`Notas del día: ${log.notes.trim()}`);
+  return lines.join('\n');
+}
+
+async function copyText(text){
+  try{ await navigator.clipboard.writeText(text); return true; }
+  catch(e){
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e2){ return false; }
+  }
+}
+
+// ---------- RENDER ----------
+function render(){
+  const app = document.getElementById('app');
+  if(view === 'dashboard'){ app.innerHTML = renderDashboardHtml(); attachDashboardHandlers(); return; }
+  if(view === 'measurements'){ app.innerHTML = renderMeasurementsHtml(); attachMeasurementsHandlers(); return; }
+
+  const dow = current.getDay();
+  const log = getLog(current);
+  const prog = progressOf(log, dow);
+  const circumference = 2*Math.PI*30;
+  const offset = circumference - (prog.pct/100)*circumference;
+  const kcalToday = MENU[dow] ? MENU[dow].kcal : null;
+
+  let html = `
+  <div class="app-title">Project Rebuild</div>
+  <div class="top-actions">
+    <div class="top-action-btn" id="openDashboard">📊 Resumen</div>
+    <div class="top-action-btn" id="openMeasurements">📏 Medidas</div>
+  </div>
+  <div class="header">
+    <div class="nav-btn" id="prevBtn">‹</div>
+    <div class="date-block">
+      <div class="date-day">${dowLabel(current)}</div>
+      <div class="date-sub ${isToday(current)?'today-flag':''}">${isToday(current)?'Hoy · ':''}${dateLong(current)}</div>
+    </div>
+    <div class="nav-btn" id="nextBtn">›</div>
+  </div>
+
+  <div class="ring-card">
+    <div class="ring-wrap">
+      <svg viewBox="0 0 76 76">
+        <circle class="ring-bg" cx="38" cy="38" r="30"/>
+        <circle class="ring-fg" cx="38" cy="38" r="30" stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"/>
+      </svg>
+      <div class="ring-pct">${prog.pct}%</div>
+    </div>
+    <div class="ring-info">
+      <div class="ring-title">${prog.done} de ${prog.total} registrados</div>
+      <div class="ring-detail">${kcalToday? `Meta aprox. <span class="kcal">${kcalToday} kcal</span>` : 'Domingo: desayuno y cena según plan, almuerzo libre'}</div>
+      <div id="saveState" class="save-state"></div>
+    </div>
+  </div>`;
+
+  MEAL_KEYS.forEach(key=>{
+    const state = log.meals[key];
+    const isDone = !!state.state;
+    const isSundayFree = (dow===0 && key==='almuerzo');
+    const isShake = (key==='shakepm');
+    const todaysPlan = isShake ? SHAKE_PM : ((dow>=1 && dow<=6) ? MENU[dow][key] : null);
+    const opts = isShake ? null : MEAL_OPTIONS[key];
+
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">${MEAL_LABELS[key]}</div>
+        ${isDone? `<div class="clear-btn" data-meal="${key}" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${isDone?'done':''}">✓</div>
+      </div>`;
+
+    if(isSundayFree){
+      html += `<div class="plan-label">Libre — sin plan fijo</div>
+        <textarea data-meal="${key}" data-role="freetext" placeholder="¿Qué almorzaste hoy?">${escHtml(state.detail||'')}</textarea>`;
+    } else if(isShake){
+      html += `<div class="plan-text">${SHAKE_PM}</div>
+        <div class="choice-row">
+          <div class="chip ${state.state==='plan'?'active-plan':''}" data-meal="${key}" data-role="chip-plan">Lo tomé ✓</div>
+          <div class="chip ${state.state==='other'?'active-other':''}" data-meal="${key}" data-role="chip-other">Otro / no aplica</div>
+        </div>`;
+      if(state.state==='other'){
+        html += `<textarea data-meal="${key}" data-role="otherdetail" placeholder="¿Qué tomaste, o por qué no?">${escHtml(state.detail||'')}</textarea>`;
+      }
+    } else {
+      if(todaysPlan){
+        html += `<div class="plan-hint"><b>Plan de hoy:</b> ${todaysPlan}</div>`;
+      }
+      const selClass = state.state==='plan' ? 'picked-plan' : (state.state==='other' ? 'picked-other' : '');
+      html += `<select data-meal="${key}" data-role="select" class="${selClass}">
+        <option value="" ${!state.state?'selected':''}>Seleccionar...</option>`;
+      if(todaysPlan){
+        html += `<option value="${escAttr(todaysPlan)}" ${state.state==='plan'&&state.detail===todaysPlan?'selected':''}>★ Plan de hoy — ${todaysPlan}</option>`;
+      }
+      opts.forEach(o=>{
+        if(o.text === todaysPlan) return;
+        html += `<option value="${escAttr(o.text)}" ${state.state==='plan'&&state.detail===o.text?'selected':''}>(${o.day}) ${o.text}</option>`;
+      });
+      html += `<option value="__other__" ${state.state==='other'?'selected':''}>Otro (especificar)</option>
+      </select>`;
+      if(state.state==='other'){
+        html += `<textarea data-meal="${key}" data-role="otherdetail" placeholder="¿Qué comiste?">${escHtml(state.detail||'')}</textarea>`;
+      }
+    }
+    html += `</div>`;
+  });
+
+  const wk = WORKOUT[dow];
+  const doneCount = wk ? log.workout.exercises.filter(e=>e&&e.done).length : 0;
+  const allExDone = wk && wk.ex.length>0 && doneCount===wk.ex.length;
+  html += `<div class="section">
+    <div class="section-head">
+      <div class="section-title">Entrenamiento</div>
+      ${wk && doneCount>0 ? `<div class="clear-btn" data-role="clear-workout">✕ quitar todo</div>`:''}
+      <div class="section-check ${wk ? (allExDone?'done':'') : 'done'}">✓</div>
+    </div>`;
+  if(!wk){
+    html += `<div class="rest-day"><div class="big">😌</div>Día de descanso — sin entreno de tren superior programado.</div>`;
+  } else {
+    html += `<div class="wk-group">${wk.grupo}</div>`;
+    wk.ex.forEach((ex, i)=>{
+      const rec = log.workout.exercises[i] || {done:false, peso:''};
+      html += `<div class="ex-row">
+        <div class="ex-checkbox ${rec.done?'done':''}" data-exidx="${i}" data-role="excheck">✓</div>
+        <div class="ex-main">
+          <div class="ex-name ${rec.done?'done-text':''}">${ex.n}</div>
+          <div class="ex-meta">${ex.s} series × ${ex.r} reps</div>
+        </div>
+        <div>
+          <input type="number" inputmode="decimal" class="ex-weight" data-exidx="${i}" data-role="expeso" placeholder="—" value="${rec.peso||''}">
+          <div class="ex-weight-label">lb</div>
+        </div>
+      </div>`;
+    });
+  }
+  html += `</div>`;
+
+  // Coach — sin llamadas externas, solo copiar/pegar
+  html += `<div class="section coach-section">
+    <div class="section-head">
+      <div class="section-title" style="color:var(--violet)">Coach del día</div>
+    </div>
+    <div class="plan-label">Notas de hoy (opcional)</div>
+    <textarea data-role="daynotes" placeholder="Ej: no me pude levantar a entrenar / comí en la calle...">${escHtml(log.notes||'')}</textarea>
+    <button class="coach-btn" id="copySummaryBtn">Copiar resumen para el coach</button>
+    ${copiedFlag? `<div class="copied-flag">${copiedFlag}</div>`:''}
+    <div class="plan-label" style="margin-top:14px">Pega aquí la respuesta del coach (opcional)</div>
+    <textarea data-role="coachpaste" placeholder="Pega aquí lo que te respondió Claude...">${escHtml(log.coach||'')}</textarea>
+  </div>`;
+
+  html += renderStrip();
+
+  html += `<details class="backup">
+    <summary>Respaldo de datos ▾</summary>
+    <div class="backup-body">
+
+      <div class="backup-row">
+        <button class="backup-btn" id="exportBtn">Copiar respaldo</button>
+        <button class="backup-btn" id="importBtn">Restaurar respaldo</button>
+      </div>
+      <textarea id="backupBox" placeholder="Para restaurar: pega aquí tu respaldo y toca Restaurar"></textarea>
+      <div class="backup-note">Copia tu respaldo de vez en cuando y guárdalo en Notas. Si cambias de dispositivo, lo pegas aquí y recuperas todo.</div>
+    </div>
+  </details>`;
+
+  html += `<div class="footnote">Tus registros se guardan automáticamente en este dispositivo.</div>`;
+
+  app.innerHTML = html;
+  attachHandlers();
+  doSave();
+}
+
+function renderStrip(){
+  let html = `<div class="strip">`;
+  for(let i=6;i>=0;i--){
+    const d = new Date(current);
+    d.setDate(d.getDate() - i);
+    const l = allLogs[isoOf(d)];
+    const pct = l ? progressOf(l, d.getDay()).pct : 0;
+    const label = d.toLocaleDateString('es-GT',{ weekday:'short' }).slice(0,2);
+    html += `<div class="strip-day" data-jump="${isoOf(d)}">
+      <div class="strip-bar-bg"><div class="strip-bar-fill" style="height:${pct}%"></div></div>
+      <div class="strip-label ${isToday(d)?'is-today':''}">${label}</div>
+    </div>`;
+  }
+  html += `</div>`;
+  return html;
+}
+
+function attachHandlers(){
+  const log = getLog(current);
+
+  document.getElementById('openDashboard').onclick = ()=>{ view='dashboard'; render(); };
+  document.getElementById('openMeasurements').onclick = ()=>{ view='measurements'; render(); };
+
+  document.getElementById('prevBtn').onclick = ()=>{ copiedFlag=''; current.setDate(current.getDate()-1); render(); };
+  document.getElementById('nextBtn').onclick = ()=>{ copiedFlag=''; current.setDate(current.getDate()+1); render(); };
+
+  document.querySelectorAll('[data-jump]').forEach(el=>{
+    el.onclick = ()=>{
+      copiedFlag='';
+      const [y,m,d] = el.dataset.jump.split('-').map(Number);
+      current = new Date(y, m-1, d);
+      render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="clear"]').forEach(el=>{
+    el.onclick = ()=>{ log.meals[el.dataset.meal] = { state:null, detail:'' }; scheduleSave(); render(); };
+  });
+  const clearWk = document.querySelector('[data-role="clear-workout"]');
+  if(clearWk) clearWk.onclick = ()=>{ log.workout.exercises = []; scheduleSave(); render(); };
+
+  document.querySelectorAll('[data-role="chip-plan"]').forEach(el=>{
+    el.onclick = ()=>{
+      const k = el.dataset.meal;
+      if(log.meals[k].state==='plan'){ log.meals[k] = {state:null, detail:''}; }
+      else { log.meals[k] = { state:'plan', detail: SHAKE_PM }; }
+      scheduleSave(); render();
+    };
+  });
+  document.querySelectorAll('[data-role="chip-other"]').forEach(el=>{
+    el.onclick = ()=>{
+      const k = el.dataset.meal;
+      if(log.meals[k].state==='other'){ log.meals[k] = {state:null, detail:''}; }
+      else { log.meals[k] = { state:'other', detail: log.meals[k].detail||'' }; }
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="select"]').forEach(el=>{
+    el.onchange = ()=>{
+      const k = el.dataset.meal;
+      if(el.value === '__other__'){ log.meals[k] = { state:'other', detail:'' }; }
+      else if(el.value === ''){ log.meals[k] = { state:null, detail:'' }; }
+      else { log.meals[k] = { state:'plan', detail: el.value }; }
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="otherdetail"]').forEach(el=>{
+    el.oninput = ()=>{ log.meals[el.dataset.meal].detail = el.value; scheduleSave(); };
+  });
+
+  document.querySelectorAll('[data-role="freetext"]').forEach(el=>{
+    el.oninput = ()=>{
+      const k = el.dataset.meal;
+      log.meals[k] = { state: el.value.trim()? 'other':null, detail: el.value };
+      scheduleSave();
+      updateRingOnly();
+    };
+  });
+
+  const notesEl = document.querySelector('[data-role="daynotes"]');
+  if(notesEl) notesEl.oninput = ()=>{ log.notes = notesEl.value; scheduleSave(); };
+
+  const coachPasteEl = document.querySelector('[data-role="coachpaste"]');
+  if(coachPasteEl) coachPasteEl.oninput = ()=>{ log.coach = coachPasteEl.value; scheduleSave(); };
+
+  const copyBtn = document.getElementById('copySummaryBtn');
+  if(copyBtn){
+    copyBtn.onclick = async ()=>{
+      const ok = await copyText(
+        'Eres mi coach de recuperación de LCA. Con base en estos datos de mi día, dame un comentario motivador (nunca crítico) y una sugerencia para mañana:\n\n'
+        + buildDaySummary(getLog(current), current)
+      );
+      copiedFlag = ok? '✓ Copiado — pégalo en un chat de Claude' : 'No se pudo copiar automáticamente, selecciona el texto manualmente';
+      render();
+    };
+  }
+
+  document.querySelectorAll('[data-role="excheck"]').forEach(el=>{
+    el.onclick = ()=>{
+      const i = +el.dataset.exidx;
+      if(!log.workout.exercises[i]) log.workout.exercises[i] = {done:false, peso:''};
+      log.workout.exercises[i].done = !log.workout.exercises[i].done;
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="expeso"]').forEach(el=>{
+    el.oninput = ()=>{
+      const i = +el.dataset.exidx;
+      if(!log.workout.exercises[i]) log.workout.exercises[i] = {done:false, peso:''};
+      log.workout.exercises[i].peso = el.value;
+      scheduleSave();
+    };
+  });
+
+  const exportBtn = document.getElementById('exportBtn');
+  if(exportBtn){
+    exportBtn.onclick = async ()=>{
+      const ok = await copyText(JSON.stringify({ logs: allLogs, measurements: allMeasurements }));
+      exportBtn.textContent = ok? '✓ Copiado' : 'Error al copiar';
+      setTimeout(()=>{ exportBtn.textContent='Copiar respaldo'; }, 2000);
+    };
+  }
+  const importBtn = document.getElementById('importBtn');
+  if(importBtn){
+    importBtn.onclick = ()=>{
+      const box = document.getElementById('backupBox');
+      try{
+        const data = JSON.parse(box.value.trim());
+        if(typeof data !== 'object' || Array.isArray(data)) throw new Error('formato');
+        if(data.logs || data.measurements){
+          allLogs = mergeLogs(allLogs, data.logs || {});
+          allMeasurements = mergeMeasurements(allMeasurements, data.measurements || {});
+        } else {
+          // Respaldo antiguo: solo tenía los registros diarios
+          allLogs = mergeLogs(allLogs, data);
+        }
+        scheduleSave();
+        importBtn.textContent = '✓ Restaurado';
+        setTimeout(()=>{ render(); }, 800);
+      }catch(e){
+        importBtn.textContent = 'Respaldo inválido';
+        setTimeout(()=>{ importBtn.textContent='Restaurar respaldo'; }, 2000);
+      }
+    };
+  }
+}
+
+function renderDashboardHtml(){
+  const s = computeDashboardStats();
+  const planPct = s.totalMealSlots? Math.round((s.mealsPlan/s.totalMealSlots)*100) : 0;
+  const otherPct = s.totalMealSlots? Math.round((s.mealsOther/s.totalMealSlots)*100) : 0;
+  const emptyPct = 100 - planPct - otherPct;
+  const exPct = s.exTotal? Math.round((s.exDone/s.exTotal)*100) : 0;
+
+  const mDates = measurementDates();
+  let measureBlock = '';
+  if(mDates.length){
+    const first = allMeasurements[mDates[0]];
+    const last = allMeasurements[mDates[mDates.length-1]];
+    measureBlock = `
+      <div class="section">
+        <div class="section-head"><div class="section-title">Medidas — primera vs. última</div></div>
+        <div class="measure-grid-vals">
+          <div class="measure-val"><div class="n">${last.peso||'—'}</div><div class="l">Peso lb</div>${fmtDelta(last.peso, first.peso,' lb')}</div>
+          <div class="measure-val"><div class="n">${last.grasa||'—'}</div><div class="l">% Grasa</div>${fmtDelta(last.grasa, first.grasa,'%')}</div>
+          <div class="measure-val"><div class="n">${last.musculo||'—'}</div><div class="l">% Músculo</div>${fmtDelta(last.musculo, first.musculo,'%')}</div>
+          <div class="measure-val"><div class="n">${last.agua||'—'}</div><div class="l">% Agua</div>${fmtDelta(last.agua, first.agua,'%')}</div>
+        </div>
+        <div class="plan-label" style="margin-top:12px">Desde ${first.__date || mDates[0]} hasta ${last.__date || mDates[mDates.length-1]}</div>
+      </div>`;
+  }
+
+  return `
+  <div class="view-header">
+    <div class="view-title">📊 Resumen</div>
+    <div class="close-btn" id="closeDashboard">✕</div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">General</div></div>
+    <div class="stat-row"><div class="stat-label">Días registrados</div><div class="stat-value">${s.daysCounted}</div></div>
+    <div class="stat-row"><div class="stat-label">Racha actual</div><div class="stat-value teal">${s.streak} ${s.streak===1?'día':'días'}</div></div>
+    <div class="stat-row"><div class="stat-label">Cumplimiento promedio</div><div class="stat-value ${s.avgPct>=70?'teal':'amber'}">${s.avgPct}%</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">Comidas registradas</div></div>
+    ${s.totalMealSlots? `
+      <div class="bar-compare">
+        <div class="bar-seg-plan" style="width:${planPct}%"></div>
+        <div class="bar-seg-other" style="width:${otherPct}%"></div>
+        <div class="bar-seg-empty" style="width:${emptyPct}%"></div>
+      </div>
+      <div class="bar-legend">
+        <span><span class="dot teal"></span>Según plan: ${s.mealsPlan}</span>
+        <span><span class="dot amber"></span>Fuera de plan: ${s.mealsOther}</span>
+        <span><span class="dot empty"></span>Sin registrar: ${s.mealsEmpty}</span>
+      </div>` : `<div class="empty-hint">Todavía no hay comidas registradas.</div>`}
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">Entrenamiento</div></div>
+    ${s.exTotal? `
+      <div class="stat-row"><div class="stat-label">Ejercicios completados</div><div class="stat-value teal">${s.exDone} de ${s.exTotal}</div></div>
+      <div class="stat-row"><div class="stat-label">Cumplimiento</div><div class="stat-value">${exPct}%</div></div>
+    ` : `<div class="empty-hint">Todavía no hay días de entreno registrados.</div>`}
+  </div>
+
+  ${measureBlock}
+
+  <div class="footnote">Estadísticas calculadas sobre todos tus días registrados en este dispositivo.</div>
+  `;
+}
+
+function attachDashboardHandlers(){
+  document.getElementById('closeDashboard').onclick = ()=>{ view='day'; render(); };
+}
+
+function renderMeasurementsHtml(){
+  const dates = measurementDates().slice().reverse(); // más reciente primero
+  let listHtml = '';
+  if(!dates.length){
+    listHtml = `<div class="empty-hint">Todavía no tienes medidas registradas.<br>Agrega la primera arriba para empezar a comparar.</div>`;
+  } else {
+    dates.forEach((dt, idx)=>{
+      const entry = allMeasurements[dt];
+      const prevDate = dates[idx+1]; // el anterior cronológicamente (siguiente en el arreglo invertido)
+      const prev = prevDate ? allMeasurements[prevDate] : null;
+      const isLatest = idx===0;
+      listHtml += `<div class="measure-entry">
+        <div class="measure-entry-date ${isLatest?'is-latest':''}">${dt}${isLatest?' · más reciente':''}</div>
+        <div class="measure-grid-vals">
+          <div class="measure-val"><div class="n">${entry.peso||'—'}</div><div class="l">Peso lb</div>${prev?fmtDelta(entry.peso, prev.peso,' lb'):''}</div>
+          <div class="measure-val"><div class="n">${entry.grasa||'—'}</div><div class="l">% Grasa</div>${prev?fmtDelta(entry.grasa, prev.grasa,'%'):''}</div>
+          <div class="measure-val"><div class="n">${entry.musculo||'—'}</div><div class="l">% Músculo</div>${prev?fmtDelta(entry.musculo, prev.musculo,'%'):''}</div>
+          <div class="measure-val"><div class="n">${entry.agua||'—'}</div><div class="l">% Agua</div>${prev?fmtDelta(entry.agua, prev.agua,'%'):''}</div>
+        </div>
+        ${entry.notas? `<div class="plan-hint" style="margin-top:8px">${escHtml(entry.notas)}</div>`:''}
+        <div class="measure-del-btn" data-role="delmeasure" data-date="${dt}">✕ eliminar</div>
+      </div>`;
+    });
+  }
+
+  return `
+  <div class="view-header">
+    <div class="view-title">📏 Medidas</div>
+    <div class="close-btn" id="closeMeasurements">✕</div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">Nueva medición</div></div>
+    <div class="measure-field" style="margin-bottom:10px">
+      <label>Fecha</label>
+      <input type="date" id="measureDate" value="${escAttr(measureFormDate)}">
+    </div>
+    <div class="measure-form-grid">
+      <div class="measure-field"><label>Peso (lb)</label><input type="number" inputmode="decimal" id="measurePeso" placeholder="Ej: 173"></div>
+      <div class="measure-field"><label>% Grasa</label><input type="number" inputmode="decimal" id="measureGrasa" placeholder="Ej: 18.2"></div>
+      <div class="measure-field"><label>% Músculo</label><input type="number" inputmode="decimal" id="measureMusculo" placeholder="Ej: 41.0"></div>
+      <div class="measure-field"><label>% Agua</label><input type="number" inputmode="decimal" id="measureAgua" placeholder="Ej: 55.0"></div>
+    </div>
+    <div class="measure-field" style="margin-top:10px">
+      <label>Notas (opcional)</label>
+      <textarea id="measureNotas" placeholder="Ej: medido en ayunas, báscula X"></textarea>
+    </div>
+    <button class="measure-save-btn" id="saveMeasureBtn">Guardar medición</button>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">Historial</div></div>
+    ${listHtml}
+  </div>
+  `;
+}
+
+function attachMeasurementsHandlers(){
+  document.getElementById('closeMeasurements').onclick = ()=>{ view='day'; render(); };
+
+  const dateInput = document.getElementById('measureDate');
+  if(dateInput) dateInput.onchange = ()=>{ measureFormDate = dateInput.value; };
+
+  document.getElementById('saveMeasureBtn').onclick = ()=>{
+    const dateVal = document.getElementById('measureDate').value || measureFormDate;
+    const peso = document.getElementById('measurePeso').value;
+    const grasa = document.getElementById('measureGrasa').value;
+    const musculo = document.getElementById('measureMusculo').value;
+    const agua = document.getElementById('measureAgua').value;
+    const notas = document.getElementById('measureNotas').value;
+    if(!peso && !grasa && !musculo && !agua){
+      alert('Agrega al menos un valor (peso, grasa, músculo o agua) antes de guardar.');
+      return;
+    }
+    allMeasurements[dateVal] = { peso, grasa, musculo, agua, notas, __date: dateVal };
+    scheduleSave();
+    render();
+  };
+
+  document.querySelectorAll('[data-role="delmeasure"]').forEach(el=>{
+    el.onclick = ()=>{
+      delete allMeasurements[el.dataset.date];
+      scheduleSave();
+      render();
+    };
+  });
+}
+
+function updateRingOnly(){
+  const prog = progressOf(getLog(current), current.getDay());
+  const circumference = 2*Math.PI*30;
+  const offset = circumference - (prog.pct/100)*circumference;
+  const ringFg = document.querySelector('.ring-fg');
+  const ringPct = document.querySelector('.ring-pct');
+  const ringTitle = document.querySelector('.ring-title');
+  if(ringFg) ringFg.setAttribute('stroke-dashoffset', offset);
+  if(ringPct) ringPct.textContent = prog.pct + '%';
+  if(ringTitle) ringTitle.textContent = `${prog.done} de ${prog.total} registrados`;
+}
+
+loadAll();
+render();
+</script>
+</body>
+</html>
+
+
+    
