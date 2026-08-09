@@ -16,6 +16,8 @@
     --amber-dim: rgba(245,166,91,0.15);
     --violet: #A78BFA;
     --violet-dim: rgba(167,139,250,0.12);
+    --blue: #63B3ED;
+    --blue-dim: rgba(99,179,237,0.15);
     --text: #EDEFF2;
     --text-mute: #8B93A1;
     --text-faint: #565D6B;
@@ -30,7 +32,8 @@
   }
   #app{ max-width: 480px; margin: 0 auto; padding: 20px 16px 48px; min-height: 100dvh; }
 
-  .app-title{ text-align:center; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-faint); margin-bottom:14px; font-weight:700; }
+  .app-title{ text-align:center; font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--text-faint); margin-bottom:2px; font-weight:700; }
+  .app-subtitle{ text-align:center; font-size:11px; color:var(--text-faint); margin-bottom:14px; }
 
   .header{ display:flex; align-items:center; justify-content:space-between; margin-bottom: 20px; }
   .nav-btn{
@@ -85,12 +88,14 @@
   .plan-hint b{ color: var(--teal); font-weight:600; }
   .plan-label{ font-size:11px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:5px; }
   .plan-text{ font-size:14px; line-height:1.5; margin-bottom:12px; }
+  .info-note{ font-size:11.5px; color: var(--text-faint); line-height:1.55; margin-bottom:10px; background:#10131A; border-radius:10px; padding:9px 11px; }
+  .info-note b{ color:var(--text-mute); }
 
-  select, textarea{
+  select, textarea, input[type="number"], input[type="date"]{
     width:100%; background: #10131A; border:1px solid var(--card-border); color: var(--text);
     border-radius:10px; padding:11px 12px; font-size:14px; font-family:inherit; outline:none;
   }
-  select:focus, textarea:focus{ border-color: var(--teal); }
+  select:focus, textarea:focus, input:focus{ border-color: var(--teal); }
   textarea{ resize:vertical; min-height:56px; margin-top:8px; }
   select{ appearance:none; -webkit-appearance:none; padding-right:34px; background-image:
     linear-gradient(45deg, transparent 50%, var(--text-mute) 50%), linear-gradient(135deg, var(--text-mute) 50%, transparent 50%);
@@ -99,15 +104,23 @@
   select.picked-plan{ border-color: var(--teal); }
   select.picked-other{ border-color: var(--amber); }
 
-  .choice-row{ display:flex; gap:8px; }
+  .choice-row{ display:flex; gap:8px; flex-wrap:wrap; }
   .chip{
     flex:1; text-align:center; padding:10px 6px; border-radius:10px; font-size:12.5px; font-weight:600;
-    border:1px solid var(--card-border); color: var(--text-mute); cursor:pointer; background:transparent;
+    border:1px solid var(--card-border); color: var(--text-mute); cursor:pointer; background:transparent; min-width:70px;
   }
   .chip.active-plan{ background: var(--teal-dim); border-color: var(--teal); color: var(--teal); }
   .chip.active-other{ background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .chip.active-blue{ background: var(--blue-dim); border-color: var(--blue); color: var(--blue); }
+  .chip.active-danger{ background: rgba(229,112,122,0.15); border-color: var(--danger); color: var(--danger); }
+  .chip.small{ font-size:11.5px; padding:8px 5px; }
+
+  .daytype-row .chip{ font-size:12px; line-height:1.3; padding:10px 4px; }
+  .daytype-sub{ font-size:10px; opacity:0.8; display:block; margin-top:2px; font-weight:500; }
 
   .wk-group{ font-size:12px; color: var(--amber); font-weight:600; margin-bottom:10px; }
+  .wod-head{ font-size:11px; color: var(--violet); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; margin:14px 0 4px; }
+  .wod-head:first-of-type{ margin-top:0; }
   .ex-row{ display:flex; align-items:center; gap:10px; padding:10px 0; border-top:1px solid var(--card-border); }
   .ex-row:first-of-type{ border-top:none; padding-top:0; }
   .ex-checkbox{
@@ -184,6 +197,7 @@
   .stat-value{ font-size:16px; font-weight:700; }
   .stat-value.teal{ color: var(--teal); }
   .stat-value.amber{ color: var(--amber); }
+  .stat-value.blue{ color: var(--blue); }
 
   .bar-compare{ display:flex; height:10px; border-radius:6px; overflow:hidden; margin:10px 0 6px; background:#10131A; }
   .bar-seg-plan{ background: var(--teal); }
@@ -197,6 +211,10 @@
   .dot.empty{ background: var(--card-border); }
 
   .empty-hint{ text-align:center; color: var(--text-faint); font-size:13px; padding:20px 0; line-height:1.6; }
+
+  /* Metrics */
+  .metrics-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+  .metric-field label{ font-size:11px; color: var(--text-faint); text-transform:uppercase; letter-spacing:0.04em; display:block; margin-bottom:5px; }
 
   /* Measurements */
   .measure-form-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
@@ -233,101 +251,148 @@
 <div id="app"></div>
 
 <script>
-// ---------- MENU DATA ----------
-const SHAKE_PM = 'Leche de almendra + colágeno + peanut powder';
-const MENU = {
-  1: { name:'Lunes', kcal:2200,
-    desayuno:'3 huevos + 2 claras + 1 rebanada pan masa madre + vegetales',
-    almuerzo:'200 g pollo + 300 g vegetales + 2 tortillas + sopa de zanahoria',
-    refaccion:'200 g yogurt griego + fresas',
-    cena:'200 g pollo + 300 g vegetales' },
-  2: { name:'Martes', kcal:2200,
-    desayuno:'2 huevos + 3 claras + 100 g panela + 1 rebanada pan masa madre + 1/4 aguacate',
-    almuerzo:'200 g fajitas de pollo + 300 g vegetales + 2 tortillas + sopa de zanahoria',
-    refaccion:'200 g yogurt griego + arándanos',
-    cena:'200 g fajitas de pollo + 300 g vegetales' },
-  3: { name:'Miércoles', kcal:2250,
-    desayuno:'2 huevos + 2 claras + 1/2 taza frijoles + 2 tortillas + pico de gallo',
-    almuerzo:'200 g fajitas de res + 300 g vegetales + 2 tortillas + sopa de zanahoria',
-    refaccion:'200 g yogurt griego + canela',
-    cena:'200 g carne de res + 300 g vegetales' },
-  4: { name:'Jueves', kcal:2200,
-    desayuno:'100 g panela + 2 rebanadas pan masa madre + 1/4 aguacate + tomate',
-    almuerzo:'200 g hamburguesa de pollo + pan masa madre + vegetales + sopa',
-    refaccion:'200 g yogurt griego + fresas',
-    cena:'200 g hamburguesa de pollo + 300 g vegetales' },
-  5: { name:'Viernes', kcal:2200,
-    desayuno:'2 huevos + 3 claras + 100 g panela + 2 tortillas',
-    almuerzo:'200 g hamburguesa de pavo + pan masa madre + vegetales + sopa',
-    refaccion:'200 g yogurt griego + arándanos',
-    cena:'200 g hamburguesa de pavo + 300 g vegetales' },
-  6: { name:'Sábado', kcal:2150,
-    desayuno:'3 huevos + 100 g panela + 2 rebanadas pan masa madre + 1/4 aguacate',
-    almuerzo:'200 g pollo + 300 g vegetales + sin carbohidratos + sopa',
-    refaccion:'200 g yogurt griego + fresas',
-    cena:'300 g yogurt griego + frutos rojos' },
+// =========================================================
+// PLAN FASE LCA — AGOSTO A DICIEMBRE 2026
+// =========================================================
+
+// ---------- CLASIFICACIÓN DE DÍAS ----------
+const DAY_TYPES = {
+  A: { key:'A', label:'Día A', sub:'Fuerza', kcalMin:1950, kcalMax:2050, desc:'Mantener músculo, aumentar gasto energético, mejorar recuperación.' },
+  B: { key:'B', label:'Día B', sub:'Descanso', kcalMin:1800, kcalMax:1900, desc:'Mantener déficit, recuperación.' },
+  C: { key:'C', label:'Día C', sub:'Social', kcalMin:1900, kcalMax:2200, desc:'Mantener adherencia, disfrutar vida social, evitar excesos.' },
+};
+// Sugerencia por defecto según día de la semana (editable cada día): Lun-Vie entreno = A, Sábado = B, Domingo = C.
+const DEFAULT_DAYTYPE_BY_DOW = { 0:'C', 1:'A', 2:'A', 3:'A', 4:'A', 5:'A', 6:'B' };
+
+// ---------- PRE / DURANTE / POST ENTRENO (solo Día A) ----------
+const PRE_ENTRENO = {
+  horario: '4:45 – 5:00 am',
+  objetivo: '50-80 kcal',
+  opciones: [
+    { key:'A', text:'Café negro + 1/2 banano' },
+    { key:'B', text:'Café negro + 1 rice cake' },
+    { key:'C', text:'Café negro + 1 rebanada masa madre' },
+  ],
+};
+const ELECTROLITOS_ENTRENO = '750 ml agua + 1/4 cdta sal + jugo de 1/2 limón + stevia opcional — consumir durante el entrenamiento.';
+const POST_ENTRENO = { texto:'1 scoop whey + 1/2 banano restante + 5 g creatina monohidratada', ventana:'dentro de los primeros 30 minutos', objetivo:'170-200 kcal' };
+
+// ---------- COMIDAS ----------
+const DESAYUNOS = [
+  { n:'Opción 1 · Panela + Yogurt', d:'2 rebanadas pan masa madre, 60 g queso panela, 1/3 aguacate, tomate, 200 g yogurt griego, 75 g fresas, 15 g chocolate chips', kcal:'550-600 kcal' },
+  { n:'Opción 2 · Huevos Tibios', d:'2 huevos tibios, 2 rebanadas pan masa madre, 40 g queso panela, tomate, 200 g yogurt griego, 75 g fresas, 15 g chocolate chips', kcal:'550-600 kcal' },
+  { n:'Opción 3 · Huevos + Frijoles', d:'2 huevos, 2 claras, 1/2 taza frijol cocido, 2 rebanadas pan masa madre, pico de gallo, 150 g yogurt griego', kcal:'550-600 kcal' },
+  { n:'Opción 4 · Tostadas de Pollo', d:'100 g pollo desmenuzado, 2 rebanadas pan masa madre, 1/4 aguacate, tomate, 200 g yogurt griego', kcal:'500-550 kcal' },
+];
+const ALMUERZOS = [
+  { n:'Opción 1', d:'200 g pollo, 3 tortillas maíz, 2-3 tazas vegetales, 1/4 aguacate' },
+  { n:'Opción 2', d:'200 g carne magra, 3 tortillas maíz, 2-3 tazas vegetales, 1/4 aguacate' },
+  { n:'Opción 3', d:'200 g pollo, 1/2 taza arroz cocido, 2-3 tazas vegetales' },
+  { n:'Opción 4', d:'200 g fajitas de res, vegetales abundantes, 3 tortillas maíz' },
+];
+const CENAS = [
+  { n:'Opción 1', d:'150 g pollo, 2 tortillas maíz, 30 g mozzarella light + 200 g yogurt griego + 75 g fresas' },
+  { n:'Opción 2', d:'200 g pollo, vegetales abundantes + yogurt griego' },
+  { n:'Opción 3', d:'Hamburguesa de pollo, vegetales, sin papas' },
+];
+const SHAKE_PM = 'Leche de almendra + colágeno + peanut powder (120-150 kcal)';
+
+const ANXIETY_PROTOCOL = [
+  { lvl:1, d:'Café + agua. Esperar 10 minutos.' },
+  { lvl:2, d:'1 bolsa popcorn (60 kcal). Esperar 15 minutos.' },
+  { lvl:3, d:'200 g yogurt griego + canela. Esperar 15 minutos.' },
+  { lvl:4, d:'Elegir UNA: 15 g chocolate oscuro / cookie proteica individual / 150 g fresas.' },
+];
+
+// ---------- DÍA SOCIAL ----------
+const SOCIAL_DAY = {
+  almuerzoReglas: ['Priorizar proteína', 'Comer sentado', 'Comer despacio', 'Una sola porción'],
+  almuerzoEjemplos: ['Parrillada', 'Hamburguesa', 'Pizza 3-4 slices', 'Pupusas', 'Comida familiar'],
+  snacks: ['Popcorn 60 kcal', 'Yogurt griego', 'Fresas', 'Cookie proteica', 'Chocolate oscuro 15 g'],
+  snacksMax: 2,
+  postre: ['Cookie proteica', 'Jar individual', 'Postre familiar pequeño'],
+  cena: 'Si no hay hambre: saltar cena. Si hay hambre: yogurt griego + fresas.',
 };
 
-function optionsFor(mealKey){
-  const seen = new Set(); const out = [];
-  [1,2,3,4,5,6].forEach(d=>{
-    const v = MENU[d][mealKey];
-    if(!seen.has(v)){ seen.add(v); out.push({ text:v, day: MENU[d].name }); }
-  });
-  return out;
-}
-const MEAL_OPTIONS = {
-  desayuno: optionsFor('desayuno'),
-  almuerzo: optionsFor('almuerzo'),
-  refaccion: optionsFor('refaccion'),
-  cena: optionsFor('cena'),
+// ---------- HIDRATACIÓN / ELECTROLITOS ----------
+const HIDRATACION = { minL:2.5, maxL:3.5 };
+const DOLOR_CABEZA_PROTOCOLO = {
+  a: '500 ml agua + 1/8 a 1/4 cdta sal + limón',
+  b: '1 Gatorade Zero',
+  maxElectrolitos: 2,
 };
 
-const MEAL_KEYS = ['desayuno','almuerzo','shakepm','refaccion','cena'];
-const MEAL_LABELS = { desayuno:'Desayuno', almuerzo:'Almuerzo', shakepm:'Shake PM', refaccion:'Refacción', cena:'Cena' };
+// ---------- CREATINA ----------
+const CREATINA_TEXTO = '5 g creatina monohidratada todos los días — en Día A junto al whey post-entreno, en días de descanso con desayuno o almuerzo.';
 
+// ---------- ENTRENAMIENTO (Lunes a Viernes, formato Mini WOD) ----------
+// Cada Mini WOD: 12 min, 3 ejercicios, 3 rondas, 60s descanso entre rondas, subir peso cada ronda. ~45 min total.
 const WORKOUT = {
-  1: { grupo:'Pecho + Tríceps', ex:[
-      {n:'Press banca sentado/acostado', s:'4', r:'8-10'},
-      {n:'Press inclinado con mancuernas', s:'3', r:'10-12'},
-      {n:'Aperturas en máquina o banco', s:'3', r:'12-15'},
-      {n:'Jalón de tríceps en polea', s:'3', r:'10-12'},
-      {n:'Extensión de tríceps sobre cabeza', s:'3', r:'12-15'},
-      {n:'Pallof Press (core)', s:'3', r:'12/lado'} ]},
-  2: { grupo:'Espalda + Bíceps', ex:[
-      {n:'Jalón al pecho', s:'4', r:'8-10'},
-      {n:'Remo sentado', s:'4', r:'10-12'},
-      {n:'Remo pecho apoyado', s:'3', r:'10-12'},
-      {n:'Face Pull', s:'3', r:'15'},
-      {n:'Curl con barra', s:'3', r:'10-12'},
-      {n:'Curl martillo', s:'3', r:'12'} ]},
-  3: { grupo:'Hombros', ex:[
-      {n:'Press militar sentado', s:'4', r:'8-10'},
-      {n:'Elevaciones laterales', s:'4', r:'12-15'},
-      {n:'Elevaciones frontales', s:'3', r:'12'},
-      {n:'Pájaros', s:'3', r:'15'},
-      {n:'Encogimientos de trapecio', s:'4', r:'12'},
-      {n:'Dead Bug (core)', s:'3', r:'12/lado'} ]},
-  4: { grupo:'Pecho + Espalda', ex:[
-      {n:'Press banca', s:'3', r:'10'},
-      {n:'Jalón al pecho', s:'3', r:'10'},
-      {n:'Press inclinado', s:'3', r:'12'},
-      {n:'Remo sentado', s:'3', r:'12'},
-      {n:'Aperturas', s:'3', r:'15'},
-      {n:'Face Pull', s:'3', r:'15'} ]},
-  5: { grupo:'Brazos', ex:[
-      {n:'Curl con barra', s:'4', r:'10'},
-      {n:'Curl inclinado', s:'3', r:'12'},
-      {n:'Jalón de tríceps', s:'4', r:'10'},
-      {n:'Extensión de tríceps con cuerda', s:'3', r:'12'},
-      {n:'Elevaciones laterales', s:'3', r:'15'},
-      {n:'Bird Dog (core)', s:'3', r:'12/lado'} ]},
+  1: { grupo:'Pecho + Tríceps + Core Fuerte', ex:[
+      {wod:1, n:'Bench Press', r:'12'},
+      {wod:1, n:'Sit Ups', r:'20'},
+      {wod:1, n:'Jalón Tríceps', r:'12'},
+      {wod:2, n:'Press Inclinado Mancuernas', r:'12'},
+      {wod:2, n:'Russian Twist', r:'20'},
+      {wod:2, n:'Extensión Tríceps Cuerda', r:'12'},
+      {wod:3, n:'Chest Press Máquina', r:'12'},
+      {wod:3, n:'Plancha', r:'45 seg'},
+      {wod:3, n:'Fondos Asistidos', r:'12'} ]},
+  2: { grupo:'Espalda + Bíceps + Core Estabilidad', ex:[
+      {wod:1, n:'Jalón al pecho', r:'12'},
+      {wod:1, n:'Dead Bug', r:'12/lado'},
+      {wod:1, n:'Curl Bíceps', r:'12'},
+      {wod:2, n:'Remo Sentado', r:'12'},
+      {wod:2, n:'Bird Dog', r:'12/lado'},
+      {wod:2, n:'Curl Martillo', r:'12'},
+      {wod:3, n:'Remo Pecho Apoyado', r:'12'},
+      {wod:3, n:'Plancha', r:'45 seg'},
+      {wod:3, n:'Curl EZ', r:'12'} ]},
+  3: { grupo:'Hombro + Core Fuerte', ex:[
+      {wod:1, n:'Press Militar', r:'12'},
+      {wod:1, n:'Sit Ups', r:'20'},
+      {wod:1, n:'Elevaciones Laterales', r:'15'},
+      {wod:2, n:'Arnold Press', r:'12'},
+      {wod:2, n:'Russian Twist', r:'20'},
+      {wod:2, n:'Elevaciones Frontales', r:'15'},
+      {wod:3, n:'Face Pull', r:'15'},
+      {wod:3, n:'Plancha', r:'45 seg'},
+      {wod:3, n:'Reverse Fly', r:'15'} ]},
+  4: { grupo:'Espalda + Pecho Ligero + Core Estabilidad', ex:[
+      {wod:1, n:'Jalón al pecho', r:'12'},
+      {wod:1, n:'Dead Bug', r:'12/lado'},
+      {wod:1, n:'Push Up Inclinado', r:'12'},
+      {wod:2, n:'Remo Máquina', r:'12'},
+      {wod:2, n:'Pallof Press', r:'12/lado'},
+      {wod:2, n:'Press Máquina', r:'12'},
+      {wod:3, n:'Pullover Polea', r:'12'},
+      {wod:3, n:'Plancha Lateral', r:'30s/lado'},
+      {wod:3, n:'Aperturas Máquina', r:'15'} ]},
+  5: { grupo:'Brazos + Core Fuerte', ex:[
+      {wod:1, n:'Curl Bíceps', r:'12'},
+      {wod:1, n:'Sit Ups', r:'20'},
+      {wod:1, n:'Jalón Tríceps', r:'12'},
+      {wod:2, n:'Curl Martillo', r:'12'},
+      {wod:2, n:'Russian Twist', r:'20'},
+      {wod:2, n:'Extensión Tríceps', r:'12'},
+      {wod:3, n:'Curl EZ', r:'12'},
+      {wod:3, n:'Plancha', r:'45 seg'},
+      {wod:3, n:'Fondos Asistidos', r:'12'} ]},
   6: null,
   0: null,
 };
+const WOD_FORMAT_NOTE = 'Formato Mini WOD: 12 min · 3 ejercicios · 3 rondas · 60 seg descanso entre rondas · subir peso cada ronda. ~45 min total.';
+
+const CARDIO_OPCIONAL = {
+  nota: 'Solo si la rodilla está sin dolor.',
+  opciones: ['Ski Erg 8 min', 'Air Bike (brazos) 8 min', 'Caminadora inclinada 10 min'],
+};
+
+// ---------- META DEL PROGRAMA ----------
+const META = { lb:20, fecha:'diciembre 2026', ritmoMin:0.5, ritmoMax:1.0, cumplimientoMeta:85 };
 
 // ---------- STORAGE (100% local, sin llamadas a servidores) ----------
-const STORE_KEY = 'rebuild_logs';
+const STORE_KEY = 'rebuild_logs_v2';
 const MEASURE_KEY = 'rebuild_measurements';
 let allLogs = {};
 let allMeasurements = {}; // { 'YYYY-MM-DD': {peso, grasa, musculo, agua, notas} }
@@ -342,8 +407,7 @@ function localGet(){
   try{
     const v = localStorage.getItem(STORE_KEY);
     if(v) return JSON.parse(v);
-
-    }catch(e){}
+  }catch(e){}
   return null;
 }
 function localSet(data){
@@ -364,19 +428,19 @@ function localSetMeasure(data){
 function mergeMeasurements(a, b){
   return {...(a||{}), ...(b||{})}; // b (importado) gana si hay choque de fecha
 }
+function scoreLog(l){
+  let s = 0;
+  relevantMealKeys(dayTypeOfLog(l)).forEach(k=>{ if(l.meals && l.meals[k] && l.meals[k].state) s++; });
+  s += (l.workout && l.workout.exercises ? l.workout.exercises.filter(e=>e&&e.done).length : 0);
+  if(l.notes) s++;
+  if(l.coach) s++;
+  return s;
+}
 function mergeLogs(a, b){
   const out = {...(a||{})};
   Object.keys(b||{}).forEach(k=>{
     if(!out[k]){ out[k] = b[k]; return; }
-    const score = l => {
-      let s = 0;
-      MEAL_KEYS.forEach(m=>{ if(l.meals && l.meals[m] && l.meals[m].state) s++; });
-      s += (l.workout && l.workout.exercises ? l.workout.exercises.filter(e=>e&&e.done).length : 0);
-      if(l.notes) s++;
-      if(l.coach) s++;
-      return s;
-    };
-    if(score(b[k]) > score(out[k])) out[k] = b[k];
+    if(scoreLog(b[k]) > scoreLog(out[k])) out[k] = b[k];
   });
   return out;
 }
@@ -413,25 +477,48 @@ function isToday(d){ return isoOf(d) === isoOf(new Date()); }
 function dowLabel(d){ return ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'][d.getDay()]; }
 function dateLong(d){ return d.toLocaleDateString('es-GT',{ day:'numeric', month:'long' }); }
 
-function emptyLog(){
+function emptyLog(dow){
   const meals = {};
-  MEAL_KEYS.forEach(k=> meals[k] = {state:null, detail:''});
-  return { meals, workout:{ exercises: [] }, notes:'', coach:'' };
+  ['pre','electro','desayuno','post','almuerzo','shakepm','ansiedad','cena','socialPostre'].forEach(k=> meals[k] = {state:null, detail:''});
+  meals.socialSnacks = [];
+  return {
+    dayType: null,
+    meals,
+    workout:{ exercises: [] },
+    cardio:{ done:false, opcion:'' },
+    metrics:{ pesoAyunas:'', hambre:'', energia:'', sueno:'', dolorCabeza:'', dolorRodilla:'', agua:'', electrolitos:'', creatina:false },
+    notes:'', coach:''
+  };
 }
 function getLog(d){
   const k = isoOf(d);
-  if(!allLogs[k]) allLogs[k] = emptyLog();
+  if(!allLogs[k]) allLogs[k] = emptyLog(d.getDay());
   const l = allLogs[k];
-  MEAL_KEYS.forEach(mk=>{ if(!l.meals[mk]) l.meals[mk] = {state:null, detail:''}; });
+  ['pre','electro','desayuno','post','almuerzo','shakepm','ansiedad','cena','socialPostre'].forEach(mk=>{ if(!l.meals[mk]) l.meals[mk] = {state:null, detail:''}; });
+  if(!Array.isArray(l.meals.socialSnacks)) l.meals.socialSnacks = [];
+  if(!l.cardio) l.cardio = {done:false, opcion:''};
+  if(!l.metrics) l.metrics = {pesoAyunas:'', hambre:'', energia:'', sueno:'', dolorCabeza:'', dolorRodilla:'', agua:'', electrolitos:'', creatina:false};
+  if(l.dayType === undefined) l.dayType = null;
   if(l.notes === undefined) l.notes = '';
   if(l.coach === undefined) l.coach = '';
   return l;
 }
+function dayTypeOfLog(l){ return l && l.dayType ? l.dayType : null; }
+function dayTypeFor(d, l){ return (l && l.dayType) ? l.dayType : DEFAULT_DAYTYPE_BY_DOW[d.getDay()]; }
 
-function progressOf(log, dow){
+function relevantMealKeys(dt){
+  const base = ['desayuno','shakepm','cena'];
+  if(dt==='A') return ['pre','electro','desayuno','post','almuerzo','shakepm','cena'];
+  if(dt==='C') return ['desayuno','almuerzo','shakepm','cena'];
+  return ['desayuno','almuerzo','shakepm','cena']; // Día B
+}
+
+function progressOf(log, dow, dt){
   const wk = WORKOUT[dow];
-  let total = MEAL_KEYS.length, done = 0;
-  MEAL_KEYS.forEach(k=>{ if(log.meals && log.meals[k] && log.meals[k].state) done++; });
+  const keys = relevantMealKeys(dt);
+  let total = keys.length + 1, done = 0; // +1 por creatina
+  keys.forEach(k=>{ if(log.meals && log.meals[k] && log.meals[k].state) done++; });
+  if(log.metrics && log.metrics.creatina) done++;
   if(wk){
     total += wk.ex.length;
     done += (log.workout && log.workout.exercises ? log.workout.exercises.filter(e=>e&&e.done).length : 0);
@@ -444,6 +531,8 @@ function computeDashboardStats(){
   let mealsPlan=0, mealsOther=0, mealsEmpty=0;
   let exDone=0, exTotal=0;
   let pctSum=0, daysCounted=0;
+  let last7 = [];
+  let rodillaSum=0, rodillaN=0, suenoSum=0, suenoN=0, aguaSum=0, aguaN=0, energiaSum=0, energiaN=0;
 
   dates.forEach(dateStr=>{
     const [y,m,d] = dateStr.split('-').map(Number);
@@ -451,7 +540,8 @@ function computeDashboardStats(){
     const dow = dt.getDay();
     const log = allLogs[dateStr];
     if(!log) return;
-    MEAL_KEYS.forEach(k=>{
+    const dtype = dayTypeFor(dt, log);
+    relevantMealKeys(dtype).forEach(k=>{
       const st = log.meals && log.meals[k] ? log.meals[k].state : null;
       if(st==='plan') mealsPlan++;
       else if(st==='other') mealsOther++;
@@ -462,8 +552,16 @@ function computeDashboardStats(){
       exTotal += wk.ex.length;
       exDone += (log.workout && log.workout.exercises ? log.workout.exercises.filter(e=>e&&e.done).length : 0);
     }
-    pctSum += progressOf(log, dow).pct;
+    const pct = progressOf(log, dow, dtype).pct;
+    pctSum += pct;
     daysCounted++;
+    last7.push({dateStr, pct});
+    if(log.metrics){
+      if(log.metrics.dolorRodilla!==''){ rodillaSum += parseFloat(log.metrics.dolorRodilla)||0; rodillaN++; }
+      if(log.metrics.sueno!==''){ suenoSum += parseFloat(log.metrics.sueno)||0; suenoN++; }
+      if(log.metrics.agua!==''){ aguaSum += parseFloat(log.metrics.agua)||0; aguaN++; }
+      if(log.metrics.energia!==''){ energiaSum += parseFloat(log.metrics.energia)||0; energiaN++; }
+    }
   });
 
   let streak = 0;
@@ -472,16 +570,26 @@ function computeDashboardStats(){
     const key = isoOf(cursor);
     const l = allLogs[key];
     const hasSomething = l && (
-      MEAL_KEYS.some(k=> l.meals && l.meals[k] && l.meals[k].state) ||
+      Object.keys(l.meals||{}).some(k=> k!=='socialSnacks' && l.meals[k] && l.meals[k].state) ||
       (l.workout && l.workout.exercises && l.workout.exercises.some(e=>e&&e.done))
     );
     if(hasSomething){ streak++; cursor.setDate(cursor.getDate()-1); }
     else break;
   }
 
+  last7.sort((a,b)=> a.dateStr < b.dateStr ? 1 : -1);
+  const last7pct = last7.slice(0,7);
+  const weeklyPct = last7pct.length ? Math.round(last7pct.reduce((s,x)=>s+x.pct,0)/last7pct.length) : 0;
+
   const avgPct = daysCounted? Math.round(pctSum/daysCounted) : 0;
   const totalMealSlots = mealsPlan+mealsOther+mealsEmpty;
-  return { daysCounted, streak, avgPct, mealsPlan, mealsOther, mealsEmpty, totalMealSlots, exDone, exTotal };
+  return {
+    daysCounted, streak, avgPct, weeklyPct, mealsPlan, mealsOther, mealsEmpty, totalMealSlots, exDone, exTotal,
+    rodillaAvg: rodillaN? (rodillaSum/rodillaN).toFixed(1) : null,
+    suenoAvg: suenoN? (suenoSum/suenoN).toFixed(1) : null,
+    aguaAvg: aguaN? (aguaSum/aguaN).toFixed(1) : null,
+    energiaAvg: energiaN? (energiaSum/energiaN).toFixed(1) : null,
+  };
 }
 
 function measurementDates(){
@@ -498,28 +606,32 @@ function fmtDelta(curr, prev, suffix){
   return `<span class="measure-delta ${cls}">${sign}${diff.toFixed(1)}${suffix}</span>`;
 }
 
-
 function escAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
 function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
 function buildDaySummary(log, d){
   const dow = d.getDay();
-  let lines = [`Día: ${dowLabel(d)} ${dateLong(d)}`];
-  MEAL_KEYS.forEach(k=>{
+  const dtype = dayTypeFor(d, log);
+  const dtInfo = DAY_TYPES[dtype];
+  let lines = [`Día: ${dowLabel(d)} ${dateLong(d)} — ${dtInfo.label} (${dtInfo.sub}), meta ${dtInfo.kcalMin}-${dtInfo.kcalMax} kcal`];
+
+  const keys = relevantMealKeys(dtype);
+  const LABELS = { pre:'Pre-entreno', electro:'Electrolitos', desayuno:'Desayuno', post:'Post-entreno', almuerzo:'Almuerzo', shakepm:'Merienda PM', cena:'Cena' };
+  keys.forEach(k=>{
     const m = log.meals[k];
-    let plan = null;
-    if(k==='shakepm') plan = SHAKE_PM;
-    else if(dow>=1 && dow<=6) plan = MENU[dow][k];
-    if(!m.state){ lines.push(`${MEAL_LABELS[k]}: sin registrar`); }
-    else if(m.state==='plan'){
-      const seguido = plan && (m.detail===plan || k==='shakepm');
-      lines.push(`${MEAL_LABELS[k]}: ${m.detail || plan}${seguido? ' (según plan)':' (opción del menú semanal)'}`);
-    } else {
-      lines.push(`${MEAL_LABELS[k]}: FUERA DE PLAN — ${m.detail || 'sin descripción'}`);
-    }
+    const label = LABELS[k] || k;
+    if(!m.state){ lines.push(`${label}: sin registrar`); }
+    else if(m.state==='plan'){ lines.push(`${label}: ${m.detail || 'según plan'}`); }
+    else { lines.push(`${label}: FUERA DE PLAN — ${m.detail || 'sin descripción'}`); }
   });
+  if(dtype==='C'){
+    if(log.meals.socialSnacks.length) lines.push(`Snacks sociales: ${log.meals.socialSnacks.join(', ')}`);
+    if(log.meals.socialPostre.detail) lines.push(`Postre: ${log.meals.socialPostre.detail}`);
+  }
+  if(log.meals.ansiedad && log.meals.ansiedad.state){ lines.push(`Protocolo ansiedad usado: ${log.meals.ansiedad.detail || 'sí'}`); }
+
   const wk = WORKOUT[dow];
-  if(!wk){ lines.push('Entrenamiento: día de descanso programado'); }
+  if(!wk){ lines.push('Entrenamiento fijo: no programado hoy.'); }
   else{
     const done = log.workout.exercises.filter(e=>e&&e.done).length;
     lines.push(`Entrenamiento (${wk.grupo}): ${done} de ${wk.ex.length} ejercicios completados`);
@@ -528,6 +640,21 @@ function buildDaySummary(log, d){
       if(rec && rec.done) lines.push(`  ✓ ${ex.n}${rec.peso? ' — '+rec.peso+' lb':''}`);
     });
   }
+  if(log.cardio && log.cardio.done) lines.push(`Cardio opcional: ${log.cardio.opcion || 'realizado'}`);
+  if(log.metrics.creatina) lines.push('Creatina (5g): tomada');
+
+  const met = log.metrics;
+  let metLines = [];
+  if(met.pesoAyunas) metLines.push(`peso ayunas ${met.pesoAyunas} lb`);
+  if(met.hambre) metLines.push(`hambre ${met.hambre}/5`);
+  if(met.energia) metLines.push(`energía ${met.energia}/5`);
+  if(met.sueno) metLines.push(`sueño ${met.sueno} h`);
+  if(met.dolorCabeza) metLines.push(`dolor cabeza: ${met.dolorCabeza}`);
+  if(met.dolorRodilla!=='') metLines.push(`dolor rodilla ${met.dolorRodilla}/10`);
+  if(met.agua) metLines.push(`agua ${met.agua} L`);
+  if(met.electrolitos) metLines.push(`electrolitos ${met.electrolitos}`);
+  if(metLines.length) lines.push(`Métricas: ${metLines.join(', ')}`);
+
   if(log.notes && log.notes.trim()) lines.push(`Notas del día: ${log.notes.trim()}`);
   return lines.join('\n');
 }
@@ -554,13 +681,15 @@ function render(){
 
   const dow = current.getDay();
   const log = getLog(current);
-  const prog = progressOf(log, dow);
+  const dtype = dayTypeFor(current, log);
+  const dtInfo = DAY_TYPES[dtype];
+  const prog = progressOf(log, dow, dtype);
   const circumference = 2*Math.PI*30;
   const offset = circumference - (prog.pct/100)*circumference;
-  const kcalToday = MENU[dow] ? MENU[dow].kcal : null;
 
   let html = `
   <div class="app-title">Project Rebuild</div>
+  <div class="app-subtitle">Fase LCA · Agosto–Diciembre 2026</div>
   <div class="top-actions">
     <div class="top-action-btn" id="openDashboard">📊 Resumen</div>
     <div class="top-action-btn" id="openMeasurements">📏 Medidas</div>
@@ -584,61 +713,179 @@ function render(){
     </div>
     <div class="ring-info">
       <div class="ring-title">${prog.done} de ${prog.total} registrados</div>
-      <div class="ring-detail">${kcalToday? `Meta aprox. <span class="kcal">${kcalToday} kcal</span>` : 'Domingo: desayuno y cena según plan, almuerzo libre'}</div>
+      <div class="ring-detail">${dtInfo.label} · ${dtInfo.sub} — Meta aprox. <span class="kcal">${dtInfo.kcalMin}-${dtInfo.kcalMax} kcal</span></div>
       <div id="saveState" class="save-state"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head"><div class="section-title">Tipo de día</div></div>
+    <div class="choice-row daytype-row">
+      ${['A','B','C'].map(k=>{
+        const dInf = DAY_TYPES[k];
+        const active = dtype===k;
+        return `<div class="chip ${active?'active-plan':''}" data-role="daytype" data-val="${k}">${dInf.label}<span class="daytype-sub">${dInf.sub}</span></div>`;
+      }).join('')}
+    </div>
+    <div class="plan-hint" style="margin-top:10px; margin-bottom:0">${dtInfo.desc}</div>
+  </div>`;
+
+  // ---- PRE-ENTRENO (solo Día A) ----
+  if(dtype==='A'){
+    const st = log.meals.pre;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Pre-entreno</div>
+        ${st.state? `<div class="clear-btn" data-meal="pre" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      <div class="info-note"><b>${PRE_ENTRENO.horario}</b> · objetivo ${PRE_ENTRENO.objetivo}</div>
+      <div class="choice-row">
+        ${PRE_ENTRENO.opciones.map(o=>`<div class="chip ${st.detail===o.text?'active-plan':''}" data-meal="pre" data-role="pre-opt" data-val="${escAttr(o.text)}">${o.key}</div>`).join('')}
+      </div>
+      <div class="plan-text" style="margin-top:10px; margin-bottom:0">${st.detail || 'Selecciona una opción arriba'}</div>
+    </div>`;
+  }
+
+  // ---- ELECTROLITOS DURANTE ENTRENO (solo Día A) ----
+  if(dtype==='A'){
+    const st = log.meals.electro;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Electrolitos (durante entreno)</div>
+        <div class="section-check ${st.state==='plan'?'done':''}">✓</div>
+      </div>
+      <div class="plan-text">${ELECTROLITOS_ENTRENO}</div>
+      <div class="choice-row">
+        <div class="chip ${st.state==='plan'?'active-plan':''}" data-meal="electro" data-role="chip-plan">Lo tomé ✓</div>
+        <div class="chip ${st.state==='other'?'active-other':''}" data-meal="electro" data-role="chip-other">No aplicó</div>
+      </div>
+    </div>`;
+  }
+
+  // ---- DESAYUNO ----
+  html += renderOptionMeal('desayuno', 'Desayuno', DESAYUNOS, log);
+
+  // ---- POST-ENTRENO (solo Día A) ----
+  if(dtype==='A'){
+    const st = log.meals.post;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Post-entreno</div>
+        ${st.state? `<div class="clear-btn" data-meal="post" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      <div class="info-note">${POST_ENTRENO.ventana} · objetivo ${POST_ENTRENO.objetivo}</div>
+      <div class="plan-text">${POST_ENTRENO.texto}</div>
+      <div class="choice-row">
+        <div class="chip ${st.state==='plan'?'active-plan':''}" data-meal="post" data-role="chip-plan">Lo tomé ✓</div>
+        <div class="chip ${st.state==='other'?'active-other':''}" data-meal="post" data-role="chip-other">Otro / no aplica</div>
+      </div>
+      ${st.state==='other'? `<textarea data-meal="post" data-role="otherdetail" placeholder="¿Qué tomaste, o por qué no?">${escHtml(st.detail||'')}</textarea>`:''}
+    </div>`;
+  }
+
+  // ---- ALMUERZO ----
+  if(dtype==='C'){
+    const st = log.meals.almuerzo;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Almuerzo libre controlado</div>
+        ${st.detail? `<div class="clear-btn" data-meal="almuerzo" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      <div class="info-note"><b>Reglas:</b> ${SOCIAL_DAY.almuerzoReglas.join(' · ')}</div>
+      <div class="plan-hint"><b>Ejemplos:</b> ${SOCIAL_DAY.almuerzoEjemplos.join(', ')}</div>
+      <textarea data-meal="almuerzo" data-role="freetext" placeholder="¿Qué almorzaste hoy?">${escHtml(st.detail||'')}</textarea>
+    </div>`;
+  } else {
+    html += renderOptionMeal('almuerzo', 'Almuerzo', ALMUERZOS, log);
+  }
+
+  // ---- MERIENDA PM (shake) ----
+  {
+    const st = log.meals.shakepm;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Merienda PM</div>
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      <div class="plan-text">${SHAKE_PM}</div>
+      <div class="choice-row">
+        <div class="chip ${st.state==='plan'?'active-plan':''}" data-meal="shakepm" data-role="chip-plan">Lo tomé ✓</div>
+        <div class="chip ${st.state==='other'?'active-other':''}" data-meal="shakepm" data-role="chip-other">Otro / no aplica</div>
+      </div>
+      ${st.state==='other'? `<textarea data-meal="shakepm" data-role="otherdetail" placeholder="¿Qué tomaste, o por qué no?">${escHtml(st.detail||'')}</textarea>`:''}
+    </div>`;
+  }
+
+  // ---- PROTOCOLO ANSIEDAD (referencia + log opcional) ----
+  {
+    const st = log.meals.ansiedad;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Protocolo ansiedad</div>
+        ${st.state? `<div class="clear-btn" data-meal="ansiedad" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      ${ANXIETY_PROTOCOL.map(p=>`<div class="info-note"><b>Nivel ${p.lvl}:</b> ${p.d}</div>`).join('')}
+      <div class="plan-label" style="margin-top:6px">¿Usaste el protocolo hoy? (opcional)</div>
+      <div class="choice-row">
+        ${[1,2,3,4].map(lvl=>`<div class="chip small ${st.detail==='Nivel '+lvl?'active-blue':''}" data-meal="ansiedad" data-role="anx-lvl" data-val="Nivel ${lvl}">Nv ${lvl}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // ---- SNACKS SOCIALES + POSTRE (solo Día C) ----
+  if(dtype==='C'){
+    html += `<div class="section">
+      <div class="section-head"><div class="section-title">Snacks sociales (máx. ${SOCIAL_DAY.snacksMax})</div></div>
+      <div class="choice-row">
+        ${SOCIAL_DAY.snacks.map(s=>`<div class="chip small ${log.meals.socialSnacks.includes(s)?'active-plan':''}" data-role="social-snack" data-val="${escAttr(s)}">${s}</div>`).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><div class="section-title">Postre (elegir solo uno)</div></div>
+      <div class="choice-row">
+        ${SOCIAL_DAY.postre.map(p=>`<div class="chip small ${log.meals.socialPostre.detail===p?'active-plan':''}" data-role="social-postre" data-val="${escAttr(p)}">${p}</div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // ---- CENA ----
+  if(dtype==='C'){
+    const st = log.meals.cena;
+    html += `<div class="section">
+      <div class="section-head">
+        <div class="section-title">Cena</div>
+        ${st.state? `<div class="clear-btn" data-meal="cena" data-role="clear">✕ quitar</div>`:''}
+        <div class="section-check ${st.state?'done':''}">✓</div>
+      </div>
+      <div class="info-note">${SOCIAL_DAY.cena}</div>
+      <div class="choice-row">
+        <div class="chip ${st.detail==='Salté cena'?'active-plan':''}" data-meal="cena" data-role="cena-social" data-val="Salté cena">Salté cena</div>
+        <div class="chip ${st.detail==='Yogurt griego + fresas'?'active-plan':''}" data-meal="cena" data-role="cena-social" data-val="Yogurt griego + fresas">Yogurt + fresas</div>
+        <div class="chip ${st.state==='other'?'active-other':''}" data-meal="cena" data-role="chip-other">Otro</div>
+      </div>
+      ${st.state==='other'? `<textarea data-meal="cena" data-role="otherdetail" placeholder="¿Qué cenaste?">${escHtml(st.detail||'')}</textarea>`:''}
+    </div>`;
+  } else {
+    html += renderOptionMeal('cena', 'Cena', CENAS, log);
+  }
+
+  // ---- CREATINA ----
+  html += `<div class="section">
+    <div class="section-head">
+      <div class="section-title">Creatina</div>
+      <div class="section-check ${log.metrics.creatina?'done':''}">✓</div>
+    </div>
+    <div class="plan-text">${CREATINA_TEXTO}</div>
+    <div class="choice-row">
+      <div class="chip ${log.metrics.creatina?'active-plan':''}" data-role="creatina-toggle">${log.metrics.creatina? 'Tomada ✓':'Marcar como tomada'}</div>
     </div>
   </div>`;
 
-  MEAL_KEYS.forEach(key=>{
-    const state = log.meals[key];
-    const isDone = !!state.state;
-    const isSundayFree = (dow===0 && key==='almuerzo');
-    const isShake = (key==='shakepm');
-    const todaysPlan = isShake ? SHAKE_PM : ((dow>=1 && dow<=6) ? MENU[dow][key] : null);
-    const opts = isShake ? null : MEAL_OPTIONS[key];
-
-    html += `<div class="section">
-      <div class="section-head">
-        <div class="section-title">${MEAL_LABELS[key]}</div>
-        ${isDone? `<div class="clear-btn" data-meal="${key}" data-role="clear">✕ quitar</div>`:''}
-        <div class="section-check ${isDone?'done':''}">✓</div>
-      </div>`;
-
-    if(isSundayFree){
-      html += `<div class="plan-label">Libre — sin plan fijo</div>
-        <textarea data-meal="${key}" data-role="freetext" placeholder="¿Qué almorzaste hoy?">${escHtml(state.detail||'')}</textarea>`;
-    } else if(isShake){
-      html += `<div class="plan-text">${SHAKE_PM}</div>
-        <div class="choice-row">
-          <div class="chip ${state.state==='plan'?'active-plan':''}" data-meal="${key}" data-role="chip-plan">Lo tomé ✓</div>
-          <div class="chip ${state.state==='other'?'active-other':''}" data-meal="${key}" data-role="chip-other">Otro / no aplica</div>
-        </div>`;
-      if(state.state==='other'){
-        html += `<textarea data-meal="${key}" data-role="otherdetail" placeholder="¿Qué tomaste, o por qué no?">${escHtml(state.detail||'')}</textarea>`;
-      }
-    } else {
-      if(todaysPlan){
-        html += `<div class="plan-hint"><b>Plan de hoy:</b> ${todaysPlan}</div>`;
-      }
-      const selClass = state.state==='plan' ? 'picked-plan' : (state.state==='other' ? 'picked-other' : '');
-      html += `<select data-meal="${key}" data-role="select" class="${selClass}">
-        <option value="" ${!state.state?'selected':''}>Seleccionar...</option>`;
-      if(todaysPlan){
-        html += `<option value="${escAttr(todaysPlan)}" ${state.state==='plan'&&state.detail===todaysPlan?'selected':''}>★ Plan de hoy — ${todaysPlan}</option>`;
-      }
-      opts.forEach(o=>{
-        if(o.text === todaysPlan) return;
-        html += `<option value="${escAttr(o.text)}" ${state.state==='plan'&&state.detail===o.text?'selected':''}>(${o.day}) ${o.text}</option>`;
-      });
-      html += `<option value="__other__" ${state.state==='other'?'selected':''}>Otro (especificar)</option>
-      </select>`;
-      if(state.state==='other'){
-        html += `<textarea data-meal="${key}" data-role="otherdetail" placeholder="¿Qué comiste?">${escHtml(state.detail||'')}</textarea>`;
-      }
-    }
-    html += `</div>`;
-  });
-
+  // ---- ENTRENAMIENTO ----
   const wk = WORKOUT[dow];
   const doneCount = wk ? log.workout.exercises.filter(e=>e&&e.done).length : 0;
   const allExDone = wk && wk.ex.length>0 && doneCount===wk.ex.length;
@@ -649,16 +896,19 @@ function render(){
       <div class="section-check ${wk ? (allExDone?'done':'') : 'done'}">✓</div>
     </div>`;
   if(!wk){
-    html += `<div class="rest-day"><div class="big">😌</div>Día de descanso — sin entreno de tren superior programado.</div>`;
+    html += `<div class="rest-day"><div class="big">😌</div>Día sin entreno fijo de tren superior programado.</div>`;
   } else {
-    html += `<div class="wk-group">${wk.grupo}</div>`;
+    html += `<div class="wk-group">${wk.grupo}</div>
+      <div class="info-note">${WOD_FORMAT_NOTE}</div>`;
+    let lastWod = null;
     wk.ex.forEach((ex, i)=>{
       const rec = log.workout.exercises[i] || {done:false, peso:''};
+      if(ex.wod !== lastWod){ html += `<div class="wod-head">Mini WOD ${ex.wod}</div>`; lastWod = ex.wod; }
       html += `<div class="ex-row">
         <div class="ex-checkbox ${rec.done?'done':''}" data-exidx="${i}" data-role="excheck">✓</div>
         <div class="ex-main">
           <div class="ex-name ${rec.done?'done-text':''}">${ex.n}</div>
-          <div class="ex-meta">${ex.s} series × ${ex.r} reps</div>
+          <div class="ex-meta">x${ex.r} · 3 rondas</div>
         </div>
         <div>
           <input type="number" inputmode="decimal" class="ex-weight" data-exidx="${i}" data-role="expeso" placeholder="—" value="${rec.peso||''}">
@@ -669,7 +919,57 @@ function render(){
   }
   html += `</div>`;
 
-  // Coach — sin llamadas externas, solo copiar/pegar
+  // ---- CARDIO OPCIONAL ----
+  html += `<div class="section">
+    <div class="section-head">
+      <div class="section-title">Cardio opcional</div>
+      <div class="section-check ${log.cardio.done?'done':''}">✓</div>
+    </div>
+    <div class="info-note">${CARDIO_OPCIONAL.nota}</div>
+    <div class="choice-row">
+      ${CARDIO_OPCIONAL.opciones.map(o=>`<div class="chip small ${log.cardio.opcion===o?'active-plan':''}" data-role="cardio-opt" data-val="${escAttr(o)}">${o}</div>`).join('')}
+    </div>
+  </div>`;
+
+  // ---- MÉTRICAS DEL DÍA ----
+  const met = log.metrics;
+  html += `<div class="section">
+    <div class="section-head"><div class="section-title">Métricas del día</div></div>
+    <div class="metrics-grid">
+      <div class="metric-field"><label>Peso en ayunas (lb)</label><input type="number" inputmode="decimal" data-metric="pesoAyunas" value="${escAttr(met.pesoAyunas||'')}" placeholder="Ej: 173"></div>
+      <div class="metric-field"><label>Horas de sueño</label><input type="number" inputmode="decimal" data-metric="sueno" value="${escAttr(met.sueno||'')}" placeholder="Ej: 7"></div>
+      <div class="metric-field"><label>Nivel de hambre (1-5)</label>
+        <select data-metric="hambre">
+          <option value="" ${!met.hambre?'selected':''}>—</option>
+          ${[1,2,3,4,5].map(n=>`<option value="${n}" ${met.hambre==n?'selected':''}>${n}</option>`).join('')}
+        </select>
+      </div>
+      <div class="metric-field"><label>Nivel de energía (1-5)</label>
+        <select data-metric="energia">
+          <option value="" ${!met.energia?'selected':''}>—</option>
+          ${[1,2,3,4,5].map(n=>`<option value="${n}" ${met.energia==n?'selected':''}>${n}</option>`).join('')}
+        </select>
+      </div>
+      <div class="metric-field"><label>Dolor rodilla (0-10)</label>
+        <select data-metric="dolorRodilla">
+          <option value="" ${met.dolorRodilla===''?'selected':''}>—</option>
+          ${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<option value="${n}" ${String(met.dolorRodilla)===String(n)?'selected':''}>${n}</option>`).join('')}
+        </select>
+      </div>
+      <div class="metric-field"><label>Dolor de cabeza</label>
+        <select data-metric="dolorCabeza">
+          <option value="" ${!met.dolorCabeza?'selected':''}>—</option>
+          <option value="Sí" ${met.dolorCabeza==='Sí'?'selected':''}>Sí</option>
+          <option value="No" ${met.dolorCabeza==='No'?'selected':''}>No</option>
+        </select>
+      </div>
+      <div class="metric-field"><label>Agua (L) · meta ${HIDRATACION.minL}-${HIDRATACION.maxL}</label><input type="number" inputmode="decimal" data-metric="agua" value="${escAttr(met.agua||'')}" placeholder="Ej: 3"></div>
+      <div class="metric-field"><label>Electrolitos (porciones, máx ${DOLOR_CABEZA_PROTOCOLO.maxElectrolitos})</label><input type="number" inputmode="decimal" data-metric="electrolitos" value="${escAttr(met.electrolitos||'')}" placeholder="Ej: 1"></div>
+    </div>
+    ${met.dolorCabeza==='Sí'? `<div class="info-note" style="margin-top:10px"><b>Si hay dolor de cabeza / boca seca:</b> ${DOLOR_CABEZA_PROTOCOLO.a} — o — ${DOLOR_CABEZA_PROTOCOLO.b}</div>`:''}
+  </div>`;
+
+  // ---- NOTAS + COACH ----
   html += `<div class="section coach-section">
     <div class="section-head">
       <div class="section-title" style="color:var(--violet)">Coach del día</div>
@@ -696,11 +996,36 @@ function render(){
     </div>
   </details>`;
 
-  html += `<div class="footnote">Tus registros se guardan automáticamente en este dispositivo.</div>`;
+  html += `<div class="footnote">Meta: -${META.lb} lb para ${META.fecha} · ritmo ${META.ritmoMin}-${META.ritmoMax} lb/semana · cumplimiento semanal ≥ ${META.cumplimientoMeta}%.<br>No busques perfección. Busca consistencia.<br>Tus registros se guardan automáticamente en este dispositivo.</div>`;
 
   app.innerHTML = html;
   attachHandlers();
   doSave();
+}
+
+function renderOptionMeal(key, label, options, log){
+  const state = log.meals[key];
+  const isDone = !!state.state;
+  let html = `<div class="section">
+    <div class="section-head">
+      <div class="section-title">${label}</div>
+      ${isDone? `<div class="clear-btn" data-meal="${key}" data-role="clear">✕ quitar</div>`:''}
+      <div class="section-check ${isDone?'done':''}">✓</div>
+    </div>`;
+  const selClass = state.state==='plan' ? 'picked-plan' : (state.state==='other' ? 'picked-other' : '');
+  html += `<select data-meal="${key}" data-role="select" class="${selClass}">
+    <option value="" ${!state.state?'selected':''}>Seleccionar...</option>`;
+  options.forEach(o=>{
+    const val = o.d + (o.kcal? ' ('+o.kcal+')' : '');
+    html += `<option value="${escAttr(val)}" ${state.state==='plan'&&state.detail===val?'selected':''}>${o.n} — ${o.d}</option>`;
+  });
+  html += `<option value="__other__" ${state.state==='other'?'selected':''}>Otro (especificar)</option>
+  </select>`;
+  if(state.state==='other'){
+    html += `<textarea data-meal="${key}" data-role="otherdetail" placeholder="¿Qué comiste?">${escHtml(state.detail||'')}</textarea>`;
+  }
+  html += `</div>`;
+  return html;
 }
 
 function renderStrip(){
@@ -709,7 +1034,7 @@ function renderStrip(){
     const d = new Date(current);
     d.setDate(d.getDate() - i);
     const l = allLogs[isoOf(d)];
-    const pct = l ? progressOf(l, d.getDay()).pct : 0;
+    const pct = l ? progressOf(l, d.getDay(), dayTypeFor(d,l)).pct : 0;
     const label = d.toLocaleDateString('es-GT',{ weekday:'short' }).slice(0,2);
     html += `<div class="strip-day" data-jump="${isoOf(d)}">
       <div class="strip-bar-bg"><div class="strip-bar-fill" style="height:${pct}%"></div></div>
@@ -738,6 +1063,14 @@ function attachHandlers(){
     };
   });
 
+  document.querySelectorAll('[data-role="daytype"]').forEach(el=>{
+    el.onclick = ()=>{
+      const val = el.dataset.val;
+      log.dayType = (log.dayType===val) ? null : val;
+      scheduleSave(); render();
+    };
+  });
+
   document.querySelectorAll('[data-role="clear"]').forEach(el=>{
     el.onclick = ()=>{ log.meals[el.dataset.meal] = { state:null, detail:'' }; scheduleSave(); render(); };
   });
@@ -748,7 +1081,10 @@ function attachHandlers(){
     el.onclick = ()=>{
       const k = el.dataset.meal;
       if(log.meals[k].state==='plan'){ log.meals[k] = {state:null, detail:''}; }
-      else { log.meals[k] = { state:'plan', detail: SHAKE_PM }; }
+      else {
+        const fixedText = k==='electro' ? ELECTROLITOS_ENTRENO : (k==='post' ? POST_ENTRENO.texto : (k==='shakepm' ? SHAKE_PM : ''));
+        log.meals[k] = { state:'plan', detail: fixedText };
+      }
       scheduleSave(); render();
     };
   });
@@ -760,6 +1096,67 @@ function attachHandlers(){
       scheduleSave(); render();
     };
   });
+
+  document.querySelectorAll('[data-role="pre-opt"]').forEach(el=>{
+    el.onclick = ()=>{
+      const k = el.dataset.meal;
+      const val = el.dataset.val;
+      if(log.meals[k].state==='plan' && log.meals[k].detail===val){ log.meals[k] = {state:null, detail:''}; }
+      else { log.meals[k] = { state:'plan', detail: val }; }
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="anx-lvl"]').forEach(el=>{
+    el.onclick = ()=>{
+      const k = el.dataset.meal;
+      const val = el.dataset.val;
+      if(log.meals[k].state && log.meals[k].detail===val){ log.meals[k] = {state:null, detail:''}; }
+      else { log.meals[k] = { state:'plan', detail: val }; }
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="social-snack"]').forEach(el=>{
+    el.onclick = ()=>{
+      const val = el.dataset.val;
+      const arr = log.meals.socialSnacks;
+      const idx = arr.indexOf(val);
+      if(idx>=0){ arr.splice(idx,1); }
+      else {
+        if(arr.length >= SOCIAL_DAY.snacksMax) arr.shift();
+        arr.push(val);
+      }
+      scheduleSave(); render();
+    };
+  });
+  document.querySelectorAll('[data-role="social-postre"]').forEach(el=>{
+    el.onclick = ()=>{
+      const val = el.dataset.val;
+      log.meals.socialPostre = (log.meals.socialPostre.detail===val) ? {state:null,detail:''} : {state:'plan', detail: val};
+      scheduleSave(); render();
+    };
+  });
+  document.querySelectorAll('[data-role="cena-social"]').forEach(el=>{
+    el.onclick = ()=>{
+      const k = el.dataset.meal;
+      const val = el.dataset.val;
+      log.meals[k] = (log.meals[k].detail===val) ? {state:null, detail:''} : {state:'plan', detail: val};
+      scheduleSave(); render();
+    };
+  });
+
+  document.querySelectorAll('[data-role="cardio-opt"]').forEach(el=>{
+    el.onclick = ()=>{
+      const val = el.dataset.val;
+      if(log.cardio.opcion===val){ log.cardio.opcion=''; log.cardio.done=false; }
+      else { log.cardio.opcion = val; log.cardio.done = true; }
+      scheduleSave(); render();
+    };
+  });
+
+  const creatinaToggle = document.querySelector('[data-role="creatina-toggle"]');
+  if(creatinaToggle) creatinaToggle.onclick = ()=>{ log.metrics.creatina = !log.metrics.creatina; scheduleSave(); render(); };
 
   document.querySelectorAll('[data-role="select"]').forEach(el=>{
     el.onchange = ()=>{
@@ -780,8 +1177,12 @@ function attachHandlers(){
       const k = el.dataset.meal;
       log.meals[k] = { state: el.value.trim()? 'other':null, detail: el.value };
       scheduleSave();
-      updateRingOnly();
     };
+  });
+
+  document.querySelectorAll('[data-metric]').forEach(el=>{
+    el.oninput = el.tagName==='SELECT' ? null : ()=>{ log.metrics[el.dataset.metric] = el.value; scheduleSave(); };
+    el.onchange = ()=>{ log.metrics[el.dataset.metric] = el.value; scheduleSave(); if(el.dataset.metric==='dolorCabeza') render(); };
   });
 
   const notesEl = document.querySelector('[data-role="daynotes"]');
@@ -794,7 +1195,7 @@ function attachHandlers(){
   if(copyBtn){
     copyBtn.onclick = async ()=>{
       const ok = await copyText(
-        'Eres mi coach de recuperación de LCA. Con base en estos datos de mi día, dame un comentario motivador (nunca crítico) y una sugerencia para mañana:\n\n'
+        'Eres mi coach de recuperación de LCA y de mi fase de pérdida de grasa (agosto-diciembre 2026). Con base en estos datos de mi día, dame un comentario motivador (nunca crítico) y una sugerencia para mañana:\n\n'
         + buildDaySummary(getLog(current), current)
       );
       copiedFlag = ok? '✓ Copiado — pégalo en un chat de Claude' : 'No se pudo copiar automáticamente, selecciona el texto manualmente';
@@ -839,7 +1240,6 @@ function attachHandlers(){
           allLogs = mergeLogs(allLogs, data.logs || {});
           allMeasurements = mergeMeasurements(allMeasurements, data.measurements || {});
         } else {
-          // Respaldo antiguo: solo tenía los registros diarios
           allLogs = mergeLogs(allLogs, data);
         }
         scheduleSave();
@@ -862,6 +1262,7 @@ function renderDashboardHtml(){
 
   const mDates = measurementDates();
   let measureBlock = '';
+  let metaBlock = '';
   if(mDates.length){
     const first = allMeasurements[mDates[0]];
     const last = allMeasurements[mDates[mDates.length-1]];
@@ -876,6 +1277,41 @@ function renderDashboardHtml(){
         </div>
         <div class="plan-label" style="margin-top:12px">Desde ${first.__date || mDates[0]} hasta ${last.__date || mDates[mDates.length-1]}</div>
       </div>`;
+
+    const pesoFirst = parseFloat(first.peso), pesoLast = parseFloat(last.peso);
+    if(!isNaN(pesoFirst) && !isNaN(pesoLast)){
+      const perdido = pesoFirst - pesoLast;
+      const restante = META.lb - perdido;
+      metaBlock = `
+      <div class="section">
+        <div class="section-head"><div class="section-title">Meta del programa</div></div>
+        <div class="stat-row"><div class="stat-label">Objetivo</div><div class="stat-value">-${META.lb} lb para ${META.fecha}</div></div>
+        <div class="stat-row"><div class="stat-label">Perdido hasta ahora</div><div class="stat-value ${perdido>=0?'teal':'amber'}">${perdido.toFixed(1)} lb</div></div>
+        <div class="stat-row"><div class="stat-label">Restante</div><div class="stat-value">${restante.toFixed(1)} lb</div></div>
+        <div class="stat-row"><div class="stat-label">Ritmo objetivo</div><div class="stat-value">${META.ritmoMin}-${META.ritmoMax} lb/semana</div></div>
+      </div>`;
+    }
+  }
+  if(!metaBlock){
+    metaBlock = `
+      <div class="section">
+        <div class="section-head"><div class="section-title">Meta del programa</div></div>
+        <div class="stat-row"><div class="stat-label">Objetivo</div><div class="stat-value">-${META.lb} lb para ${META.fecha}</div></div>
+        <div class="stat-row"><div class="stat-label">Ritmo objetivo</div><div class="stat-value">${META.ritmoMin}-${META.ritmoMax} lb/semana</div></div>
+        <div class="empty-hint">Registra tu peso en "📏 Medidas" para ver tu progreso hacia la meta.</div>
+      </div>`;
+  }
+
+  let metricsBlock = '';
+  if(s.rodillaAvg!==null || s.suenoAvg!==null || s.aguaAvg!==null || s.energiaAvg!==null){
+    metricsBlock = `
+    <div class="section">
+      <div class="section-head"><div class="section-title">Métricas promedio (histórico)</div></div>
+      ${s.rodillaAvg!==null? `<div class="stat-row"><div class="stat-label">Dolor de rodilla</div><div class="stat-value ${s.rodillaAvg>3?'amber':'teal'}">${s.rodillaAvg}/10</div></div>`:''}
+      ${s.suenoAvg!==null? `<div class="stat-row"><div class="stat-label">Horas de sueño</div><div class="stat-value">${s.suenoAvg} h</div></div>`:''}
+      ${s.energiaAvg!==null? `<div class="stat-row"><div class="stat-label">Nivel de energía</div><div class="stat-value">${s.energiaAvg}/5</div></div>`:''}
+      ${s.aguaAvg!==null? `<div class="stat-row"><div class="stat-label">Hidratación</div><div class="stat-value blue">${s.aguaAvg} L</div></div>`:''}
+    </div>`;
   }
 
   return `
@@ -888,8 +1324,12 @@ function renderDashboardHtml(){
     <div class="section-head"><div class="section-title">General</div></div>
     <div class="stat-row"><div class="stat-label">Días registrados</div><div class="stat-value">${s.daysCounted}</div></div>
     <div class="stat-row"><div class="stat-label">Racha actual</div><div class="stat-value teal">${s.streak} ${s.streak===1?'día':'días'}</div></div>
-    <div class="stat-row"><div class="stat-label">Cumplimiento promedio</div><div class="stat-value ${s.avgPct>=70?'teal':'amber'}">${s.avgPct}%</div></div>
+    <div class="stat-row"><div class="stat-label">Cumplimiento últimos 7 días</div><div class="stat-value ${s.weeklyPct>=META.cumplimientoMeta?'teal':'amber'}">${s.weeklyPct}%</div></div>
+    <div class="stat-row"><div class="stat-label">Cumplimiento promedio total</div><div class="stat-value ${s.avgPct>=70?'teal':'amber'}">${s.avgPct}%</div></div>
+    <div class="plan-hint" style="margin-top:8px; margin-bottom:0">Meta semanal: cumplimiento ≥ ${META.cumplimientoMeta}%. No busques perfección, busca consistencia.</div>
   </div>
+
+  ${metaBlock}
 
   <div class="section">
     <div class="section-head"><div class="section-title">Comidas registradas</div></div>
@@ -914,6 +1354,7 @@ function renderDashboardHtml(){
     ` : `<div class="empty-hint">Todavía no hay días de entreno registrados.</div>`}
   </div>
 
+  ${metricsBlock}
   ${measureBlock}
 
   <div class="footnote">Estadísticas calculadas sobre todos tus días registrados en este dispositivo.</div>
@@ -1012,21 +1453,8 @@ function attachMeasurementsHandlers(){
   });
 }
 
-function updateRingOnly(){
-  const prog = progressOf(getLog(current), current.getDay());
-  const circumference = 2*Math.PI*30;
-  const offset = circumference - (prog.pct/100)*circumference;
-  const ringFg = document.querySelector('.ring-fg');
-  const ringPct = document.querySelector('.ring-pct');
-  const ringTitle = document.querySelector('.ring-title');
-  if(ringFg) ringFg.setAttribute('stroke-dashoffset', offset);
-  if(ringPct) ringPct.textContent = prog.pct + '%';
-  if(ringTitle) ringTitle.textContent = `${prog.done} de ${prog.total} registrados`;
-}
-
 loadAll();
 render();
 </script>
 </body>
 </html>
-
