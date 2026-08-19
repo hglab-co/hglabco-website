@@ -72,8 +72,8 @@ select
   rank() over (order by avg(s.weighted_total) desc nulls last) as position,
   case
     when count(s.id) = 0 then null
-    when rank() over (order by avg(s.weighted_total) desc nulls last) = 1 then 'Q 750.00'
-    when rank() over (order by avg(s.weighted_total) desc nulls last) = 2 then 'Q 450.00'
+    when rank() over (order by avg(s.weighted_total) desc nulls last) = 1 then 'Q 800.00'
+    when rank() over (order by avg(s.weighted_total) desc nulls last) = 2 then 'Q 500.00'
     when rank() over (order by avg(s.weighted_total) desc nulls last) = 3 then 'Q 300.00'
     else '-'
   end as premio
