@@ -365,3 +365,22 @@ section[id] { scroll-margin-top: 88px; }
 /* ---------- Filas del listado de proyectos ---------- */
 #ideasBody td { vertical-align: middle; }
 #ideasBody tr:hover { background: var(--qp-acento-soft); }
+
+/* ---------- Logo del Challenge ---------- */
+.hero-logo {
+  display: block;
+  width: 300px;
+  max-width: 78%;
+  height: auto;
+  margin: 0 0 28px;
+}
+.challenge-logo {
+  display: block;
+  width: 210px;
+  max-width: 62%;
+  height: auto;
+  margin: 0 auto 22px;
+}
+@media (max-width: 860px) {
+  .hero-logo { width: 240px; margin-bottom: 22px; }
+}
