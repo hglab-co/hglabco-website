@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Postular mi idea · Challenge IA Qpaypro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="qp-header">
+  <div class="container">
+    <div class="qp-logo">
+      <span class="mark"><img src="assets/img/logo-icon.svg" alt="" width="20" height="20"></span>
+      <span class="brand">qpay<b>pro</b></span>
+    </div>
+    <nav class="qp-nav">
+      <a href="index.html">Inicio</a>
+      <a href="postular.html">Postular idea</a>
+      <a href="jurado.html">Acceso jurado</a>
+    </nav>
+  </div>
+</header>
+
+<section class="section">
+  <div class="container">
+    <div class="text-center" style="margin-bottom:36px;">
+      <span class="badge navy">POSTULACIÓN DE IDEAS</span>
+      <h1 class="section-title" style="margin-top:14px;">Postula tu idea al Challenge</h1>
+      <p class="section-sub" style="margin:0 auto;">Cuéntanos qué problema quieres resolver con IA. Tienes 3 días desde el kickoff para enviar tu postulación.</p>
+    </div>
+
+    <div class="form-card">
+      <div id="alertBox"></div>
+      <form id="ideaForm">
+        <div class="field">
+          <label for="team_name">Nombre del equipo *</label>
+          <input type="text" id="team_name" required placeholder="Ej. Equipo Fénix">
+        </div>
+        <div class="field">
+          <label for="members">Integrantes *</label>
+          <input type="text" id="members" required placeholder="Nombres separados por coma">
+          <div class="hint">Individual o hasta 4 personas.</div>
+        </div>
+        <div class="field">
+          <label for="contact_email">Correo de contacto *</label>
+          <input type="email" id="contact_email" required placeholder="nombre@qpaypro.com">
+        </div>
+        <div class="field">
+          <label for="area">Área *</label>
+          <select id="area" required>
+            <option value="">Selecciona un área</option>
+            <option>Finanzas</option>
+            <option>Atención al cliente / Soporte</option>
+            <option>Comercial / Ventas</option>
+            <option>Operaciones</option>
+            <option>RRHH</option>
+            <option>Tecnología</option>
+            <option>Otra</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="problem">¿Qué problema quieren resolver? *</label>
+          <textarea id="problem" required placeholder="Describe la tarea repetitiva, el riesgo o la ineficiencia que atacarán."></textarea>
+        </div>
+        <div class="field">
+          <label for="solution_type">Tipo de solución de IA *</label>
+          <select id="solution_type" required>
+            <option value="">Selecciona una opción</option>
+            <option>Chat asistido / Project</option>
+            <option>Agente (Claude Code)</option>
+            <option>Tarea programada / automatización</option>
+            <option>Integración con herramientas (MCP / API)</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="expected_metric">Métrica que esperan mejorar</label>
+          <input type="text" id="expected_metric" placeholder="Ej. Tiempo de conciliación mensual">
+        </div>
+        <div class="field">
+          <label for="baseline_value">Valor actual de esa métrica ("línea base")</label>
+          <input type="text" id="baseline_value" placeholder="Ej. 6 horas por mes">
+        </div>
+        <button type="submit" class="btn btn-teal btn-block" id="submitBtn">Enviar postulación</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="qp-footer">
+  <div class="container">Qpaypro · Challenge de Innovación con IA · 2026</div>
+</footer>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
+<script src="assets/js/postular.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jurado · Challenge IA Qpaypro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header class="qp-header">
+  <div class="container">
+    <div class="qp-logo">
+      <span class="mark"><img src="assets/img/logo-icon.svg" alt="" width="20" height="20"></span>
+      <span class="brand">qpay<b>pro</b></span>
+    </div>
+    <nav class="qp-nav">
+      <a href="index.html">Inicio</a>
+      <a href="postular.html">Postular idea</a>
+      <a href="jurado.html">Acceso jurado</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ---------- PANTALLA DE ACCESO ---------- -->
+<section class="section" id="gate">
+  <div class="container">
+    <div class="form-card" style="max-width:420px;">
+      <div class="text-center" style="margin-bottom:24px;">
+        <span class="badge navy">ÁREA DE JURADO</span>
+        <h1 class="section-title" style="margin-top:14px;font-size:26px;">Acceso al panel</h1>
+        <p class="muted">Ingresa la clave compartida del jurado.</p>
+      </div>
+      <div id="gateAlert"></div>
+      <div class="field">
+        <label for="passcode">Clave de acceso</label>
+        <input type="password" id="passcode" placeholder="••••••••">
+      </div>
+      <button class="btn btn-teal btn-block" id="gateBtn">Entrar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- DASHBOARD (oculto hasta validar clave) ---------- -->
+<section class="section hidden" id="dashboard">
+  <div class="container">
+    <div class="flex-between" style="margin-bottom:24px;">
+      <div>
+        <span class="badge navy">PANEL DE JURADO</span>
+        <h1 class="section-title" style="margin-top:14px;">Califica los proyectos</h1>
+      </div>
+      <div class="field" style="min-width:220px;margin-bottom:0;">
+        <label for="jurorSelect">Estás calificando como:</label>
+        <select id="jurorSelect"></select>
+      </div>
+    </div>
+
+    <div id="ideasAlert"></div>
+    <div id="ideasList"></div>
+
+    <div class="flex-between mt-32" style="margin-bottom:20px;">
+      <h2 class="section-title" style="margin:0;">Ranking en vivo</h2>
+      <button class="btn btn-outline" style="color:var(--qp-navy);border-color:var(--qp-gray-light);" id="refreshRanking">↻ Actualizar</button>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Equipo</th><th>Área</th><th>Jurados</th><th>Puntaje (0-100)</th><th>Premio</th></tr>
+        </thead>
+        <tbody id="rankingBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer class="qp-footer">
+  <div class="container">Qpaypro · Challenge de Innovación con IA · 2026</div>
+</footer>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/supabaseClient.js"></script>
+<script src="assets/js/jurado.js"></script>
+</body>
+</html>
