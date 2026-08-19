@@ -98,6 +98,33 @@ código de tu sitio principal. Si de verdad quieres que todo `hglabco-website` p
 privado, hazlo desde GitHub → Settings → Danger Zone → Change visibility (Cloudflare
 Pages sigue funcionando igual con un repo privado).
 
+## Caché: bump obligatorio al tocar JS o CSS
+
+Los `.js` y `.css` se sirven con `Cache-Control: max-age=14400` (4 horas) y
+**ese valor no se puede cambiar desde el repo**: la zona de Cloudflare tiene
+"Browser Cache TTL" fijado en 4 horas y sobrescribe lo que mande el origen.
+Hay un `public/_headers` con la regla correcta, pero queda anulada (al HTML
+sí lo respeta, por eso las páginas se ven actualizadas aunque el JS no).
+
+Consecuencia práctica: si editas `config.js`, `jurado.js`, `postular.js`,
+`supabaseClient.js` o `style.css`, un jurado que ya haya abierto el panel
+puede seguir viendo la versión vieja hasta 4 horas, sin ningún aviso.
+
+**Por eso, cada vez que cambies uno de esos archivos, sube el número de
+versión en las tres páginas HTML.** Hoy es `?v=20260819a`:
+
+```sh
+# desde la raíz del repo, cambia la fecha/letra por una nueva
+sed -i '' 's/?v=20260819a/?v=20260819b/g' public/aichallenge/*.html
+```
+
+Si no lo haces, el cambio se publica pero los jurados no lo reciben.
+
+**Arreglo definitivo (1 clic, requiere el dashboard):** Cloudflare →
+`hglab.co` → **Caching** → **Configuration** → **Browser Cache TTL** →
+`Respect Existing Headers`. Con eso el `_headers` empieza a funcionar solo
+y deja de hacer falta el `?v=`.
+
 ## Personalización de marca
 
 Los colores están centralizados como variables CSS al inicio de

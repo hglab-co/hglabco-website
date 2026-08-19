@@ -5,15 +5,23 @@
 # ============================================================
 
 # El JS del Challenge lleva la configuración de Supabase y la lógica del
-# panel de jurado. Por defecto Pages lo cachea 4 horas (max-age=14400),
-# así que un jurado con un config.js viejo en caché se queda sin conexión
-# a la base de datos hasta que expire. no-cache obliga a revalidar en cada
-# carga; con el ETag la respuesta es un 304 barato, no una descarga nueva.
+# panel de jurado; un config.js viejo en caché deja al jurado sin conexión
+# a la base de datos.
+#
+# OJO: hoy esta regla NO surte efecto. La zona de Cloudflare tiene
+# "Browser Cache TTL" fijado en 4 horas, y ese ajuste sobrescribe el
+# Cache-Control que manda el origen para .js/.css (al HTML no lo toca).
+# Se comprobó con un header testigo: el _headers sí se procesa, pero el
+# Cache-Control llega reescrito a max-age=14400.
+#
+# Mientras eso siga así, lo que realmente evita la caché vieja es el
+# parámetro ?v= en las etiquetas <script> y <link> de los HTML.
+# Para arreglarlo de raíz: Cloudflare -> hglab.co -> Caching ->
+# Configuration -> Browser Cache TTL -> "Respect Existing Headers".
+# Al hacerlo, esta regla empieza a funcionar sola.
 /aichallenge/assets/js/*
   Cache-Control: public, max-age=0, must-revalidate
-  X-QP-Cache-Rule: aplicada
 
 # Mismo motivo para los estilos: un cambio de marca debe verse de inmediato.
 /aichallenge/assets/css/*
   Cache-Control: public, max-age=0, must-revalidate
-  X-QP-Cache-Rule: aplicada
