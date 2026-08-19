@@ -353,3 +353,15 @@ section[id] { scroll-margin-top: 88px; }
 /* ---------- Tabla con scroll en móvil ---------- */
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .table-wrap table { min-width: 560px; }
+
+/* ---------- Botón compacto (acciones dentro de tablas) ---------- */
+.btn-sm { padding: 8px 16px; font-size: 14px; }
+.btn-outline.btn-sm { color: var(--qp-principal); border-color: var(--qp-gray-light); }
+.btn-outline.btn-sm:hover { background: var(--qp-acento-soft); border-color: var(--qp-secundario); color: var(--qp-secundario); }
+
+/* ---------- Estado "sin calificar" ---------- */
+.badge.pendiente { background: var(--qp-gray-light); color: var(--qp-gray); }
+
+/* ---------- Filas del listado de proyectos ---------- */
+#ideasBody td { vertical-align: middle; }
+#ideasBody tr:hover { background: var(--qp-acento-soft); }
