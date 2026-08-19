@@ -1,0 +1,17 @@
+# ============================================================
+# Reglas de caché para Cloudflare Pages
+# Solo afectan rutas de /aichallenge/. El resto del sitio conserva
+# el comportamiento por defecto de Pages.
+# ============================================================
+
+# El JS del Challenge lleva la configuración de Supabase y la lógica del
+# panel de jurado. Por defecto Pages lo cachea 4 horas (max-age=14400),
+# así que un jurado con un config.js viejo en caché se queda sin conexión
+# a la base de datos hasta que expire. no-cache obliga a revalidar en cada
+# carga; con el ETag la respuesta es un 304 barato, no una descarga nueva.
+/aichallenge/assets/js/*
+  Cache-Control: no-cache
+
+# Mismo motivo para los estilos: un cambio de marca debe verse de inmediato.
+/aichallenge/assets/css/*
+  Cache-Control: no-cache
