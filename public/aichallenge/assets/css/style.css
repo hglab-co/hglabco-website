@@ -306,3 +306,50 @@ tbody tr:hover { background: #D5F1FC; }
 .mt-32 { margin-top: 32px; }
 .text-center { text-align: center; }
 .hidden { display: none !important; }
+
+/* ---------- Listas del reglamento ---------- */
+.qp-list { margin: 0 0 1em 0; padding-left: 22px; }
+.qp-list li { margin-bottom: 10px; }
+.qp-list li::marker { color: var(--qp-secundario); font-weight: 700; }
+.qp-list.tight li { margin-bottom: 6px; }
+
+/* ---------- Aviso destacado ---------- */
+.callout {
+  background: var(--qp-acento-soft);
+  border-left: 4px solid var(--qp-acento);
+  border-radius: 10px;
+  padding: 22px 26px;
+  margin: 26px 0 0;
+}
+.callout h4 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-family: var(--qp-font-head);
+  color: var(--qp-principal);
+}
+.callout .qp-list { margin-bottom: 0; }
+
+/* ---------- Índice de secciones ---------- */
+.toc { display: flex; flex-wrap: wrap; gap: 10px; }
+.toc a {
+  background: var(--qp-white);
+  border: 1px solid var(--qp-gray-light);
+  border-radius: 999px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--qp-principal);
+}
+.toc a:hover { border-color: var(--qp-secundario); color: var(--qp-secundario); text-decoration: none; }
+
+/* el header es sticky: deja aire al saltar a un ancla */
+section[id] { scroll-margin-top: 88px; }
+
+/* ---------- Paso de la mecánica ---------- */
+.paso-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.paso-head h3 { margin: 0; }
+.paso-head .step-num { margin-bottom: 0; flex-shrink: 0; }
+
+/* ---------- Tabla con scroll en móvil ---------- */
+.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap table { min-width: 560px; }

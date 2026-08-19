@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <meta name="theme-color" content="#0F206C">
-<link rel="stylesheet" href="assets/css/style.css?v=20260819b">
+<link rel="stylesheet" href="assets/css/style.css?v=20260819c">
 </head>
 <body>
 
@@ -32,6 +32,7 @@
     <span class="eyebrow">CHALLENGE INTERNO · QPAYPRO 2026</span>
     <h1>Challenge de Innovación con IA</h1>
     <p class="lead">Toma un problema real de tu área y resuélvelo usando inteligencia artificial — de forma agéntica, no solo como chat. Postula tu idea, constrúyela y preséntala ante el jurado.</p>
+    <p class="lead" style="font-style:italic;opacity:0.85;font-size:16px;">"De usar IA para preguntar, a usar IA para resolver."</p>
     <div class="cta-row">
       <a href="postular.html" class="btn btn-primary">Postular mi idea →</a>
       <a href="jurado.html" class="btn btn-outline">Acceso jurado</a>
@@ -39,57 +40,235 @@
   </div>
 </section>
 
-<section class="section">
+<!-- ---------- ÍNDICE ---------- -->
+<section class="section" style="padding:36px 0;background:var(--qp-white);border-bottom:1px solid var(--qp-gray-light);">
   <div class="container">
-    <h2 class="section-title">Cómo funciona</h2>
-    <p class="section-sub">Tres etapas simples, desde la idea hasta la premiación.</p>
-    <div class="grid-3">
+    <nav class="toc">
+      <a href="#objetivo">1. Objetivo</a>
+      <a href="#cronograma">2. Cronograma</a>
+      <a href="#participantes">3. Quién puede participar</a>
+      <a href="#mecanica">4. Mecánica</a>
+      <a href="#criterios">5. Criterios de calificación</a>
+      <a href="#jurado">6. Jurado</a>
+      <a href="#premios">7. Premios</a>
+      <a href="#condiciones">8. Condiciones generales</a>
+      <a href="#contacto">9. Contacto</a>
+    </nav>
+  </div>
+</section>
+
+<!-- ---------- 1. OBJETIVO ---------- -->
+<section class="section" id="objetivo">
+  <div class="container">
+    <span class="badge">01</span>
+    <h2 class="section-title" style="margin-top:14px;">Objetivo del Challenge</h2>
+    <p>Impulsar la adopción real de inteligencia artificial en Qpaypro, motivando a cada área a identificar un problema de su día a día y resolverlo con una solución que use IA de forma <b>agéntica</b> (no solo como chat de preguntas y respuestas).</p>
+    <p>Buscamos que los equipos vayan más allá de "preguntarle algo a la IA" y construyan soluciones que:</p>
+    <div class="grid-2" style="margin-top:24px;">
       <div class="card">
+        <h3>Minimicen tiempo</h3>
+        <p class="muted">Menos horas invertidas en tareas repetitivas y manuales.</p>
+      </div>
+      <div class="card">
+        <h3>Reduzcan riesgos</h3>
+        <p class="muted">Menos errores humanos y riesgos operativos.</p>
+      </div>
+      <div class="card">
+        <h3>Aumenten la productividad</h3>
+        <p class="muted">Más capacidad de trabajo real en el área.</p>
+      </div>
+      <div class="card">
+        <h3>Usen capacidades agénticas</h3>
+        <p class="muted">Automatizaciones, tareas programadas, flujos (loops), integraciones y herramientas conectadas — no solo un chat.</p>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:26px;">El Challenge abre con una capacitación previa para nivelar a todo el equipo en el uso de Claude y sus distintos formatos (chat, Projects, Claude Code, tareas programadas y agentes), seguida de tres etapas: postulación de ideas, construcción, y presentación final ante un jurado.</p>
+  </div>
+</section>
+
+<!-- ---------- 2. CRONOGRAMA ---------- -->
+<section class="section" id="cronograma" style="background:var(--qp-white);border-top:1px solid var(--qp-gray-light);border-bottom:1px solid var(--qp-gray-light);">
+  <div class="container">
+    <span class="badge">02</span>
+    <h2 class="section-title" style="margin-top:14px;">Cronograma</h2>
+    <p class="section-sub">Cronograma sugerido de referencia. Las fechas exactas se confirman en la capacitación de kickoff.</p>
+    <div class="card" style="padding:0;overflow:hidden;">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Etapa</th><th>Duración</th><th>Detalle</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>0. Kickoff / Capacitación</b></td>
+              <td>1 sesión (día 0)</td>
+              <td>Capacitación de uso de Claude en sus distintos formatos y lanzamiento oficial del Challenge.</td>
+            </tr>
+            <tr>
+              <td><b>1. Postulación de ideas</b></td>
+              <td>3 días</td>
+              <td>Cada participante o equipo se inscribe y postula su idea usando el formulario de postulación (problema, área, tipo de solución de IA, impacto esperado).</td>
+            </tr>
+            <tr>
+              <td><b>2. Construcción</b></td>
+              <td>2 semanas</td>
+              <td>Tiempo para desarrollar la solución. Se habilitan check-ins opcionales de avance con el equipo organizador.</td>
+            </tr>
+            <tr>
+              <td><b>3. Demo Day</b></td>
+              <td>1 día</td>
+              <td>Presentación de cada proyecto ante todo el equipo y el jurado (máx. 10 min por equipo + preguntas). Calificación y premiación en el mismo evento.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="muted" style="margin-top:20px;"><b>Duración total sugerida:</b> aproximadamente 3 semanas y media desde el kickoff hasta el Demo Day.</p>
+  </div>
+</section>
+
+<!-- ---------- 3. PARTICIPANTES ---------- -->
+<section class="section" id="participantes">
+  <div class="container">
+    <span class="badge">03</span>
+    <h2 class="section-title" style="margin-top:14px;">¿Quién puede participar?</h2>
+    <ul class="qp-list">
+      <li>Todos los colaboradores de Qpaypro, de cualquier área (Finanzas, Operaciones, Producto, Soporte, Comercial, RRHH, Tecnología, etc.), exceptuando IT.</li>
+      <li>Se puede participar de forma individual o en equipos de <b>hasta 4 personas</b>.</li>
+      <li>Una misma persona puede formar parte de un solo equipo.</li>
+      <li>Se recomienda, aunque no es obligatorio, que cada equipo incluya a alguien del área para la que se resuelve el problema.</li>
+    </ul>
+    <div class="callout">
+      <h4>Sobre el equipo de IT</h4>
+      <ul class="qp-list tight">
+        <li>El equipo de IT no puede participar como parte del Challenge, pero <b>sí puede apoyar</b> a los equipos participantes: no puede hacer el proyecto, pero sí guiar y acompañar.</li>
+        <li>El equipo de IT tendrá un <b>reconocimiento especial</b> el día de la premiación por su apoyo y participación al resto.</li>
+        <li>Si alguien del equipo de IT desea contribuir con un proyecto es bienvenido, pero no será tomado en cuenta para la premiación.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- 4. MECÁNICA ---------- -->
+<section class="section" id="mecanica" style="background:var(--qp-white);border-top:1px solid var(--qp-gray-light);border-bottom:1px solid var(--qp-gray-light);">
+  <div class="container">
+    <span class="badge">04</span>
+    <h2 class="section-title" style="margin-top:14px;">Mecánica de participación</h2>
+    <p class="section-sub">Tres pasos, desde la idea hasta la premiación.</p>
+
+    <div class="card" style="margin-bottom:22px;">
+      <div class="paso-head">
         <div class="step-num">1</div>
-        <h3>Postulación (3 días)</h3>
-        <p class="muted">Completa el formulario con el problema que quieres resolver, tu área y el tipo de solución de IA que imaginas.</p>
+        <h3>Postulación <span class="muted" style="font-weight:400;font-size:15px;">· 3 días</span></h3>
       </div>
-      <div class="card">
+      <p>Cada equipo completa el formulario de postulación con:</p>
+      <ul class="qp-list tight">
+        <li>Nombre del equipo e integrantes.</li>
+        <li>Área y problema específico que se busca resolver.</li>
+        <li>Tipo de solución de IA propuesta (chat asistido, automatización, agente, integración con herramientas, tarea programada, etc.).</li>
+        <li>Métrica(s) que esperan mejorar (tiempo, errores, costos, satisfacción, etc.) y su valor actual ("línea base").</li>
+      </ul>
+      <p class="muted" style="margin-bottom:0;"><b>Se puede postular más de un proyecto por equipo</b> — eso les suma oportunidades.</p>
+    </div>
+
+    <div class="card" style="margin-bottom:22px;">
+      <div class="paso-head">
         <div class="step-num">2</div>
-        <h3>Construcción (2 semanas)</h3>
-        <p class="muted">Desarrolla tu solución con Claude — chat, Projects, Claude Code, tareas programadas o agentes.</p>
+        <h3>Construcción <span class="muted" style="font-weight:400;font-size:15px;">· 2 semanas</span></h3>
       </div>
-      <div class="card">
+      <p style="margin-bottom:0;">El equipo desarrolla su solución utilizando Claude (chat, Projects, Claude Code, tareas programadas, agentes, u otras herramientas de IA que prefiera). Se sugiere <b>documentar el antes y el después</b> con datos concretos, capturas o una demo grabada, ya que esto será evidencia clave para el jurado.</p>
+    </div>
+
+    <div class="card">
+      <div class="paso-head">
         <div class="step-num">3</div>
-        <h3>Demo Day</h3>
-        <p class="muted">Presenta ante el jurado. Las calificaciones se ponderan automáticamente y se elige 1°, 2° y 3° lugar.</p>
+        <h3>Presentación <span class="muted" style="font-weight:400;font-size:15px;">· Demo Day</span></h3>
       </div>
+      <p>Cada equipo presenta en <b>máximo 10 minutos</b> (+ 5 minutos de preguntas del jurado):</p>
+      <ul class="qp-list tight" style="margin-bottom:0;">
+        <li>El problema que resolvieron y por qué importa.</li>
+        <li>Cómo usaron IA (idealmente con demo en vivo o grabada).</li>
+        <li>Resultados obtenidos: tiempo ahorrado, riesgos reducidos, productividad ganada.</li>
+        <li>Qué tan replicable o escalable es la solución a otras áreas.</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<section class="section" style="background:var(--qp-white);border-top:1px solid var(--qp-gray-light);border-bottom:1px solid var(--qp-gray-light);">
+<!-- ---------- 5. CRITERIOS ---------- -->
+<section class="section" id="criterios">
   <div class="container">
-    <h2 class="section-title">Criterios de calificación</h2>
-    <p class="section-sub">El jurado califica cada proyecto de 1 a 5 en seis criterios, ponderados sobre 100 puntos.</p>
+    <span class="badge">05</span>
+    <h2 class="section-title" style="margin-top:14px;">Criterios de calificación</h2>
+    <p class="section-sub">El jurado califica cada proyecto con una nota de 1 a 5 en cada criterio. La nota final pondera cada criterio según su peso, sobre 100 puntos.</p>
     <div class="grid-3">
-      <div class="card"><span class="badge">25%</span><h3 style="margin-top:14px;">Uso agéntico de la IA</h3><p class="muted">Va más allá del chat: automatizaciones, agentes, tareas programadas.</p></div>
-      <div class="card"><span class="badge">25%</span><h3 style="margin-top:14px;">Eficiencia / ahorro de tiempo</h3><p class="muted">Reducción medible de tiempo en tareas repetitivas.</p></div>
-      <div class="card"><span class="badge">15%</span><h3 style="margin-top:14px;">Reducción de riesgos</h3><p class="muted">Menos errores humanos y riesgos operativos.</p></div>
-      <div class="card"><span class="badge">15%</span><h3 style="margin-top:14px;">Productividad y escalabilidad</h3><p class="muted">Impacto en el área y potencial de replicarse.</p></div>
-      <div class="card"><span class="badge">10%</span><h3 style="margin-top:14px;">Evidencia y resultados</h3><p class="muted">Datos concretos antes/después, demo funcional.</p></div>
-      <div class="card"><span class="badge">10%</span><h3 style="margin-top:14px;">Claridad de la presentación</h3><p class="muted">Qué tan clara y convincente es la presentación.</p></div>
+      <div class="card"><span class="badge">25%</span><h3 style="margin-top:14px;">Uso agéntico de la IA</h3><p class="muted">La solución va más allá del chat: usa automatizaciones, tareas programadas, agentes, integraciones o flujos que actúan por sí solos.</p></div>
+      <div class="card"><span class="badge">25%</span><h3 style="margin-top:14px;">Eficiencia / ahorro de tiempo</h3><p class="muted">Reducción medible de tiempo en tareas repetitivas o manuales, comparando antes vs. después.</p></div>
+      <div class="card"><span class="badge">15%</span><h3 style="margin-top:14px;">Reducción de riesgos</h3><p class="muted">Disminución de errores humanos, incumplimientos, riesgos operativos o financieros.</p></div>
+      <div class="card"><span class="badge">15%</span><h3 style="margin-top:14px;">Productividad y escalabilidad</h3><p class="muted">Impacto en la productividad del área y potencial de replicarse en otras áreas de Qpaypro.</p></div>
+      <div class="card"><span class="badge">10%</span><h3 style="margin-top:14px;">Evidencia y resultados medibles</h3><p class="muted">Datos concretos (antes/después), demo funcional, capturas o grabación que respalden lo presentado.</p></div>
+      <div class="card"><span class="badge">10%</span><h3 style="margin-top:14px;">Claridad de la presentación</h3><p class="muted">Qué tan clara, ordenada y convincente es la presentación ante el jurado y el equipo.</p></div>
+    </div>
+    <div class="callout">
+      <h4>Cómo se calcula el puntaje</h4>
+      <p style="margin-bottom:0;"><b>Puntaje = (Σ peso del criterio × nota 1–5) × 20</b>, para un resultado sobre 100 puntos. El cálculo lo hace el sistema automáticamente al momento de calificar.</p>
     </div>
   </div>
 </section>
 
-<section class="section">
+<!-- ---------- 6. JURADO ---------- -->
+<section class="section" id="jurado" style="background:var(--qp-white);border-top:1px solid var(--qp-gray-light);border-bottom:1px solid var(--qp-gray-light);">
   <div class="container">
-    <h2 class="section-title">Premios</h2>
+    <span class="badge">06</span>
+    <h2 class="section-title" style="margin-top:14px;">Jurado</h2>
+    <p>El jurado estará compuesto por <b>3 a 5 personas</b>, idealmente con representación de distintas áreas y al menos un miembro de liderazgo. Cada jurado califica de forma independiente; el puntaje final de cada proyecto es el <b>promedio</b> de los puntajes de todos los jurados.</p>
+    <ul class="qp-list">
+      <li>En caso de empate en el primer lugar, se privilegia el proyecto con mayor puntaje en <b>"Uso agéntico de la IA"</b> y <b>"Eficiencia / ahorro de tiempo"</b>.</li>
+      <li>Ningún jurado puede calificar a un equipo del cual forme parte.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ---------- 7. PREMIOS ---------- -->
+<section class="section" id="premios">
+  <div class="container">
+    <span class="badge">07</span>
+    <h2 class="section-title" style="margin-top:14px;">Premios</h2>
     <p class="section-sub">Fondo total: Q 1,600.00, distribuido entre los tres primeros lugares.</p>
     <div class="grid-3">
-      <div class="card text-center"><span class="badge acento">1er lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 800</h2><p class="muted">del fondo total</p></div>
-      <div class="card text-center"><span class="badge">2do lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 500</h2><p class="muted">del fondo total</p></div>
-      <div class="card text-center"><span class="badge">3er lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 300</h2><p class="muted">del fondo total</p></div>
+      <div class="card text-center"><span class="badge acento">🥇 1er lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 800</h2><p class="muted">Diploma + presentación como caso de éxito interno</p></div>
+      <div class="card text-center"><span class="badge">🥈 2do lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 500</h2><p class="muted">Diploma</p></div>
+      <div class="card text-center"><span class="badge">🥉 3er lugar</span><h2 style="margin-top:14px;color:var(--qp-secundario);">Q 300</h2><p class="muted">Diploma</p></div>
     </div>
+    <p class="muted" style="margin-top:24px;"><b>Nota:</b> si un equipo ganador está compuesto por varias personas, el monto del premio se divide en partes iguales entre sus integrantes. Los montos son referenciales y pueden ajustarse antes del lanzamiento oficial.</p>
     <div class="text-center mt-32">
       <a href="postular.html" class="btn btn-secundario">Quiero postular mi idea →</a>
     </div>
+  </div>
+</section>
+
+<!-- ---------- 8. CONDICIONES ---------- -->
+<section class="section" id="condiciones" style="background:var(--qp-white);border-top:1px solid var(--qp-gray-light);border-bottom:1px solid var(--qp-gray-light);">
+  <div class="container">
+    <span class="badge">08</span>
+    <h2 class="section-title" style="margin-top:14px;">Condiciones generales</h2>
+    <ul class="qp-list">
+      <li>La idea debe usar inteligencia artificial de forma <b>central</b> en la solución (no basta con mencionar IA sin aplicarla).</li>
+      <li>Se valora especialmente el <b>uso agéntico</b> (automatizaciones, tareas programadas, agentes) por sobre el uso puramente conversacional.</li>
+      <li>Todo proyecto debe respetar las políticas de seguridad y confidencialidad de datos de Qpaypro; <b>no se debe exponer información sensible de clientes</b> en herramientas externas no aprobadas.</li>
+      <li>Los proyectos y aprendizajes generados quedan disponibles para que Qpaypro los evalúe e implemente de forma permanente si lo considera valioso.</li>
+      <li>La organización se reserva el derecho de ajustar fechas, criterios o premios comunicándolo con anticipación a todos los participantes.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ---------- 9. CONTACTO ---------- -->
+<section class="section" id="contacto">
+  <div class="container text-center">
+    <span class="badge">09</span>
+    <h2 class="section-title" style="margin-top:14px;">Contacto y dudas</h2>
+    <p class="section-sub" style="margin-left:auto;margin-right:auto;">Para consultas sobre el Challenge, mecánica de inscripción o soporte técnico durante la etapa de construcción, contacta al equipo organizador.</p>
+    <a href="postular.html" class="btn btn-primary" style="color:var(--qp-principal);">Postular mi idea →</a>
   </div>
 </section>
 
