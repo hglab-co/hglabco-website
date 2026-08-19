@@ -6,16 +6,18 @@
 <title>Jurado · Challenge IA Qpaypro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#0F206C">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <header class="qp-header">
   <div class="container">
-    <div class="qp-logo">
-      <span class="mark"><img src="assets/img/logo-icon.svg" alt="" width="20" height="20"></span>
-      <span class="brand">qpay<b>pro</b></span>
-    </div>
+    <a class="qp-logo" href="index.html">
+      <img src="assets/img/qpaypro-logo.png" alt="Qpaypro" width="118" height="38">
+    </a>
     <nav class="qp-nav">
       <a href="index.html">Inicio</a>
       <a href="postular.html">Postular idea</a>
@@ -38,7 +40,7 @@
         <label for="passcode">Clave de acceso</label>
         <input type="password" id="passcode" placeholder="••••••••">
       </div>
-      <button class="btn btn-teal btn-block" id="gateBtn">Entrar</button>
+      <button class="btn btn-secundario btn-block" id="gateBtn">Entrar</button>
     </div>
   </div>
 </section>
@@ -62,7 +64,7 @@
 
     <div class="flex-between mt-32" style="margin-bottom:20px;">
       <h2 class="section-title" style="margin:0;">Ranking en vivo</h2>
-      <button class="btn btn-outline" style="color:var(--qp-navy);border-color:var(--qp-gray-light);" id="refreshRanking">↻ Actualizar</button>
+      <button class="btn btn-outline" style="color:var(--qp-principal);border-color:var(--qp-gray-light);" id="refreshRanking">↻ Actualizar</button>
     </div>
     <div class="card" style="padding:0;overflow:hidden;">
       <table>
@@ -76,7 +78,10 @@
 </section>
 
 <footer class="qp-footer">
-  <div class="container">Qpaypro · Challenge de Innovación con IA · 2026</div>
+  <div class="container">
+    <img class="footer-logo" src="assets/img/qpaypro-logo.png" alt="Qpaypro" width="87" height="28">
+    <div>Qpaypro · Challenge de Innovación con IA · 2026</div>
+  </div>
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>

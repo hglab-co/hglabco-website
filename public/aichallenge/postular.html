@@ -6,16 +6,18 @@
 <title>Postular mi idea · Challenge IA Qpaypro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta name="theme-color" content="#0F206C">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <header class="qp-header">
   <div class="container">
-    <div class="qp-logo">
-      <span class="mark"><img src="assets/img/logo-icon.svg" alt="" width="20" height="20"></span>
-      <span class="brand">qpay<b>pro</b></span>
-    </div>
+    <a class="qp-logo" href="index.html">
+      <img src="assets/img/qpaypro-logo.png" alt="Qpaypro" width="118" height="38">
+    </a>
     <nav class="qp-nav">
       <a href="index.html">Inicio</a>
       <a href="postular.html">Postular idea</a>
@@ -84,14 +86,17 @@
           <label for="baseline_value">Valor actual de esa métrica ("línea base")</label>
           <input type="text" id="baseline_value" placeholder="Ej. 6 horas por mes">
         </div>
-        <button type="submit" class="btn btn-teal btn-block" id="submitBtn">Enviar postulación</button>
+        <button type="submit" class="btn btn-secundario btn-block" id="submitBtn">Enviar postulación</button>
       </form>
     </div>
   </div>
 </section>
 
 <footer class="qp-footer">
-  <div class="container">Qpaypro · Challenge de Innovación con IA · 2026</div>
+  <div class="container">
+    <img class="footer-logo" src="assets/img/qpaypro-logo.png" alt="Qpaypro" width="87" height="28">
+    <div>Qpaypro · Challenge de Innovación con IA · 2026</div>
+  </div>
 </footer>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>

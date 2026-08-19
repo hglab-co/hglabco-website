@@ -101,14 +101,35 @@ Pages sigue funcionando igual con un repo privado).
 ## Personalización de marca
 
 Los colores están centralizados como variables CSS al inicio de
-`assets/css/style.css` (busca `:root`). Son una aproximación a la identidad de
-qpaypro.com (teal + navy + verde lima, tipografía Poppins/Inter, wordmark en
-minúsculas) porque no pude leer el CSS exacto del sitio en vivo. Si nos compartes tu
-logo real (SVG o PNG) y los códigos hex exactos de marca, se reemplazan en un minuto:
+`assets/css/style.css` (busca `:root`) y corresponden a la **paleta oficial de marca
+Qpaypro**:
 
-- Logo: cambia `assets/img/logo-icon.svg`, o sustituye el bloque `.qp-logo` en cada
-  HTML por tu `<img>` de logo real.
-- Colores: edita las variables `--qp-teal`, `--qp-navy`, `--qp-lime`, etc.
+| Rol | Hex | Uso en el sitio |
+| --- | --- | --- |
+| Principal | `#0F206C` | Hero, títulos, encabezado de tablas, footer |
+| Secundario | `#0047BA` | Enlaces, botones de acción, foco de formularios |
+| Acento | `#00CAFF` | Botón principal del hero, badges, detalles |
+| Neutro | `#2E2D2C` | Texto de párrafo |
+| Blanco / Negro | `#FFFFFF` / `#000000` | Fondos y neutros base |
+
+Las variables con nombre `--qp-*-light`, `--qp-*-dark`, `--qp-acento-soft`,
+`--qp-gray*`, `--qp-hero-lead` y `--qp-footer-text` son **tonos derivados**, no
+oficiales: se calcularon a partir de los anteriores para fondos suaves, bordes y
+estados hover.
+
+**Restricción de contraste (importante si cambias colores):** el acento `#00CAFF`
+sobre blanco da una relación de contraste de 1.93:1, muy por debajo del mínimo AA de
+4.5:1. Por eso nunca se usa como color de texto sobre fondo claro — solo como fondo
+de botón con texto navy encima (7.55:1), como acento sobre el azul principal
+(7.55:1), y en detalles decorativos. Para texto sobre blanco se usa el secundario
+`#0047BA` (8.04:1).
+
+- Logo: los archivos viven en `assets/img/` — `qpaypro-logo.png` (wordmark,
+  512×165, con transparencia), `apple-touch-icon.png` y `favicon-32.png` (isotipo).
+  En el footer el mismo wordmark se invierte a blanco por CSS
+  (`filter: brightness(0) invert(1)`) para que se lea sobre el fondo navy.
+- Colores: edita las variables `--qp-principal`, `--qp-secundario`, `--qp-acento`
+  y `--qp-neutro` en `:root`. Todo el resto del sitio las hereda.
 
 ## Este proyecto como ejemplo de capacitación
 

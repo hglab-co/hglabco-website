@@ -95,11 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <div>
           <h3 style="margin-bottom:4px;">${escapeHtml(idea.team_name)}</h3>
           <span class="badge">${escapeHtml(idea.area)}</span>
-          ${existing ? '<span class="badge lime" style="margin-left:6px;">Ya calificado por ti</span>' : ""}
+          ${existing ? '<span class="badge acento" style="margin-left:6px;">Ya calificado por ti</span>' : ""}
         </div>
         <div class="text-center">
           <div class="muted" style="font-size:12px;">Puntaje estimado</div>
-          <div style="font-family:var(--qp-font-head);font-weight:800;font-size:26px;color:var(--qp-teal-dark);" data-out="total">
+          <div style="font-family:var(--qp-font-head);font-weight:800;font-size:26px;color:var(--qp-secundario);" data-out="total">
             ${existing ? existing.weighted_total : "—"}
           </div>
         </div>
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <hr style="border:none;border-top:1px solid var(--qp-gray-light);margin:16px 0;">
       <div class="grid-2">${slidersHtml}</div>
       <div id="alert-${idea.id}"></div>
-      <button class="btn btn-teal" data-save="${idea.id}">${existing ? "Actualizar calificación" : "Guardar calificación"}</button>
+      <button class="btn btn-secundario" data-save="${idea.id}">${existing ? "Actualizar calificación" : "Guardar calificación"}</button>
     `;
 
     // live weighted total preview

@@ -1,27 +1,43 @@
 /* ============================================================
    Qpaypro · Challenge de Innovación con IA
-   Paleta inspirada en la identidad de qpaypro.com (fintech, minimalista,
-   wordmark en minúsculas, colores teal/verde menta sobre fondo claro).
+   Paleta oficial de marca Qpaypro.
 
-   NOTA: estos son colores de aproximación porque no pude leer el CSS
-   real del sitio. Si nos pasas tu logo y tus hex exactos, los cambiamos
-   aquí mismo en un minuto (son variables, un solo lugar para editar).
+   COLORES OFICIALES (los únicos que definen la identidad):
+     Principal   #0F206C      Secundario  #0047BA
+     Acento      #00CAFF      Neutros     #2E2D2C / #FFFFFF / #000000
+
+   Los tonos marcados como "derivado" NO son oficiales: se calcularon a
+   partir de los anteriores para cubrir fondos suaves, bordes y hovers.
+
+   NOTA DE CONTRASTE (WCAG AA): el acento #00CAFF sobre blanco da 1.93:1,
+   muy por debajo del mínimo de 4.5:1. Por eso nunca se usa como color de
+   texto sobre fondo claro — solo como fondo de botón con texto navy
+   (7.55:1), como acento sobre el azul principal (7.55:1) y en detalles
+   decorativos. Para texto sobre blanco se usa el secundario (8.04:1).
    ============================================================ */
 
 :root {
-  --qp-teal: #0AA6A6;
-  --qp-teal-dark: #067A7A;
-  --qp-teal-light: #E6F7F6;
-  --qp-navy: #0B1F3A;
-  --qp-navy-light: #16305A;
-  --qp-lime: #6FE38A;
+  /* --- Oficiales --- */
+  --qp-principal: #0F206C;
+  --qp-secundario: #0047BA;
+  --qp-acento: #00CAFF;
+  --qp-neutro: #2E2D2C;
   --qp-white: #FFFFFF;
-  --qp-bg: #F6FAFA;
-  --qp-gray: #5B6B78;
-  --qp-gray-light: #E3E9EC;
+  --qp-black: #000000;
+
+  /* --- Derivados (no oficiales) --- */
+  --qp-principal-light: #1A2F8F;
+  --qp-secundario-dark: #00379A;
+  --qp-acento-soft: #E6F8FF;
+  --qp-bg: #F5F7FB;
+  --qp-gray: #62636B;
+  --qp-gray-light: #E2E6EF;
+  --qp-hero-lead: #CFE3FF;
+  --qp-footer-text: #8FA4CC;
   --qp-danger: #D64545;
+
   --qp-radius: 16px;
-  --qp-shadow: 0 8px 24px rgba(11, 31, 58, 0.08);
+  --qp-shadow: 0 8px 24px rgba(15, 32, 108, 0.08);
   --qp-font-head: "Poppins", "Segoe UI", sans-serif;
   --qp-font-body: "Inter", "Segoe UI", sans-serif;
 }
@@ -31,7 +47,7 @@
 body {
   margin: 0;
   font-family: var(--qp-font-body);
-  color: var(--qp-navy);
+  color: var(--qp-neutro);
   background: var(--qp-bg);
   line-height: 1.5;
 }
@@ -40,11 +56,11 @@ h1, h2, h3, h4 {
   font-family: var(--qp-font-head);
   font-weight: 700;
   margin: 0 0 0.4em 0;
-  color: var(--qp-navy);
+  color: var(--qp-principal);
 }
 
 p { margin: 0 0 1em 0; }
-a { color: var(--qp-teal-dark); text-decoration: none; }
+a { color: var(--qp-secundario); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .container {
@@ -68,38 +84,27 @@ a:hover { text-decoration: underline; }
   height: 72px;
 }
 .qp-logo {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  font-family: var(--qp-font-head);
-  font-weight: 700;
-  font-size: 22px;
-  color: var(--qp-navy);
-  letter-spacing: -0.5px;
+  flex-shrink: 0;
 }
-.qp-logo .mark {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  background: linear-gradient(135deg, var(--qp-teal), var(--qp-lime));
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.qp-logo img {
+  height: 38px;
+  width: auto;
+  display: block;
 }
-.qp-logo .mark svg { width: 20px; height: 20px; }
-.qp-logo span.brand { color: var(--qp-navy); }
-.qp-logo span.brand b { color: var(--qp-teal-dark); font-weight: 700; }
+.qp-logo:hover { text-decoration: none; opacity: 0.85; }
 .qp-nav a {
   margin-left: 28px;
   font-weight: 600;
-  color: var(--qp-navy);
+  color: var(--qp-principal);
   font-size: 15px;
 }
-.qp-nav a:hover { color: var(--qp-teal-dark); text-decoration: none; }
+.qp-nav a:hover { color: var(--qp-secundario); text-decoration: none; }
 
 /* ---------- Hero ---------- */
 .qp-hero {
-  background: linear-gradient(160deg, var(--qp-navy) 0%, var(--qp-navy-light) 60%, var(--qp-teal-dark) 100%);
+  background: linear-gradient(160deg, var(--qp-principal) 0%, var(--qp-principal-light) 55%, var(--qp-secundario) 100%);
   color: var(--qp-white);
   padding: 88px 0 96px;
   position: relative;
@@ -113,12 +118,12 @@ a:hover { text-decoration: underline; }
   width: 420px;
   height: 420px;
   border-radius: 50%;
-  background: rgba(111, 227, 138, 0.12);
+  background: rgba(0, 202, 255, 0.14);
 }
 .qp-hero .eyebrow {
   display: inline-block;
-  background: rgba(111, 227, 138, 0.16);
-  color: var(--qp-lime);
+  background: rgba(0, 202, 255, 0.16);
+  color: var(--qp-acento);
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 1.5px;
@@ -133,7 +138,7 @@ a:hover { text-decoration: underline; }
   margin-bottom: 16px;
 }
 .qp-hero p.lead {
-  color: #CFE8E4;
+  color: var(--qp-hero-lead);
   font-size: 18px;
   max-width: 620px;
 }
@@ -154,12 +159,12 @@ a:hover { text-decoration: underline; }
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .btn:hover { transform: translateY(-1px); text-decoration: none; }
-.btn-primary { background: var(--qp-lime); color: var(--qp-navy); }
-.btn-primary:hover { box-shadow: 0 6px 18px rgba(111, 227, 138, 0.4); }
+.btn-primary { background: var(--qp-acento); color: var(--qp-principal); }
+.btn-primary:hover { box-shadow: 0 6px 18px rgba(0, 202, 255, 0.45); }
 .btn-outline { background: transparent; color: var(--qp-white); border: 1.5px solid rgba(255,255,255,0.5); }
 .btn-outline:hover { background: rgba(255,255,255,0.08); }
-.btn-teal { background: var(--qp-teal); color: var(--qp-white); }
-.btn-teal:hover { box-shadow: 0 6px 18px rgba(10, 166, 166, 0.35); }
+.btn-secundario { background: var(--qp-secundario); color: var(--qp-white); }
+.btn-secundario:hover { box-shadow: 0 6px 18px rgba(0, 71, 186, 0.35); }
 .btn-block { width: 100%; justify-content: center; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
@@ -180,14 +185,14 @@ a:hover { text-decoration: underline; }
   border-radius: var(--qp-radius);
   padding: 28px;
   box-shadow: var(--qp-shadow);
-  border: 1px solid rgba(11,31,58,0.04);
+  border: 1px solid rgba(15, 32, 108, 0.06);
 }
 
 .step-num {
   width: 40px; height: 40px;
   border-radius: 12px;
-  background: var(--qp-teal-light);
-  color: var(--qp-teal-dark);
+  background: var(--qp-acento-soft);
+  color: var(--qp-secundario);
   font-family: var(--qp-font-head);
   font-weight: 700;
   display: flex; align-items: center; justify-content: center;
@@ -197,16 +202,16 @@ a:hover { text-decoration: underline; }
 
 .badge {
   display: inline-block;
-  background: var(--qp-teal-light);
-  color: var(--qp-teal-dark);
+  background: var(--qp-acento-soft);
+  color: var(--qp-secundario);
   font-weight: 700;
   font-size: 12px;
   letter-spacing: 0.5px;
   padding: 5px 12px;
   border-radius: 999px;
 }
-.badge.lime { background: rgba(111,227,138,0.18); color: #1E7A3D; }
-.badge.navy { background: var(--qp-navy); color: var(--qp-white); }
+.badge.acento { background: rgba(0, 202, 255, 0.20); color: var(--qp-secundario-dark); }
+.badge.navy { background: var(--qp-principal); color: var(--qp-white); }
 
 /* ---------- Forms ---------- */
 .form-card {
@@ -222,7 +227,7 @@ label {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 6px;
-  color: var(--qp-navy);
+  color: var(--qp-principal);
 }
 .field { margin-bottom: 22px; }
 .hint { color: var(--qp-gray); font-size: 13px; margin-top: 4px; }
@@ -234,20 +239,20 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
   font-family: var(--qp-font-body);
   font-size: 15px;
   background: var(--qp-white);
-  color: var(--qp-navy);
+  color: var(--qp-neutro);
 }
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--qp-teal);
-  box-shadow: 0 0 0 3px rgba(10,166,166,0.15);
+  border-color: var(--qp-secundario);
+  box-shadow: 0 0 0 3px rgba(0, 71, 186, 0.15);
 }
 textarea { min-height: 90px; resize: vertical; }
 
 .range-row { display: flex; align-items: center; gap: 14px; }
-.range-row input[type="range"] { flex: 1; accent-color: var(--qp-teal); }
+.range-row input[type="range"] { flex: 1; accent-color: var(--qp-secundario); }
 .range-value {
   width: 34px; height: 34px; border-radius: 50%;
-  background: var(--qp-teal); color: white;
+  background: var(--qp-secundario); color: var(--qp-white);
   display: flex; align-items: center; justify-content: center;
   font-weight: 700; font-size: 14px;
 }
@@ -258,29 +263,41 @@ textarea { min-height: 90px; resize: vertical; }
   font-size: 14px;
   margin-bottom: 20px;
 }
-.alert-success { background: rgba(111,227,138,0.18); color: #1E7A3D; }
-.alert-error { background: rgba(214,69,69,0.12); color: var(--qp-danger); }
+.alert-success {
+  background: var(--qp-acento-soft);
+  color: var(--qp-secundario-dark);
+  border-left: 4px solid var(--qp-acento);
+}
+.alert-error { background: rgba(214, 69, 69, 0.12); color: var(--qp-danger); }
 
 /* ---------- Tables ---------- */
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 12px 14px; font-size: 14px; }
 thead th {
-  background: var(--qp-navy);
-  color: white;
+  background: var(--qp-principal);
+  color: var(--qp-white);
   font-family: var(--qp-font-head);
   font-size: 13px;
 }
-tbody tr:nth-child(even) { background: var(--qp-teal-light); }
-tbody tr:hover { background: #DDF1EF; }
-.rank-1 td:first-child { font-weight: 800; color: var(--qp-teal-dark); }
+tbody tr:nth-child(even) { background: var(--qp-acento-soft); }
+tbody tr:hover { background: #D5F1FC; }
+.rank-1 td:first-child { font-weight: 800; color: var(--qp-secundario); }
 
 /* ---------- Footer ---------- */
 .qp-footer {
-  background: var(--qp-navy);
-  color: #A9C2CE;
+  background: var(--qp-principal);
+  color: var(--qp-footer-text);
   padding: 32px 0;
   font-size: 13px;
   text-align: center;
+}
+.qp-footer .footer-logo {
+  height: 28px;
+  width: auto;
+  margin-bottom: 14px;
+  /* El logo es azul oscuro; sobre el navy del footer se invierte a blanco. */
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
 }
 
 /* ---------- Utility ---------- */
