@@ -10,8 +10,10 @@
 # a la base de datos hasta que expire. no-cache obliga a revalidar en cada
 # carga; con el ETag la respuesta es un 304 barato, no una descarga nueva.
 /aichallenge/assets/js/*
-  Cache-Control: no-cache
+  Cache-Control: public, max-age=0, must-revalidate
+  X-QP-Cache-Rule: aplicada
 
 # Mismo motivo para los estilos: un cambio de marca debe verse de inmediato.
 /aichallenge/assets/css/*
-  Cache-Control: no-cache
+  Cache-Control: public, max-age=0, must-revalidate
+  X-QP-Cache-Rule: aplicada
