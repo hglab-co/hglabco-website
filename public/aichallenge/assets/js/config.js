@@ -15,4 +15,4 @@ const ADMIN_PASSCODE = "qpaypro2026";
 
 // Lista de jurados que aparecerá en el selector de la pantalla de jurado.
 // Edítala con los nombres reales de tu jurado.
-const JUROR_NAMES = ["Hugo", "Marlon", "Flor", "Mariana"];
+const JUROR_NAMES = ["Marlon", "Hugo", "Mariana", "Flor"];

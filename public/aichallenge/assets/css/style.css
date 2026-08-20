@@ -384,3 +384,78 @@ section[id] { scroll-margin-top: 88px; }
 @media (max-width: 860px) {
   .hero-logo { width: 240px; margin-bottom: 22px; }
 }
+
+/* ---------- Jurado calificador ---------- */
+.jurado-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+@media (max-width: 860px) { .jurado-grid { grid-template-columns: repeat(2, 1fr); } }
+.jurado-card { text-align: center; }
+.jurado-avatar {
+  width: 92px; height: 92px;
+  border-radius: 50%;
+  background: var(--qp-acento-soft);
+  border: 2px solid var(--qp-gray-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+}
+.jurado-avatar svg { width: 46px; height: 46px; fill: var(--qp-secundario); }
+.jurado-nombre {
+  font-family: var(--qp-font-head);
+  font-weight: 700;
+  color: var(--qp-principal);
+  font-size: 17px;
+}
+.jurado-rol { color: var(--qp-gray); font-size: 13px; margin-top: 2px; }
+
+/* ---------- Barra de aviso del requisito ---------- */
+.aviso-barra {
+  background: var(--qp-acento);
+  color: var(--qp-principal);
+  text-align: center;
+  padding: 14px 24px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.aviso-barra a { color: var(--qp-principal); text-decoration: underline; }
+.aviso-barra a:hover { text-decoration: none; }
+
+/* ---------- Bloque de requisito obligatorio ---------- */
+.requisito {
+  background: linear-gradient(150deg, var(--qp-principal) 0%, var(--qp-principal-light) 55%, var(--qp-secundario) 100%);
+  color: var(--qp-white);
+  border-radius: var(--qp-radius);
+  padding: 44px;
+  box-shadow: var(--qp-shadow);
+}
+.requisito h2, .requisito h3 { color: var(--qp-white); }
+.requisito p { color: var(--qp-hero-lead); }
+.requisito .destacado-nota {
+  background: rgba(0, 202, 255, 0.16);
+  border-left: 4px solid var(--qp-acento);
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-top: 30px;
+  color: var(--qp-white);
+  font-size: 15px;
+}
+.requisito-item {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 26px;
+}
+.requisito-item h3 { font-size: 18px; margin-bottom: 10px; }
+.requisito-item .btn { margin-top: 6px; }
+@media (max-width: 860px) { .requisito { padding: 28px; } }
+
+/* Entrada destacada dentro del índice */
+.toc a.destacado {
+  background: var(--qp-acento);
+  border-color: var(--qp-acento);
+  color: var(--qp-principal);
+}
+.toc a.destacado:hover { background: var(--qp-secundario); border-color: var(--qp-secundario); color: var(--qp-white); }
+
+/* Sobre el degradado del requisito, el badge necesita fondo sólido:
+   el .badge.acento normal es cian translúcido con texto azul oscuro,
+   ilegible sobre navy (queda ~1.5:1). Cian sólido con navy da 7.55:1. */
+.requisito .badge.acento { background: var(--qp-acento); color: var(--qp-principal); }
