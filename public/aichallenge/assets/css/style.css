@@ -459,3 +459,43 @@ section[id] { scroll-margin-top: 88px; }
    el .badge.acento normal es cian translúcido con texto azul oscuro,
    ilegible sobre navy (queda ~1.5:1). Cian sólido con navy da 7.55:1. */
 .requisito .badge.acento { background: var(--qp-acento); color: var(--qp-principal); }
+
+/* ---------- Módulos clave del curso (dentro del bloque de requisito) ---------- */
+.modulos { margin-top: 34px; }
+.modulos h3 { font-size: 18px; margin-bottom: 8px; }
+.modulos-lista {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+}
+.modulos-lista a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  padding: 11px 16px;
+  color: var(--qp-white);
+  font-size: 15px;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.modulos-lista a:hover {
+  background: rgba(0, 202, 255, 0.18);
+  border-color: var(--qp-acento);
+  text-decoration: none;
+}
+.modulos-lista .mod-t {
+  font-family: var(--qp-font-head);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--qp-acento);
+  min-width: 64px;
+  flex-shrink: 0;
+}
+@media (max-width: 560px) {
+  .modulos-lista a { flex-direction: column; gap: 3px; }
+  .modulos-lista .mod-t { min-width: 0; }
+}
