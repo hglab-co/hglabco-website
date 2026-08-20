@@ -118,6 +118,13 @@ versión en las tres páginas HTML.** Hoy es `?v=20260819a`:
 sed -i '' 's/?v=20260819a/?v=20260819b/g' public/aichallenge/*.html
 ```
 
+**Cuidado al automatizar el bump:** las páginas contienen enlaces externos que
+también llevan `?v=` en la URL — el curso obligatorio es
+`youtube.com/watch?v=h49d1-d_fYk`. Un reemplazo genérico tipo `?v=<algo>` le
+sobrescribe el ID al video y rompe el enlace en silencio. Reemplaza siempre la
+versión anterior completa y exacta, como en el comando de arriba, nunca un
+patrón abierto.
+
 Si no lo haces, el cambio se publica pero los jurados no lo reciben.
 
 **Arreglo definitivo (1 clic, requiere el dashboard):** Cloudflare →
